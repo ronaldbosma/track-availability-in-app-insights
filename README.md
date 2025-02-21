@@ -1,0 +1,1 @@
+# Track Availability in Application Insights

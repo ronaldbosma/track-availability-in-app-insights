@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: track-availability-in-app-insights
+metadata:
+  template: track-availability-in-app-insights@0.0.1
+requiredVersions: 
+  azd: ">= 1.12.0"  # azd version 1.12.0 or later is required because of the use of the Bicep deployer() function
