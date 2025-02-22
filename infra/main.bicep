@@ -205,6 +205,20 @@ module availabilityTests 'modules/application/availability-tests.bicep' = {
   ]
 }
 
+module alerts 'modules/application/alerts.bicep' = {
+  name: 'alerts'
+  scope: resourceGroup
+  params: {
+    environmentName: environmentName
+    location: location
+    tags: tags
+    appInsightsName: appInsightsSettings.appInsightsName
+  }
+  dependsOn: [
+    appInsights
+  ]
+}
+
 
 //=============================================================================
 // Outputs
