@@ -186,6 +186,27 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
 
 
 //=============================================================================
+// Application Resources
+//=============================================================================
+
+module application 'modules/application/application.bicep' = {
+  name: 'application'
+  scope: resourceGroup
+  params: {
+    environmentName: environmentName
+    location: location
+    tags: tags
+    apiManagementServiceName: apiManagementSettings.serviceName
+    appInsightsName: appInsightsSettings.appInsightsName
+  }
+  dependsOn: [
+    appInsights
+    apiManagement
+  ]
+}
+
+
+//=============================================================================
 // Outputs
 //=============================================================================
 
