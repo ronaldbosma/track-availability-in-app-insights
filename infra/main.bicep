@@ -189,8 +189,8 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
 // Application Resources
 //=============================================================================
 
-module application 'modules/application/application.bicep' = {
-  name: 'application'
+module availabilityTests 'modules/application/availability-tests.bicep' = {
+  name: 'availabilityTests'
   scope: resourceGroup
   params: {
     environmentName: environmentName
