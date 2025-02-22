@@ -2,15 +2,19 @@
     <inbound>
         <base />
 
-        <!-- 
-            Add rate limit so calls from the availability tests will fail every ~ 5 minutes if they execute 5 times or more in that period.
-            Rate limit applies per subscription key. It's also applies to calls without a subscription key.
-        -->
-        <rate-limit calls="4" renewal-period="300" retry-after-header-name="Retry-After" remaining-calls-header-name="Remaining-Calls" total-calls-header-name="Total-Calls" />
-
-        <return-response>
-            <set-status code="200" reason="OK" />
-        </return-response>
+        <!-- Randomly returns a 503 Service Unavailable response 10% of the time and 200 OK response for the rest of the time. -->
+        <choose>
+            <when condition="@(new Random().Next(0, 100) % 10 == 0)">
+                <return-response>
+                    <set-status code="503" reason="Service Unavailable" />
+                </return-response>
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="200" reason="OK" />
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
 
     <backend>
