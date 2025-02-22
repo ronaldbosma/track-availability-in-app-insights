@@ -1,6 +1,6 @@
 //=============================================================================
-// Subscriptions in API Management for the Function & Logic App
-// The primary key for each subscription is stored in Key Vault
+// Backend API in API Management
+// Including subscriptions for the Function App and Logic App
 //=============================================================================
 
 //=============================================================================
@@ -9,9 +9,6 @@
 
 @description('The name of the API Management service')
 param apiManagementServiceName string
-
-@description('The ID of the backend API for which to create the subscriptions')
-param backendApiId string
 
 @description('The name of the Key Vault that will contain the secrets')
 param keyVaultName string
@@ -32,6 +29,40 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
 // Resources
 //=============================================================================
 
+// Backend API
+
+resource backendApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = {
+  name: 'backend-api'
+  parent: apiManagementService
+  properties: {
+    displayName: 'Backend API'
+    path: 'backend'
+    protocols: [ 
+      'https' 
+    ]
+    subscriptionRequired: false // Disable required subscription key for the webtest
+  }
+
+  // Create a GET Backend Status operation
+  resource operations 'operations' = {
+    name: 'get-backend-status'
+    properties: {
+      displayName: 'GET Backend Status'
+      method: 'GET'
+      urlTemplate: '/status'
+    }
+
+    resource policies 'policies' = {
+      name: 'policy'
+      properties: {
+        format: 'rawxml'
+        value: loadTextContent('get-status.operation.xml')
+      }
+    }
+  }
+}
+
+
 // Function App Subscription
 
 resource functionAppSubscription 'Microsoft.ApiManagement/service/subscriptions@2023-09-01-preview' = {
@@ -39,7 +70,7 @@ resource functionAppSubscription 'Microsoft.ApiManagement/service/subscriptions@
   name: 'function-app'
   properties: {
     displayName: 'Function App Subscription'
-    scope: '/apis/${backendApiId}'
+    scope: '/apis/${backendApi.id}'
     state: 'active'
   }
 }
@@ -60,7 +91,7 @@ resource logicAppSubscription 'Microsoft.ApiManagement/service/subscriptions@202
   name: 'logic-app'
   properties: {
     displayName: 'Logic App Subscription'
-    scope: '/apis/${backendApiId}'
+    scope: '/apis/${backendApi.id}'
     state: 'active'
   }
 }
@@ -72,3 +103,4 @@ resource logicAppSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-0
     value: logicAppSubscription.listSecrets(apiManagementService.apiVersion).primaryKey
   }
 }
+

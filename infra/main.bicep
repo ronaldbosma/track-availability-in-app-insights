@@ -143,6 +143,7 @@ module functionApp 'modules/services/function-app.bicep' = {
   }
   dependsOn: [
     appInsights
+    apiManagement
     keyVault
     storageAccount
   ]
@@ -162,6 +163,7 @@ module logicApp 'modules/services/logic-app.bicep' = {
   }
   dependsOn: [
     appInsights
+    apiManagement
     keyVault
     storageAccount
   ]
@@ -179,23 +181,6 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
   dependsOn: [
     keyVault
     storageAccount
-  ]
-}
-
-
-//=============================================================================
-// Application Resources
-//=============================================================================
-
-module applicationResources 'modules/application/application.bicep' = {
-  name: 'applicationResources'
-  scope: resourceGroup
-  params: {
-    apiManagementSettings: apiManagementSettings
-    keyVaultName: keyVaultName
-  }
-  dependsOn: [
-    apiManagement
   ]
 }
 
