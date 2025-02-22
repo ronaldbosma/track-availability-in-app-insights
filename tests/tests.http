@@ -1,6 +1,14 @@
 # =============================================================================
-# Tests for the backend API.
+# Tests requests for API Management and the backend API.
 # =============================================================================
+
+
+# Get status of API Management using the default status endpoint.
+# For the Consumptier tier, the status endpoint is /internal-status-0123456789abcdef. For other tiers it's /status-0123456789abcdef.
+GET https://{{apimHostname}}/internal-status-0123456789abcdef
+
+
+###
 
 
 # Get backend status without passing a subscription key. 

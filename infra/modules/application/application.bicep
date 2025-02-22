@@ -33,6 +33,7 @@ param appInsightsName string
 //=============================================================================
 
 var backendApiStatusAvailabilityTestName = getResourceName('webtest', environmentName, location, 'backend-api-status')
+var apimSslCertificateCheckAvailabilityTestName = getResourceName('webtest', environmentName, location, 'apim-ssl-certificate-check')
 
 //=============================================================================
 // Existing resources
@@ -68,17 +69,6 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
     // Note that the test will not run exactly every minute.
     Frequency: 300
 
-    Request: {
-      HttpVerb: 'GET'
-      RequestUrl: '${helpers.getApiManagementGatewayUrl(apiManagementServiceName)}/backend/status'
-    }
-
-    ValidationRules: {
-      ExpectedHttpStatusCode: 200
-      IgnoreHttpStatusCode: false
-      SSLCheck: false
-    }
-
     // For a list of available locations, see: https://learn.microsoft.com/en-us/previous-versions/azure/azure-monitor/app/monitor-web-app-availability#location-population-tags
     Locations: [
       {
@@ -98,6 +88,62 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
       }
     ]
 
+    Request: {
+      HttpVerb: 'GET'
+      RequestUrl: '${helpers.getApiManagementGatewayUrl(apiManagementServiceName)}/backend/status'
+    }
+
+    ValidationRules: {
+      ExpectedHttpStatusCode: 200
+      IgnoreHttpStatusCode: false
+      SSLCheck: false
+    }
+
     SyntheticMonitorId: backendApiStatusAvailabilityTestName
+  }
+}
+
+
+// Add availability test that checks if the SSL certificate of the API Management service is valid for at least 30 days
+
+resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@2022-06-15' = {
+  name: apimSslCertificateCheckAvailabilityTestName
+  location: location
+  tags: union(tags, {
+    'hidden-link:${appInsights.id}': 'Resource'
+  })
+
+  properties: {
+    Name: 'APIM SSL Certificate Check'
+    Description: 'Check if the SSL certificate of the API Management service is valid for at least 30 days'
+
+    Kind: 'standard'
+    Enabled: true
+    RetryEnabled: false // Set to false for this demo to reduce the number of failed calls
+
+    // The frequency is as high as possible because we don't have to be notified the instant that the certificate expires within 30 days.
+    // It also runs from only one location to reduce cost.
+    Frequency: 900
+    Locations: [
+      {
+        Id: 'emea-nl-ams-azr' // West Europe
+      }
+    ]
+
+    // Get status of API Management using the default status endpoint.
+    // For the Consumptier tier, the status endpoint is /internal-status-0123456789abcdef. For other tiers it's /status-0123456789abcdef.
+    Request: {
+      HttpVerb: 'GET'
+      RequestUrl: '${helpers.getApiManagementGatewayUrl(apiManagementServiceName)}/internal-status-0123456789abcdef'
+    }
+
+    ValidationRules: {
+      ExpectedHttpStatusCode: 200
+      IgnoreHttpStatusCode: false
+      SSLCheck: true
+      SSLCertRemainingLifetimeCheck: 30 // Check if the SSL certificate is valid for at least 30 days
+    }
+
+    SyntheticMonitorId: apimSslCertificateCheckAvailabilityTestName
   }
 }
