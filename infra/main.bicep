@@ -192,6 +192,7 @@ module applicationResources 'modules/application/application.bicep' = {
   scope: resourceGroup
   params: {
     apiManagementSettings: apiManagementSettings
+    keyVaultName: keyVaultName
   }
   dependsOn: [
     apiManagement

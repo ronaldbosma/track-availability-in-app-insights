@@ -65,7 +65,7 @@ var appSettings = {
   
   // API Management App Settings
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
-  ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'apim-master-subscription-key')
+  ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'function-app-subscription-key')
 }
 
 //=============================================================================
