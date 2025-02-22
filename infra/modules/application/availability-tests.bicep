@@ -57,8 +57,8 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
   })
 
   properties: {
-    Name: 'Backend API Status'
-    Description: 'Status of the backend API'
+    Name: 'Backend API Status (from Webtest)'
+    Description: 'Status of the backend API tested from a webtest'
 
     Kind: 'standard'
     Enabled: true
