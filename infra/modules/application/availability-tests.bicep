@@ -6,7 +6,7 @@
 // Imports
 //=============================================================================
 
-import { getResourceName, getInstanceId } from '../../functions/naming-conventions.bicep'
+import { getResourceName } from '../../functions/naming-conventions.bicep'
 import * as helpers from '../../functions/helpers.bicep'
 
 //=============================================================================
