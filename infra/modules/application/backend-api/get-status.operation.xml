@@ -4,6 +4,9 @@
 
         <return-response>
             <set-status code="200" reason="OK" />
+            <set-header name="Apim-Subscription-Name" exists-action="override">
+                <value>@(context.Subscription?.Name)</value>
+            </set-header>
         </return-response>
     </inbound>
     <backend>
