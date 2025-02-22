@@ -45,7 +45,7 @@ resource functionAppSubscription 'Microsoft.ApiManagement/service/subscriptions@
 }
 
 resource functionAppSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
-  name: 'functionApp-subscription-key'
+  name: 'function-app-subscription-key'
   parent: keyVault
   properties: {
     value: functionAppSubscription.listSecrets(apiManagementService.apiVersion).primaryKey
@@ -66,7 +66,7 @@ resource logicAppSubscription 'Microsoft.ApiManagement/service/subscriptions@202
 }
 
 resource logicAppSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
-  name: 'logicApp-subscription-key'
+  name: 'logic-app-subscription-key'
   parent: keyVault
   properties: {
     value: logicAppSubscription.listSecrets(apiManagementService.apiVersion).primaryKey
