@@ -196,6 +196,10 @@ module backendApi 'modules/application/backend-api.bicep' = {
     apiManagementServiceName: apiManagementSettings.serviceName
     keyVaultName: keyVaultName
   }
+  dependsOn: [
+    apiManagement
+    keyVault
+  ]
 }
 
 module availabilityTests 'modules/application/availability-tests.bicep' = {
