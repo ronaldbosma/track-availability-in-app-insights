@@ -56,12 +56,6 @@ var appSettings = {
   WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: storageAccountConnectionString
   WEBSITE_CONTENTSHARE: toLower(functionAppSettings.functionAppName)
   WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1'
-
-  // Storage Account App Settings
-  StorageAccountConnection__blobServiceUri: helpers.getBlobStorageEndpoint(storageAccountName)
-  StorageAccountConnection__fileServiceUri: helpers.getFileStorageEndpoint(storageAccountName)
-  StorageAccountConnection__queueServiceUri: helpers.getQueueStorageEndpoint(storageAccountName)
-  StorageAccountConnection__tableServiceUri: helpers.getTableStorageEndpoint(storageAccountName)
   
   // API Management App Settings
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)

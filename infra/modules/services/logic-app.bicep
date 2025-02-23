@@ -60,12 +60,6 @@ var appSettings = {
   WEBSITE_CONTENTSHARE: toLower(logicAppSettings.logicAppName)
   WEBSITE_NODE_DEFAULT_VERSION: '~20'
 
-  // Storage Account App Settings
-  AzureBlob_blobStorageEndpoint: helpers.getBlobStorageEndpoint(storageAccountName)
-  AzureFile_storageAccountUri: helpers.getFileStorageEndpoint(storageAccountName)
-  AzureQueues_queueServiceUri: helpers.getQueueStorageEndpoint(storageAccountName)
-  AzureTables_tableStorageEndpoint: helpers.getTableStorageEndpoint(storageAccountName)
-
   // API Management App Settings
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'logic-app-subscription-key')
