@@ -43,11 +43,11 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = 
     subscriptionRequired: false // Disable required subscription key for the webtest
   }
 
-  // Create a GET Backend Status operation
+  // Create a GET Status operation
   resource operations 'operations' = {
-    name: 'get-backend-status'
+    name: 'get-status'
     properties: {
-      displayName: 'GET Backend Status'
+      displayName: 'Get Status of Backend'
       method: 'GET'
       urlTemplate: '/status'
     }
