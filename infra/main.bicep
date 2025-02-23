@@ -143,7 +143,7 @@ module functionApp 'modules/services/function-app.bicep' = {
   }
   dependsOn: [
     appInsights
-    apiManagement
+    backendApi
     keyVault
     storageAccount
   ]
@@ -163,7 +163,7 @@ module logicApp 'modules/services/logic-app.bicep' = {
   }
   dependsOn: [
     appInsights
-    apiManagement
+    backendApi
     keyVault
     storageAccount
   ]
@@ -188,6 +188,15 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
 //=============================================================================
 // Application Resources
 //=============================================================================
+
+module backendApi 'modules/application/backend-api.bicep' = {
+  name: 'backendApi'
+  scope: resourceGroup
+  params: {
+    apiManagementServiceName: apiManagementSettings.serviceName
+    keyVaultName: keyVaultName
+  }
+}
 
 module availabilityTests 'modules/application/availability-tests.bicep' = {
   name: 'availabilityTests'

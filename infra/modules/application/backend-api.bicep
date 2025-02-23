@@ -56,7 +56,7 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = 
       name: 'policy'
       properties: {
         format: 'rawxml'
-        value: loadTextContent('get-status.operation.xml')
+        value: loadTextContent('backend-api.get-status.xml')
       }
     }
   }
