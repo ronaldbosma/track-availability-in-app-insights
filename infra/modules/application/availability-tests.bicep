@@ -57,7 +57,7 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
   })
 
   properties: {
-    Name: 'Backend API Status (from Webtest)'
+    Name: 'Webtest - Backend API Status' // This name will be displayed in the availability test overview in the Azure portal
     Description: 'Status of the backend API tested from a webtest'
 
     Kind: 'standard'
@@ -96,7 +96,7 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
     ValidationRules: {
       ExpectedHttpStatusCode: 200
       IgnoreHttpStatusCode: false
-      SSLCheck: false
+      SSLCheck: false // A separate test will check the SSL certificate of the API Management service
     }
 
     SyntheticMonitorId: backendApiStatusAvailabilityTestName
@@ -114,7 +114,7 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
   })
 
   properties: {
-    Name: 'APIM SSL Certificate Check'
+    Name: 'Webtest - API Management SSL Certificate Check' // This name will be displayed in the availability test overview in the Azure portal
     Description: 'Check if the SSL certificate of the API Management service is valid for at least 30 days'
 
     Kind: 'standard'
@@ -123,7 +123,7 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
 
     // The frequency is as high as possible because we don't have to be notified the instant that the certificate expires within 30 days.
     // It also runs from only one location to reduce cost.
-    Frequency: 900
+    Frequency: 900 // 15 minutes
     Locations: [
       {
         Id: 'emea-nl-ams-azr' // West Europe
