@@ -13,6 +13,9 @@ param apiManagementServiceName string
 @description('The name of the Key Vault that will contain the secrets')
 param keyVaultName string
 
+@description('The approximate percentage of failures that will be simulated. 0-100')
+param approximateFailurePercentage int
+
 //=============================================================================
 // Existing resources
 //=============================================================================
@@ -28,6 +31,17 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
 //=============================================================================
 // Resources
 //=============================================================================
+
+// Named value for approximate failure percentage
+
+resource approximateFailurePercentageNamedValue 'Microsoft.ApiManagement/service/namedValues@2023-09-01-preview' = {
+  name: 'approximate-failure-percentage'
+  parent: apiManagementService
+  properties: {
+    displayName: 'approximate-failure-percentage'
+    value: string(approximateFailurePercentage)
+  }
+}
 
 // Backend API
 
@@ -60,6 +74,10 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = 
       }
     }
   }
+
+  dependsOn: [
+    approximateFailurePercentageNamedValue
+  ]
 }
 
 

@@ -30,6 +30,10 @@ param environmentName string
 @description('The instance that will be added to the deployed resources names to make them unique. Will be generated if not provided.')
 param instance string = ''
 
+@description('The approximate percentage of failures that will be simulated. 0-100')
+@minValue(0)
+@maxValue(100)
+param approximateFailurePercentage int
 
 //=============================================================================
 // Variables
@@ -195,6 +199,7 @@ module backendApi 'modules/application/backend-api.bicep' = {
   params: {
     apiManagementServiceName: apiManagementSettings.serviceName
     keyVaultName: keyVaultName
+    approximateFailurePercentage: approximateFailurePercentage
   }
   dependsOn: [
     apiManagement

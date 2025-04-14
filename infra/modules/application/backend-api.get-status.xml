@@ -2,9 +2,9 @@
     <inbound>
         <base />
 
-        <!-- Randomly returns a 503 Service Unavailable response ~5% of the time and 200 OK response for the rest of the time. -->
+        <!-- Randomly returns a 503 Service Unavailable response for a certain approximate percentage of the time and 200 OK response for the rest of the time. -->
         <choose>
-            <when condition="@(new Random().Next(0, 100) < 5)">
+            <when condition="@(new Random().Next(0, 100) < {{approximate-failure-percentage}})">
                 <return-response>
                     <set-status code="503" reason="Service Unavailable" />
                 </return-response>

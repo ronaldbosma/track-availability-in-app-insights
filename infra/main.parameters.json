@@ -7,6 +7,9 @@
     },
     "location": {
       "value": "${AZURE_LOCATION}"
+    },
+    "approximateFailurePercentage": {
+      "value": 5
     }
   }
 }
