@@ -18,11 +18,11 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
         [Function(nameof(BackendStatusAvailabilityTest))]
         public async Task Run([TimerTrigger("0 * * * * *")] TimerInfo timerInfo)
         {
-            var availabilityTest = _availabilityTestFactory.CreateAvailabilityTest(
-                "Azure Function - Backend API Status",
-                "/backend/status",
-                "apim");
+            const string TestName = "Backend API Status Test";
+            const string RequestUri = "/backend/status";
+            const string HttpClientName = "apim";
 
+            var availabilityTest = _availabilityTestFactory.CreateAvailabilityTest(TestName, RequestUri, HttpClientName);
             await availabilityTest.ExecuteAsync();
         }
     }
