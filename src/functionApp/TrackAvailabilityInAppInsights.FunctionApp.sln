@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackAvailabilityInAppInsights.FunctionApp", "TrackAvailabilityInAppInsights.FunctionApp\TrackAvailabilityInAppInsights.FunctionApp.csproj", "{ABEA4AFA-98B7-4CDD-95E5-39E0A3F07929}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackAvailabilityInAppInsights.FunctionApp.Tests", "TrackAvailabilityInAppInsights.FunctionApp.Tests\TrackAvailabilityInAppInsights.FunctionApp.Tests.csproj", "{1171D571-2C86-4985-A83F-61B377FD0041}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{ABEA4AFA-98B7-4CDD-95E5-39E0A3F07929}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABEA4AFA-98B7-4CDD-95E5-39E0A3F07929}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABEA4AFA-98B7-4CDD-95E5-39E0A3F07929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1171D571-2C86-4985-A83F-61B377FD0041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1171D571-2C86-4985-A83F-61B377FD0041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1171D571-2C86-4985-A83F-61B377FD0041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1171D571-2C86-4985-A83F-61B377FD0041}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
