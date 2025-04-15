@@ -14,7 +14,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
         private const string RequestUri = "/internal-status-0123456789abcdef";
 
         [Function(nameof(ApimSslCertificateCheckAvailabilityTest))]
-        public async Task Run([TimerTrigger("0 0 * * * *")] TimerInfo timerInfo)
+        public async Task Run([TimerTrigger("0 * * * * *")] TimerInfo timerInfo)
         {
             var availabilityTest = availabilityTestFactory.CreateAvailabilityTest(TestName, CheckSslCertificateAsync);
             await availabilityTest.ExecuteAsync();
