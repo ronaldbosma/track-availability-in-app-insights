@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
 {
-    internal class SslCertificateValidator
+    public class SslCertificateValidator
     {
         private const int AllowedAmountOfDaysUntilCertificateExpiration = 30;
 
