@@ -22,15 +22,15 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
         /// Validates that the remote certificate is valid and won't expire within the specified number of days.
         /// </summary>
         /// <returns>False if the certificate expired or is about to expire, else true.</returns>
-        public bool Validate(object sender, X509Certificate? cert, X509Chain? chain, SslPolicyErrors policyErrors)
+        public bool Validate(object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors policyErrors)
         {
-            if (cert is null)
+            if (certificate is null)
             {
                 _logger.LogError("Could not find an SSL server certificate associated to the endpoint");
                 return false;
             }
 
-            var cert2 = new X509Certificate2(cert);
+            var cert2 = new X509Certificate2(certificate);
             if (cert2.NotAfter <= DateTime.Now.AddDays(AllowedAmountOfDaysUntilCertificateExpiration))
             {
                 _logger.LogError("The SSL server certificate is close to its expiration date of: {ExpirationDate}", cert2.NotAfter);
