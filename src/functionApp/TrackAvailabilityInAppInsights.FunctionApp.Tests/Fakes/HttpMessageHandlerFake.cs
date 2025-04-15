@@ -60,5 +60,4 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
             };
         }
     }
-
 }

@@ -23,5 +23,4 @@
             _httpClients.Add(name, httpClient);
         }
     }
-
 }

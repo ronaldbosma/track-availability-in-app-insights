@@ -35,5 +35,4 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             Assert.IsInstanceOfType<HttpGetRequestAvailabilityTest>(result);
         }
     }
-
 }

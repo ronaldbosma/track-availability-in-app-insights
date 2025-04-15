@@ -44,5 +44,4 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             _telemetryChannelFake.VerifyThatFailedAvailabilityIsTrackedForTest(TestName, exception.Message);
         }
     }
-
 }

@@ -94,5 +94,4 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
             Assert.IsTrue(FlushWasCalled);
         }
     }
-
 }

@@ -20,6 +20,5 @@
         /// <param name="requestUri">The request uri to test.</param>
         /// <param name="httpClientName">The name of the HTTP client to use.</param>
         IAvailabilityTest CreateAvailabilityTest(string name, string requestUri, string httpClientName);
-
     }
 }

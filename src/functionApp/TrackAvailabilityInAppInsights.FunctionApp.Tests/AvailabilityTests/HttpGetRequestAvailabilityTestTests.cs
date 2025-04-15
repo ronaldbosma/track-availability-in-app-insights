@@ -62,5 +62,4 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             _telemetryChannelFake.VerifyThatFailedAvailabilityIsTrackedForTest(name, "Response status code does not indicate success: 503 (Service Unavailable).");
         }
     }
-
 }
