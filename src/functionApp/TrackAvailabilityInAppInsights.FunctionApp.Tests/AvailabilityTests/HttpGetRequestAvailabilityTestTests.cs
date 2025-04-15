@@ -10,16 +10,12 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
     {
         private const string HttpClientName = "apim";
 
-        private readonly TelemetryChannelFake _telemetryChannelFake;
-        private readonly HttpClientFactoryFake _httpClientFactory;
-        private readonly HttpMessageHandlerFake _httpMessageHandlerFake;
+        private readonly TelemetryChannelFake _telemetryChannelFake = new();
+        private readonly HttpClientFactoryFake _httpClientFactory = new();
+        private readonly HttpMessageHandlerFake _httpMessageHandlerFake = new();
 
         public HttpGetRequestAvailabilityTestTests()
         {
-            _telemetryChannelFake = new TelemetryChannelFake();
-
-            _httpMessageHandlerFake = new HttpMessageHandlerFake();
-            _httpClientFactory = new HttpClientFactoryFake();
             _httpClientFactory.StubHttpClient(HttpClientName, _httpMessageHandlerFake.CreateHttpClient());
         }
 
