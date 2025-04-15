@@ -18,7 +18,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
         [Function(nameof(BackendStatusAvailabilityTest))]
         public async Task Run([TimerTrigger("0 * * * * *")] TimerInfo timerInfo)
         {
-            const string TestName = "Backend API Status Test";
+            const string TestName = "Azure Function - Backend API Status Test";
             const string RequestUri = "/backend/status";
             const string HttpClientName = "apim";
 
