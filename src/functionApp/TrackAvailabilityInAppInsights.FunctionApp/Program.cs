@@ -13,6 +13,7 @@ builder.Services.AddApplicationInsightsTelemetryWorkerService()
                 .ConfigureFunctionsApplicationInsights();
 
 builder.Services.AddSingleton<IAvailabilityTestFactory, AvailabilityTestFactory>();
+builder.Services.AddSingleton<SslCertificateValidator>();
 
 builder.Services.AddHttpClient("apim", client =>
 {
