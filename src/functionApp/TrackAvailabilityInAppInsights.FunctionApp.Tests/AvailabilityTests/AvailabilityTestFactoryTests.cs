@@ -10,13 +10,13 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
         [TestMethod]
         public void CreateAvailabilityTest_SpecifyTestNameAndCheckFunction_AvailabilityTestReturned()
         {
-            //Arrange
+            // Arrange
             var sut = new AvailabilityTestFactory(new TelemetryChannelFake().CreateTelemetryClient(), new HttpClientFactoryFake(), new NullLoggerFactory());
 
-            //Act
+            // Act
             var result = sut.CreateAvailabilityTest("A Test Name", () => Task.CompletedTask);
 
-            //Assert
+            // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType<AvailabilityTest>(result);
         }
@@ -24,13 +24,13 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
         [TestMethod]
         public void CreateAvailabilityTest_SpecifyTestNameAndRequestUrlAndClientName_HttpGetRequestAvailabilityTestReturned()
         {
-            //Arrange
+            // Arrange
             var sut = new AvailabilityTestFactory(new TelemetryChannelFake().CreateTelemetryClient(), new HttpClientFactoryFake(), new NullLoggerFactory());
 
-            //Act
+            // Act
             var result = sut.CreateAvailabilityTest("A Test Name", "/health", "A Client Name");
 
-            //Assert
+            // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType<HttpGetRequestAvailabilityTest>(result);
         }
