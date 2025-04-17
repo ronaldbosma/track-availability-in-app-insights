@@ -1,24 +1,11 @@
-using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
-using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
+using TrackAvailabilityInAppInsights.FunctionApp;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 
-builder.Services.AddApplicationInsightsTelemetryWorkerService()
-                .ConfigureFunctionsApplicationInsights();
-
-builder.Services.AddSingleton<IAvailabilityTestFactory, AvailabilityTestFactory>();
-builder.Services.AddSingleton<SslCertificateValidator>();
-
-builder.Services.AddHttpClient("apim", client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiManagement_gatewayUrl"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_gatewayUrl not specified"));
-    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", builder.Configuration["ApiManagement_subscriptionKey"]);
-});
+builder.Services.RegisterDependencies(builder.Configuration);
 
 builder.Build().Run();
