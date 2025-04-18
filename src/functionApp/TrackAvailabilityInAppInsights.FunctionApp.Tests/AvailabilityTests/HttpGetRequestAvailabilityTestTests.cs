@@ -12,11 +12,11 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
 
         private readonly TelemetryChannelFake _telemetryChannelFake = new();
         private readonly HttpClientFactoryFake _httpClientFactory = new();
-        private readonly HttpMessageHandlerFake _httpMessageHandlerFake = new();
+        private readonly HttpClientFake _httpClientFake = new();
 
         public HttpGetRequestAvailabilityTestTests()
         {
-            _httpClientFactory.StubHttpClient(HttpClientName, _httpMessageHandlerFake.CreateHttpClient());
+            _httpClientFactory.StubHttpClient(HttpClientName, _httpClientFake);
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             var requestUri = "/healthy";
 
             // Stub that the HttpClient returns a success status code when checking the availability
-            _httpMessageHandlerFake.StubResponseForGetRequest(requestUri, HttpStatusCode.OK);
+            _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.OK);
 
             var sut = new HttpGetRequestAvailabilityTest(name, requestUri, _telemetryChannelFake.CreateTelemetryClient(),
                 _httpClientFactory, HttpClientName, new NullLoggerFactory());
@@ -47,7 +47,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             var requestUri = "/unhealthy";
 
             // Stub that the HttpClient returns a 503 Service Unavailable when checking the availability
-            _httpMessageHandlerFake.StubResponseForGetRequest(requestUri, HttpStatusCode.ServiceUnavailable);
+            _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.ServiceUnavailable);
 
             var sut = new HttpGetRequestAvailabilityTest(name, requestUri, _telemetryChannelFake.CreateTelemetryClient(),
                 _httpClientFactory, HttpClientName, new NullLoggerFactory());
