@@ -25,6 +25,9 @@
                     "method": "GET",
                     "headers": {
                         "Ocp-Apim-Subscription-Key": "@{parameters('api-management-subscription-key')}"
+                    },
+                    "retryPolicy": {
+                        "type": "none"
                     }
                 },
                 "runAfter": {
