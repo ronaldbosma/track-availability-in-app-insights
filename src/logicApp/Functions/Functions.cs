@@ -5,8 +5,9 @@
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
     using Microsoft.Azure.Functions.Extensions.Workflows;
     using Microsoft.Azure.Functions.Worker;
     using Microsoft.Extensions.Logging;
@@ -16,65 +17,37 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
     /// </summary>
     public class Functions
     {
-        private readonly ILogger<Functions> logger;
+        private readonly TelemetryClient _telemetryClient;
+        private readonly ILogger<Functions> _logger;
 
-        public Functions(ILoggerFactory loggerFactory)
+        public Functions(TelemetryClient telemetryClient, ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger<Functions>();
+            _telemetryClient = telemetryClient;
+            _logger = loggerFactory.CreateLogger<Functions>();
+
+            // TelemetryConfiguration telemetryConfiguration = new(); 
+            // telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"); 
+            // telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
+            // _telemetryClient = new TelemetryClient(telemetryConfiguration); 
         }
 
-        /// <summary>
-        /// Executes the logic app workflow.
-        /// </summary>
-        /// <param name="zipCode">The zip code.</param>
-        /// <param name="temperatureScale">The temperature scale (e.g., Celsius or Fahrenheit).</param>
-        [Function("Functions")]
-        public Task<Weather> Run([WorkflowActionTrigger] int zipCode, string temperatureScale)
+        [Function("TrackAvailability")]
+        public Task Run([WorkflowActionTrigger] string testName, bool success, string message)
         {
-            this.logger.LogInformation("Starting Functions with Zip Code: " + zipCode + " and Scale: " + temperatureScale);
-            
-            // Generate random temperature within a range based on the temperature scale
-            Random rnd = new Random();
-            var currentTemp = temperatureScale == "Celsius" ? rnd.Next(1, 30) : rnd.Next(40, 90);
-            var lowTemp = currentTemp - 10;
-            var highTemp = currentTemp + 10;
+            ArgumentException.ThrowIfNullOrWhiteSpace(testName, nameof(testName));
 
-            // Create a Weather object with the temperature information
-            var weather = new Weather()
+            AvailabilityTelemetry availability = new()
             {
-                ZipCode = zipCode,
-                CurrentWeather = $"The current weather is {currentTemp} {temperatureScale}",
-                DayLow = $"The low for the day is {lowTemp} {temperatureScale}",
-                DayHigh = $"The high for the day is {highTemp} {temperatureScale}"
+                Name = testName,
+                RunLocation = Environment.GetEnvironmentVariable("REGION_NAME") ?? "Unknown",
+                Success = success,
+                Message = message
             };
 
-            return Task.FromResult(weather);
-        }
+            _telemetryClient.TrackAvailability(availability);
+            _telemetryClient.Flush();
 
-        /// <summary>
-        /// Represents the weather information for Functions.
-        /// </summary>
-        public class Weather
-        {
-            /// <summary>
-            /// Gets or sets the zip code.
-            /// </summary>
-            public int ZipCode { get; set; }
-
-            /// <summary>
-            /// Gets or sets the current weather.
-            /// </summary>
-            public string CurrentWeather { get; set; }
-
-            /// <summary>
-            /// Gets or sets the low temperature for the day.
-            /// </summary>
-            public string DayLow { get; set; }
-
-            /// <summary>
-            /// Gets or sets the high temperature for the day.
-            /// </summary>
-            public string DayHigh { get; set; }
+            return Task.CompletedTask;
         }
     }
 }
