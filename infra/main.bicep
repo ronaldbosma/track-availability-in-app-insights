@@ -220,6 +220,7 @@ module availabilityTests 'modules/application/availability-tests.bicep' = {
   dependsOn: [
     appInsights
     apiManagement
+    backendApi
   ]
 }
 
