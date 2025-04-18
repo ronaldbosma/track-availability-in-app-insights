@@ -7,7 +7,7 @@
                 "inputs": {
                     "functionName": "TrackAvailability",
                     "parameters": {
-                        "testName": "Logic App - Backend API Status Test",
+                        "testName": "@variables('TestName')",
                         "success": true,
                         "message": "NA"
                     }
@@ -27,7 +27,11 @@
                         "Ocp-Apim-Subscription-Key": "@{parameters('api-management-subscription-key')}"
                     }
                 },
-                "runAfter": {},
+                "runAfter": {
+                    "Initialize_TestName": [
+                        "SUCCEEDED"
+                    ]
+                },
                 "runtimeConfiguration": {
                     "contentTransfer": {
                         "transferMode": "Chunked"
@@ -39,9 +43,9 @@
                 "inputs": {
                     "functionName": "TrackAvailability",
                     "parameters": {
-                        "testName": "Logic App - Backend API Status Test",
-                        "success": true,
-                        "message": "@concat('HTTP call failed with status code: ', outputs('HTTP')?['statusCode'])"
+                        "testName": "@variables('TestName')",
+                        "success": false,
+                        "message": "@concat('HTTP call failed with status code ', outputs('HTTP')?['statusCode'], ' and response body ', body('HTTP'))"
                     }
                 },
                 "runAfter": {
@@ -81,6 +85,19 @@
                         "SUCCEEDED"
                     ]
                 }
+            },
+            "Initialize_TestName": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "TestName",
+                            "type": "string",
+                            "value": "Logic App Workflow - Backend API Status Test"
+                        }
+                    ]
+                },
+                "runAfter": {}
             }
         },
         "triggers": {
