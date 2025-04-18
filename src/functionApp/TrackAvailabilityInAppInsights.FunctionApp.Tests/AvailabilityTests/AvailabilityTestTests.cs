@@ -8,7 +8,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
     {
         private const string TestName = "A.Test";
 
-        private readonly TelemetryChannelFake _telemetryChannelFake = new();
+        private readonly TelemetryClientFake _telemetryClientFake = new();
 
         [TestMethod]
         public async Task ExecuteAsync_AvailabilityCheckSucceeds_AvailabilitySuccessTracked()
@@ -16,13 +16,13 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             // Arrange
             static Task checkAvailabilityAsync() => Task.CompletedTask;
 
-            AvailabilityTest sut = new(TestName, checkAvailabilityAsync, _telemetryChannelFake.CreateTelemetryClient());
+            AvailabilityTest sut = new(TestName, checkAvailabilityAsync, _telemetryClientFake.Value);
 
             // Act
             await sut.ExecuteAsync();
 
             // Assert
-            _telemetryChannelFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(TestName);
+            _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(TestName);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             Exception exception = new("Test exception");
             Task checkAvailabilityAsync() => throw exception;
 
-            AvailabilityTest sut = new(TestName, checkAvailabilityAsync, _telemetryChannelFake.CreateTelemetryClient());
+            AvailabilityTest sut = new(TestName, checkAvailabilityAsync, _telemetryClientFake.Value);
 
             // Act
             async Task act() => await sut.ExecuteAsync();
@@ -41,7 +41,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             Exception actualException = await Assert.ThrowsExceptionAsync<Exception>(act);
             Assert.AreEqual(exception.Message, actualException.Message);
 
-            _telemetryChannelFake.VerifyThatFailedAvailabilityIsTrackedForTest(TestName, exception.Message);
+            _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(TestName, exception.Message);
         }
     }
 }

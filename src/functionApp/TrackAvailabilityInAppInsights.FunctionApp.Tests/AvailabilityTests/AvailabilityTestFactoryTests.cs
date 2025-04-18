@@ -11,7 +11,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
         public void CreateAvailabilityTest_SpecifyTestNameAndCheckFunction_AvailabilityTestReturned()
         {
             // Arrange
-            AvailabilityTestFactory sut = new(new TelemetryChannelFake().CreateTelemetryClient(), new HttpClientFactoryFake(), new NullLoggerFactory());
+            AvailabilityTestFactory sut = new(new TelemetryClientFake().Value, new HttpClientFactoryFake(), new NullLoggerFactory());
 
             // Act
             var result = sut.CreateAvailabilityTest("A Test Name", () => Task.CompletedTask);
@@ -25,7 +25,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
         public void CreateAvailabilityTest_SpecifyTestNameAndRequestUrlAndClientName_HttpGetRequestAvailabilityTestReturned()
         {
             // Arrange
-            AvailabilityTestFactory sut = new(new TelemetryChannelFake().CreateTelemetryClient(), new HttpClientFactoryFake(), new NullLoggerFactory());
+            AvailabilityTestFactory sut = new(new TelemetryClientFake().Value, new HttpClientFactoryFake(), new NullLoggerFactory());
 
             // Act
             var result = sut.CreateAvailabilityTest("A Test Name", "/health", "A Client Name");
