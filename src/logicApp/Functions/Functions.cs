@@ -1,13 +1,11 @@
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation. All rights reserved.
-//------------------------------------------------------------
-
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions
 {
     using System;
     using System.Threading.Tasks;
     using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Azure.Functions.Extensions.Workflows;
     using Microsoft.Azure.Functions.Worker;
     using Microsoft.Extensions.Logging;
@@ -20,15 +18,16 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
         private readonly TelemetryClient _telemetryClient;
         private readonly ILogger<Functions> _logger;
 
-        public Functions(TelemetryClient telemetryClient, ILoggerFactory loggerFactory)
+        public Functions(ILoggerFactory loggerFactory)
         {
-            _telemetryClient = telemetryClient;
             _logger = loggerFactory.CreateLogger<Functions>();
 
-            // TelemetryConfiguration telemetryConfiguration = new(); 
-            // telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"); 
-            // telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
-            // _telemetryClient = new TelemetryClient(telemetryConfiguration); 
+            TelemetryConfiguration telemetryConfiguration = new()
+            {
+                ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"),
+                TelemetryChannel = new InMemoryChannel()
+            };
+            _telemetryClient = new TelemetryClient(telemetryConfiguration); 
         }
 
         [Function("TrackAvailability")]
