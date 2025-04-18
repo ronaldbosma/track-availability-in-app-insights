@@ -21,7 +21,7 @@
             "HTTP": {
                 "type": "Http",
                 "inputs": {
-                    "uri": "@{parameters('api-management-gateway-url')}/backend/status",
+                    "uri": "@{parameters('api-management-gateway-url')}@{triggerBody()?['urlToTest']}",
                     "method": "GET",
                     "headers": {
                         "Ocp-Apim-Subscription-Key": "@{parameters('api-management-subscription-key')}"
@@ -51,14 +51,52 @@
                         "FAILED"
                     ]
                 }
+            },
+            "Response_Available": {
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                        "status": "avaiable"
+                    }
+                },
+                "runAfter": {
+                    "Track_is_available_(in_App_Insights)": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Response_Unavailable": {
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                    "statusCode": 503,
+                    "body": {
+                        "status": "unavaiable"
+                    }
+                },
+                "runAfter": {
+                    "Track_is_unavailable_(in_App_Insights)": [
+                        "SUCCEEDED"
+                    ]
+                }
             }
         },
         "triggers": {
-            "Recurrence": {
-                "type": "Recurrence",
-                "recurrence": {
-                    "interval": 1,
-                    "frequency": "Minute"
+            "When_a_HTTP_request_is_received": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "method": "POST",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "urlToTest": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         },
