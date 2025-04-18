@@ -50,7 +50,7 @@
                         "testName": "@variables('TestName')",
                         "success": false,
                         "startTime": "@body('Start_time')",
-                        "message": "@concat('HTTP call failed with status code ', outputs('HTTP')?['statusCode'], ' and response body: ', body('HTTP'))"
+                        "message": "@concat('HTTP call failed with status code ', outputs('HTTP')?['statusCode'], ' and response body: \"', body('HTTP'), '\"')"
                     }
                 },
                 "runAfter": {
