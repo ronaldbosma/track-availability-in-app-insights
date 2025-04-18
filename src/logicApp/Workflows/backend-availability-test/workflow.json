@@ -1,41 +1,69 @@
 {
-  "definition": {
-    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-    "actions": {
-      "Call_a_local_function_in_this_logic_app": {
-        "type": "InvokeFunction",
-        "inputs": {
-          "functionName": "Functions",
-          "parameters": {
-            "zipCode": 85396,
-            "temperatureScale": "Celsius"
-          }
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Track_is_available_(in_App_Insights)": {
+                "type": "InvokeFunction",
+                "inputs": {
+                    "functionName": "Functions",
+                    "parameters": {
+                        "testName": "Logic App - Backend API Status Test",
+                        "success": true,
+                        "message": "NA"
+                    }
+                },
+                "runAfter": {
+                    "HTTP": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "HTTP": {
+                "type": "Http",
+                "inputs": {
+                    "uri": "@{parameters('api-management-gateway-url')}/backend/status",
+                    "method": "GET",
+                    "headers": {
+                        "Ocp-Apim-Subscription-Key": "@{parameters('api-management-subscription-key')}"
+                    }
+                },
+                "runAfter": {},
+                "runtimeConfiguration": {
+                    "contentTransfer": {
+                        "transferMode": "Chunked"
+                    }
+                }
+            },
+            "Track_is_unavailable_(in_App_Insights)": {
+                "type": "InvokeFunction",
+                "inputs": {
+                    "functionName": "Functions",
+                    "parameters": {
+                        "testName": "Logic App - Backend API Status Test",
+                        "success": true,
+                        "message": "@concat('HTTP call failed with status code: ', outputs('HTTP')?['statusCode'])"
+                    }
+                },
+                "runAfter": {
+                    "HTTP": [
+                        "TIMEDOUT",
+                        "SKIPPED",
+                        "FAILED"
+                    ]
+                }
+            }
         },
-        "runAfter": {}
-      },
-      "Response": {
-        "type": "Response",
-        "kind": "http",
-        "inputs": {
-          "statusCode": 200,
-          "body": "@body('Call_a_local_function_in_this_logic_app')"
+        "triggers": {
+            "Recurrence": {
+                "type": "Recurrence",
+                "recurrence": {
+                    "interval": 1,
+                    "frequency": "Minute"
+                }
+            }
         },
-        "runAfter": {
-          "Call_a_local_function_in_this_logic_app": [
-            "Succeeded"
-          ]
-        }
-      }
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
     },
-    "triggers": {
-      "When_a_HTTP_request_is_received": {
-        "type": "Request",
-        "kind": "Http",
-        "inputs": {}
-      }
-    },
-    "contentVersion": "1.0.0.0",
-    "outputs": {}
-  },
-  "kind": "Stateful"
+    "kind": "Stateful"
 }
