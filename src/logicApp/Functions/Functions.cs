@@ -1,6 +1,7 @@
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions
 {
     using System;
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.Channel;
@@ -47,9 +48,20 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
                 Duration = DateTimeOffset.UtcNow - startTime
             };
 
-            _telemetryClient.TrackAvailability(availability);
-            _telemetryClient.Flush();
-
+            // Create activity to enable distributed tracing and correlation of the telemetry in App Insights
+            using (Activity activity = new("AvailabilityContext"))
+            {
+                activity.Start();
+                
+                // Connect the availability telemetry to the logging activity
+                availability.Id = activity.SpanId.ToString();
+                availability.Context.Operation.ParentId = activity.ParentSpanId.ToString();
+                availability.Context.Operation.Id = activity.RootId;
+                
+                _telemetryClient.TrackAvailability(availability);
+                _telemetryClient.Flush();
+            }
+            
             return Task.CompletedTask;
         }
     }
