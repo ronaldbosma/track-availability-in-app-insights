@@ -22,7 +22,7 @@
             "HTTP": {
                 "type": "Http",
                 "inputs": {
-                    "uri": "@{parameters('api-management-gateway-url')}@{triggerBody()?['urlToTest']}",
+                    "uri": "@{parameters('api-management-gateway-url')}/backend/status",
                     "method": "GET",
                     "headers": {
                         "Ocp-Apim-Subscription-Key": "@{parameters('api-management-subscription-key')}"
@@ -61,36 +61,6 @@
                     ]
                 }
             },
-            "Response_Available": {
-                "type": "Response",
-                "kind": "Http",
-                "inputs": {
-                    "statusCode": 200,
-                    "body": {
-                        "status": "available"
-                    }
-                },
-                "runAfter": {
-                    "Track_is_available_(in_App_Insights)": [
-                        "SUCCEEDED"
-                    ]
-                }
-            },
-            "Response_Unavailable": {
-                "type": "Response",
-                "kind": "Http",
-                "inputs": {
-                    "statusCode": 503,
-                    "body": {
-                        "status": "unavailable"
-                    }
-                },
-                "runAfter": {
-                    "Track_is_unavailable_(in_App_Insights)": [
-                        "SUCCEEDED"
-                    ]
-                }
-            },
             "Initialize_TestName": {
                 "type": "InitializeVariable",
                 "inputs": {
@@ -116,19 +86,11 @@
             }
         },
         "triggers": {
-            "When_a_HTTP_request_is_received": {
-                "type": "Request",
-                "kind": "Http",
-                "inputs": {
-                    "method": "POST",
-                    "schema": {
-                        "type": "object",
-                        "properties": {
-                            "urlToTest": {
-                                "type": "string"
-                            }
-                        }
-                    }
+            "Recurrence": {
+                "type": "Recurrence",
+                "recurrence": {
+                    "interval": 1,
+                    "frequency": "Minute"
                 }
             }
         },
