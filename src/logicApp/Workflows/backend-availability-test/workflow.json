@@ -5,7 +5,7 @@
             "Track_is_available_(in_App_Insights)": {
                 "type": "InvokeFunction",
                 "inputs": {
-                    "functionName": "Functions",
+                    "functionName": "TrackAvailability",
                     "parameters": {
                         "testName": "Logic App - Backend API Status Test",
                         "success": true,
@@ -37,7 +37,7 @@
             "Track_is_unavailable_(in_App_Insights)": {
                 "type": "InvokeFunction",
                 "inputs": {
-                    "functionName": "Functions",
+                    "functionName": "TrackAvailability",
                     "parameters": {
                         "testName": "Logic App - Backend API Status Test",
                         "success": true,
