@@ -10,7 +10,7 @@
                         "testName": "@variables('TestName')",
                         "success": true,
                         "startTime": "@body('Start_time')",
-                        "message": "NA"
+                        "message": "Availability test succeeded"
                     }
                 },
                 "runAfter": {
