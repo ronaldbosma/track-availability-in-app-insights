@@ -35,6 +35,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(testName, nameof(testName));
 
+            _logger.LogInformation("TrackAvailability function invoked with testName: {TestName}, success: {Success}, startTime: {StartTime}, message: {Message}", testName, success, startTime, message);
+
             AvailabilityTelemetry availability = new()
             {
                 Name = testName,
