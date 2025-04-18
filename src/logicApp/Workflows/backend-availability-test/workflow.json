@@ -9,7 +9,7 @@
                     "parameters": {
                         "testName": "@variables('TestName')",
                         "success": true,
-                        "startTime": "@body('Current_time')",
+                        "startTime": "@body('Start_time')",
                         "message": "NA"
                     }
                 },
@@ -32,7 +32,7 @@
                     }
                 },
                 "runAfter": {
-                    "Current_time": [
+                    "Start_time": [
                         "SUCCEEDED"
                     ]
                 },
@@ -49,7 +49,7 @@
                     "parameters": {
                         "testName": "@variables('TestName')",
                         "success": false,
-                        "startTime": "@body('Current_time')",
+                        "startTime": "@body('Start_time')",
                         "message": "@concat('HTTP call failed with status code ', outputs('HTTP')?['statusCode'], ' and response body: ', body('HTTP'))"
                     }
                 },
@@ -104,7 +104,7 @@
                 },
                 "runAfter": {}
             },
-            "Current_time": {
+            "Start_time": {
                 "type": "Expression",
                 "kind": "CurrentTime",
                 "inputs": {},
