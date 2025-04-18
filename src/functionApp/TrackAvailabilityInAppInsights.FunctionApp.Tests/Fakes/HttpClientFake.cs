@@ -62,7 +62,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
                 // Store the request message for later verification.
                 SentRequestMessages.Add(request);
 
-                // Return the stubbed response message for the corresponding request URL.
+                // Return the stubbed response message for the corresponding combination of HTTP method and request URL.
                 HttpRequestKey requestKey = new(request.Method, request.RequestUri!);
                 HttpResponseMessage responseMessage = StubbedResponseMessages[requestKey];
                 return Task.FromResult(responseMessage);
