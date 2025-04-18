@@ -4,23 +4,21 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
 {
-    public class SslCertificateValidator
+    /// <summary>
+    /// Class to validate SSL certificates.
+    /// </summary>
+    public class SslCertificateValidator(ILoggerFactory loggerFactory)
     {
         private const int AllowedAmountOfDaysUntilCertificateExpiration = 30;
 
-        private readonly ILogger _logger;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SslCertificateValidator"/> class.
-        /// </summary>
-        public SslCertificateValidator(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<SslCertificateValidator>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<SslCertificateValidator>();
 
         /// <summary>
         /// Validates that the remote certificate is valid and won't expire within the specified number of days.
         /// </summary>
+        /// <remarks>
+        /// This method can be used as a callback for the <see cref="HttpClientHandler.ServerCertificateCustomValidationCallback"/> property.
+        /// </remarks>
         /// <returns>False if the certificate expired or is about to expire, else true.</returns>
         public bool Validate(object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors policyErrors)
         {

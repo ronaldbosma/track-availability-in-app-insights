@@ -7,31 +7,17 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
     /// <summary>
     /// Generic class for availability tests.
     /// </summary>
-    internal class AvailabilityTest : IAvailabilityTest
+    /// <param name="name">The name of the availability test.</param>
+    /// <param name="checkAvailability">The function that checks the availability.</param>
+    /// <param name="telemetryClient">The telemetry client to publish the result to.</param>
+    internal class AvailabilityTest(string name, Func<Task> checkAvailabilityAsync, TelemetryClient telemetryClient) : IAvailabilityTest
     {
-        private readonly string _name;
-        private readonly Func<Task> _checkAvailabilityAsync;
-        private readonly TelemetryClient _telemetryClient;
-
-        /// <summary>
-        /// Creates instance of <see cref="AvailabilityTest"/>.
-        /// </summary>
-        /// <param name="name">The name of the availability test.</param>
-        /// <param name="checkAvailability">The function that checks the availability.</param>
-        /// <param name="telemetryClient">The telemetry client to publish the result to.</param>
-        public AvailabilityTest(string name, Func<Task> checkAvailabilityAsync, TelemetryClient telemetryClient)
-        {
-            _name = name;
-            _checkAvailabilityAsync = checkAvailabilityAsync;
-            _telemetryClient = telemetryClient;
-        }
-
         /// <inheritdoc/>
         public async Task ExecuteAsync()
         {
             AvailabilityTelemetry availability = new()
             {
-                Name = _name,
+                Name = name,
                 RunLocation = Environment.GetEnvironmentVariable("REGION_NAME") ?? "Unknown",
                 Success = false
             };
@@ -41,6 +27,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
 
             try
             {
+                // Create activity to enable distributed tracing and correlation of the telemetry in App Insights
                 using (Activity activity = new("AvailabilityContext"))
                 {
                     activity.Start();
@@ -53,7 +40,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
                     // Set start time of availability test
                     availability.Timestamp = DateTimeOffset.UtcNow;
 
-                    await _checkAvailabilityAsync();
+                    await checkAvailabilityAsync();
                 }
 
                 availability.Success = true;
@@ -69,8 +56,8 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
                 stopwatch.Stop();
                 availability.Duration = stopwatch.Elapsed;
 
-                _telemetryClient.TrackAvailability(availability);
-                _telemetryClient.Flush();
+                telemetryClient.TrackAvailability(availability);
+                telemetryClient.Flush();
             }
         }
     }
