@@ -31,7 +31,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
         }
 
         [Function("TrackAvailability")]
-        public Task Run([WorkflowActionTrigger] string testName, bool success, string message)
+        public Task Run([WorkflowActionTrigger] string testName, bool success, DateTimeOffset startTime, string message)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(testName, nameof(testName));
 
@@ -40,7 +40,9 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
                 Name = testName,
                 RunLocation = Environment.GetEnvironmentVariable("REGION_NAME") ?? "Unknown",
                 Success = success,
-                Message = message
+                Message = message,
+                Timestamp = startTime,
+                Duration = DateTimeOffset.UtcNow - startTime
             };
 
             _telemetryClient.TrackAvailability(availability);
