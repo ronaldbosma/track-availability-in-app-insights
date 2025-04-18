@@ -23,11 +23,12 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
             };
             configuration.TelemetryInitializers.Add(new OperationCorrelationTelemetryInitializer());
 
+            // TelemetryClient is sealed, so we can't inherit from it. Instead, we expose it as a property for use in calling code.
             Value = new(configuration);
         }
 
         /// <summary>
-        /// Gets the faked <see cref="Value"/>.
+        /// Gets the faked <see cref="TelemetryClient"/>.
         /// </summary>
         public TelemetryClient Value { get; init; }
 
