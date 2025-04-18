@@ -58,7 +58,7 @@
                 "inputs": {
                     "statusCode": 200,
                     "body": {
-                        "status": "avaiable"
+                        "status": "available"
                     }
                 },
                 "runAfter": {
@@ -73,7 +73,7 @@
                 "inputs": {
                     "statusCode": 503,
                     "body": {
-                        "status": "unavaiable"
+                        "status": "unavailable"
                     }
                 },
                 "runAfter": {
