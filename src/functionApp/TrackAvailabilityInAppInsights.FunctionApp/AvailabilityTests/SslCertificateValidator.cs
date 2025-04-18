@@ -30,10 +30,10 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
                 return false;
             }
 
-            var cert2 = new X509Certificate2(certificate);
-            if (cert2.NotAfter <= DateTime.Now.AddDays(AllowedAmountOfDaysUntilCertificateExpiration))
+            X509Certificate2 certificate2 = new(certificate);
+            if (certificate2.NotAfter <= DateTime.Now.AddDays(AllowedAmountOfDaysUntilCertificateExpiration))
             {
-                _logger.LogError("The SSL server certificate is close to its expiration date of: {ExpirationDate}", cert2.NotAfter);
+                _logger.LogError("The SSL server certificate is close to its expiration date of: {ExpirationDate}", certificate2.NotAfter);
                 return false;
             }
 

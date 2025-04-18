@@ -32,7 +32,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
         /// </summary>
         public void StubResponseForRequest(HttpMethod httpMethod, string relativeUrl, HttpResponseMessage responseMessage)
         {
-            var key = new HttpRequestKey(httpMethod, new Uri(BaseAddress!, relativeUrl));
+            HttpRequestKey key = new(httpMethod, new Uri(BaseAddress!, relativeUrl));
             _httpMessageHandlerFake.StubbedResponseMessages.Add(key, responseMessage);
         }
 
@@ -41,6 +41,9 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
         /// </summary>
         private record HttpRequestKey(HttpMethod Method, Uri Url);
 
+        /// <summary>
+        /// Fake implementation of <see cref="HttpMessageHandler"/> that will intercept HTTP requests and return stubbed responses.
+        /// </summary>
         private class HttpMessageHandlerFake : HttpMessageHandler
         {
             /// <summary>
@@ -60,8 +63,8 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
                 SentRequestMessages.Add(request);
 
                 // Return the stubbed response message for the corresponding request URL.
-                var requestKey = new HttpRequestKey(request.Method, request.RequestUri!);
-                var responseMessage = StubbedResponseMessages[requestKey];
+                HttpRequestKey requestKey = new(request.Method, request.RequestUri!);
+                HttpResponseMessage responseMessage = StubbedResponseMessages[requestKey];
                 return Task.FromResult(responseMessage);
             }
         }

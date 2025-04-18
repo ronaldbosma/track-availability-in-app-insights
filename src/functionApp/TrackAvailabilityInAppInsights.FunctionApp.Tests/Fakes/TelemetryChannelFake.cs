@@ -56,7 +56,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
         /// </summary>
         public TelemetryClient CreateTelemetryClient()
         {
-            var configuration = new TelemetryConfiguration
+            TelemetryConfiguration configuration = new()
             {
                 TelemetryChannel = this
             };

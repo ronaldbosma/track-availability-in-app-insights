@@ -8,6 +8,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
     [TestClass]
     public class HttpGetRequestAvailabilityTestTests
     {
+        private const string name = "TestName";
         private const string HttpClientName = "apim";
 
         private readonly TelemetryChannelFake _telemetryChannelFake = new();
@@ -23,13 +24,12 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
         public async Task ExecuteAsync_HttpClientReturnsSuccess_AvailabilitySuccessTracked()
         {
             // Arrange
-            var name = "TestName";
-            var requestUri = "/healthy";
+            const string requestUri = "/healthy";
 
             // Stub that the HttpClient returns a success status code when checking the availability
             _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.OK);
 
-            var sut = new HttpGetRequestAvailabilityTest(name, requestUri, _telemetryChannelFake.CreateTelemetryClient(),
+            HttpGetRequestAvailabilityTest sut = new(name, requestUri, _telemetryChannelFake.CreateTelemetryClient(),
                 _httpClientFactory, HttpClientName, new NullLoggerFactory());
 
             // Act
@@ -43,21 +43,20 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
         public async Task ExecuteAsync_HttpClientReturnsError_AvailabilityFailureTracked()
         {
             // Arrange
-            var name = "TestName";
-            var requestUri = "/unhealthy";
+            const string requestUri = "/unhealthy";
 
             // Stub that the HttpClient returns a 503 Service Unavailable when checking the availability
             _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.ServiceUnavailable);
 
-            var sut = new HttpGetRequestAvailabilityTest(name, requestUri, _telemetryChannelFake.CreateTelemetryClient(),
+            HttpGetRequestAvailabilityTest sut = new(name, requestUri, _telemetryChannelFake.CreateTelemetryClient(),
                 _httpClientFactory, HttpClientName, new NullLoggerFactory());
 
             // Act
             async Task act() => await sut.ExecuteAsync();
 
             // Assert
-            var ex = await Assert.ThrowsExceptionAsync<HttpRequestException>(act);
-            Assert.AreEqual("Response status code does not indicate success: 503 (Service Unavailable).", ex.Message);
+            Exception actualException = await Assert.ThrowsExceptionAsync<HttpRequestException>(act);
+            Assert.AreEqual("Response status code does not indicate success: 503 (Service Unavailable).", actualException.Message);
 
             _telemetryChannelFake.VerifyThatFailedAvailabilityIsTrackedForTest(name, "Response status code does not indicate success: 503 (Service Unavailable).");
         }

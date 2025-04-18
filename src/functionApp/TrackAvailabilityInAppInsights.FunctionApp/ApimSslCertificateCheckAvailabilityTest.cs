@@ -22,9 +22,9 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
 
         private async Task CheckSslCertificateAsync()
         {
-            var apimBaseUrl = new Uri(configuration["ApiManagement_gatewayUrl"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_gatewayUrl not specified"));
-            using var handler = new HttpClientHandler() { ServerCertificateCustomValidationCallback = sslCertificateValidator.Validate };
-            using var client = new HttpClient(handler) { BaseAddress = apimBaseUrl };
+            Uri apimBaseUrl = new(configuration["ApiManagement_gatewayUrl"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_gatewayUrl not specified"));
+            using HttpClientHandler handler = new() { ServerCertificateCustomValidationCallback = sslCertificateValidator.Validate };
+            using HttpClient client = new(handler) { BaseAddress = apimBaseUrl };
             
             await client.GetAsync(RequestUri);
         }

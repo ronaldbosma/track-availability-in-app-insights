@@ -29,19 +29,19 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
         /// <inheritdoc/>
         public async Task ExecuteAsync()
         {
-            var availability = new AvailabilityTelemetry
+            AvailabilityTelemetry availability = new()
             {
                 Name = _name,
                 RunLocation = Environment.GetEnvironmentVariable("REGION_NAME") ?? "Unknown",
                 Success = false
             };
 
-            var stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new();
             stopwatch.Start();
 
             try
             {
-                using (var activity = new Activity("AvailabilityContext"))
+                using (Activity activity = new("AvailabilityContext"))
                 {
                     activity.Start();
 
