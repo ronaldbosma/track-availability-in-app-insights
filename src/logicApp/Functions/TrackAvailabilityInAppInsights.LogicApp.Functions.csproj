@@ -10,6 +10,8 @@
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     <SelfContained>false</SelfContained>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AssemblyName>TrackAvailabilityInAppInsights.LogicApp.Functions</AssemblyName>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
  </PropertyGroup>
 
   <ItemGroup>
