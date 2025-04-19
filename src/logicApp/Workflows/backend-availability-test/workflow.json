@@ -5,12 +5,10 @@
             "Track_is_available_(in_App_Insights)": {
                 "type": "InvokeFunction",
                 "inputs": {
-                    "functionName": "TrackAvailability",
+                    "functionName": "TrackIsAvailable",
                     "parameters": {
                         "testName": "@variables('TestName')",
-                        "success": true,
-                        "startTime": "@body('Start_time')",
-                        "message": "Availability test succeeded"
+                        "startTime": "@body('Start_time')"
                     }
                 },
                 "runAfter": {
@@ -45,10 +43,9 @@
             "Track_is_unavailable_(in_App_Insights)": {
                 "type": "InvokeFunction",
                 "inputs": {
-                    "functionName": "TrackAvailability",
+                    "functionName": "TrackIsUnavailable",
                     "parameters": {
                         "testName": "@variables('TestName')",
-                        "success": false,
                         "startTime": "@body('Start_time')",
                         "message": "@concat('HTTP call failed with status code ', outputs('HTTP')?['statusCode'], ' and response body: \"', body('HTTP'), '\"')"
                     }

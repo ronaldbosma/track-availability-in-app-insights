@@ -12,16 +12,16 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
     using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// Represents the Functions flow invoked function.
+    /// Contains functions related to availability tests.
     /// </summary>
-    public class Functions
+    public class AvailabilityTestFunctions
     {
         private readonly TelemetryClient _telemetryClient;
-        private readonly ILogger<Functions> _logger;
+        private readonly ILogger<AvailabilityTestFunctions> _logger;
 
-        public Functions(ILoggerFactory loggerFactory)
+        public AvailabilityTestFunctions(ILoggerFactory loggerFactory)
         {
-            _logger = loggerFactory.CreateLogger<Functions>();
+            _logger = loggerFactory.CreateLogger<AvailabilityTestFunctions>();
 
             TelemetryConfiguration telemetryConfiguration = new()
             {
@@ -31,12 +31,25 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
             _telemetryClient = new TelemetryClient(telemetryConfiguration); 
         }
 
-        [Function("TrackAvailability")]
-        public Task Run([WorkflowActionTrigger] string testName, bool success, DateTimeOffset startTime, string message)
+        [Function("TrackIsAvailable")]
+        public Task TrackIsAvailable([WorkflowActionTrigger] string testName, DateTimeOffset startTime)
+        {
+            _logger.LogInformation("TrackIsAvailable function invoked with testName: {TestName}, startTime: {StartTime}", testName, startTime);
+
+            return TrackAvailability(testName, true, startTime, null);
+        }
+
+        [Function("TrackIsUnavailable")]
+        public Task TrackIsUnavailable([WorkflowActionTrigger] string testName, DateTimeOffset startTime, string message)
+        {
+            _logger.LogInformation("TrackIsUnavailable function invoked with testName: {TestName}, startTime: {StartTime}, message: {Message}", testName, startTime, message);
+
+            return TrackAvailability(testName, false, startTime, message);
+        }
+
+        public Task TrackAvailability([WorkflowActionTrigger] string testName, bool success, DateTimeOffset startTime, string message)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(testName, nameof(testName));
-
-            _logger.LogInformation("TrackAvailability function invoked with testName: {TestName}, success: {Success}, startTime: {StartTime}, message: {Message}", testName, success, startTime, message);
 
             AvailabilityTelemetry availability = new()
             {
