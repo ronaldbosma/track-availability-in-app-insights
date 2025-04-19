@@ -65,7 +65,7 @@
                         {
                             "name": "TestName",
                             "type": "string",
-                            "value": "Logic App Workflow - Backend API Status Test"
+                            "value": "Logic App Workflow - Backend API Status"
                         }
                     ]
                 },

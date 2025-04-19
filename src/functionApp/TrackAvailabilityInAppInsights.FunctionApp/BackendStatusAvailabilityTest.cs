@@ -8,7 +8,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
     /// </summary>
     public class BackendStatusAvailabilityTest(IAvailabilityTestFactory availabilityTestFactory)
     {
-        private const string TestName = "Azure Function - Backend API Status Test";
+        private const string TestName = "Azure Function - Backend API Status";
         private const string RequestUri = "/backend/status";
         private const string HttpClientName = "apim";
 

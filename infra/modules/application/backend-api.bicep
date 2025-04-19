@@ -54,7 +54,7 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = 
     protocols: [ 
       'https' 
     ]
-    subscriptionRequired: false // Disable required subscription key for the webtest
+    subscriptionRequired: false // Disable required subscription key for the standard test (webtest)
   }
 
   // Create a GET Status operation
