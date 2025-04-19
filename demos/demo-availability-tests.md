@@ -107,7 +107,7 @@ Show the standard tests. They are deployed as part of the Bicep infrastructure a
    **Do not use secrets here!** The values are stored in plain text in the test definition and Key Vault references are not supported.
 
 
-### Azure Function
+### Azure Functions
 
 Show the Azure Functions implementation.
 
