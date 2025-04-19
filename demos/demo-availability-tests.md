@@ -81,7 +81,7 @@ Show the standard tests. They are deployed as part of the Bicep infrastructure a
    This test checks that the `/backend/status` endpoint in the API Management service is available.   
 
    Some things to note about this test:
-   - The webtest is linked to Application Insights via a hidden tag.
+   - The webtest resource is linked to Application Insights via a hidden tag.
    - The frequency is set to 300 seconds (5 minutes) and the test is executed from 5 different locations. 
      This means that the test is executed from each location every 5 minutes. Note that the tests will not run exactly every minute.
    - The retry has been disabled for demo purposes.
