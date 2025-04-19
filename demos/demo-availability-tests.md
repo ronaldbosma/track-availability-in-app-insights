@@ -57,7 +57,7 @@ Show details of a test executed from an Logic App Workflow.
 1. Select the `Logic App Workflow - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
 1. Click on an availability test result in the right pane to view the details.
-1. Show the information in the end-to-end transaction details screen. Both the logging of the Logic App Workflow and the API Management request logging are included. The trace a little bit more 'messy' then the others because of the way the Logic App tracks the availability result as a separate action.  
+1. Show the information in the end-to-end transaction details screen. Both the logging of the Logic App Workflow and the API Management request logging are included. The timeline is a little bit 'messy' compared to the others because of the way the Logic App tracks the availability result as a separate action.  
 
    ![Logic App Workflow - End-to-end Transaction Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow-end-to-end-transaction-details.png)
 
