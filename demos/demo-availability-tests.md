@@ -159,7 +159,13 @@ Show the Azure Functions implementation.
 
 ### Logic App Workflow
 
-> TODO
+> TODO: more details
+
+1. Open the workflow `backend-availability-test` workflow in the Azure portal _(or open [workflow.json](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Workflows/backend-availability-test/workflow.json) in the VS Code designer)_.  
+
+   ![Logic App Workflow](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow.png)
+
+1. [AvailabilityTestFunctions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Functions/AvailabilityTestFunctions.cs)
 
 ### Alerts
 
