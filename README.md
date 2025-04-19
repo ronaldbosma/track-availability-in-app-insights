@@ -5,6 +5,28 @@ An `azd` template (Bicep) that implements three different ways to track availabi
 > [!NOTE]  
 > This template is still under construction.
 
+## Overview
+
+This template deploys the following resources:
+
+![Track Availability App](/images/track-availability-diagrams-app.png)
+
+The following availability tests are deployed:
+- Two standard tests (webtest):
+  1. Checks the availability of an API in API Management every 5 minutes from 5 locations
+  1. Checks the validity of the SSL certificate of the API Management service
+- Two Azure Functions:
+  1. Checks the availability of an API in API Management every minute
+  1. Checks the validity of the SSL certificate of the API Management service
+- A Logic App workflow:
+  1. Checks the availability of an API in API Management every minute
+
+For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a configurable approximate failure percentage. Note that you can use any backend to check for availability, not just an API in API Management.
+
+After deployment, availability test results should appear in Application Insights. See the following image for an example:  
+
+![Availability Test Results](/images/availability-test-results.png)
+
 ## Getting Started
 
 ### Prerequisites  
