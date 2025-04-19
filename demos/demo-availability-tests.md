@@ -22,6 +22,8 @@ Show the availability test results.
 
    ![Availability Test Results](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/availability-test-results.png)
 
+   Note the `CUSTOM` label on some of the tests. This indicates that the test is not a standard test executed from App Insights, but a custom test executed from a different location that publishes its results to App Insights.
+
 #### Standard Test Result
 
 Show details of a standard test.
