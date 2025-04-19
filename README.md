@@ -87,6 +87,31 @@ Once you're done and want to clean up, run the `azd down` command. By including 
 azd down --purge
 ```
 
+
+## Contents
+
+The repository consists of the following files and directories:
+
+```
+├── demos                      [ Demo guide(s) ]
+├── images                     [ Images used in the README ]
+├── infra                      [ Infrastructure As Code files ]
+│   |── functions              [ Bicep user-defined functions ]
+│   ├── modules                
+│   │   ├── application        [ Modules for application infrastructure resources ]
+│   │   ├── services           [ Modules for all Azure services ]
+│   │   └── shared             [ Reusable modules ]
+│   ├── types                  [ Bicep user-defined types ]
+│   ├── main.bicep             [ Main infrastructure file ]
+│   └── main.parameters.json   [ Parameters file ]
+├── src                        [ Application code ]
+│   ├── functionApp            [ Azure Functions ]
+│   └── logicApp               [ Logic App workflow]
+├── azure.yaml                 [ Describes the apps and types of Azure resources ]
+└── bicepconfig.json           [ Bicep configuration file ]
+```
+
+
 ## Troubleshooting
 
 ### API Management deployment failed because the service already exists in soft-deleted state
