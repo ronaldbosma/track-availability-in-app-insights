@@ -159,7 +159,8 @@ Show the Azure Functions implementation.
 
 ### Logic App Workflow
 
-
+> TODO
 
 ### Alerts
 
+> TODO
