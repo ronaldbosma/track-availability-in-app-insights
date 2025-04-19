@@ -87,12 +87,12 @@ Show the standard tests. They are deployed as part of the Bicep infrastructure a
    - The retry has been disabled for demo purposes.
    - The SSL check has been disabled.
 
-1. Locate the `apimSslCertificateCheckAvailabilityTest` resource that deploys the `Standard Test - API Management SSL Certificate Check'` test.  
+1. Locate the `apimSslCertificateCheckAvailabilityTest` resource that deploys the `Standard Test - API Management SSL Certificate Check` test.  
 
    The purpose of this test is to check that the SSL certificate of API Management is valid and not close to expiring. 
    This test use the standard status endpoint of the API Management service to check for availability. 
    In this case we use `/internal-status-0123456789abcdef` because we've deployed the Consumption tier of API Management. 
-   For other API Management iters you can use `/status-0123456789abcdef`  .
+   For other API Management iters you can use `/status-0123456789abcdef`.  
 
    Some things to note about this test:  
    - The SSL check has been enabled and the test will fail if the certificate expires within 30 days or has already expired.
@@ -104,6 +104,7 @@ Show the standard tests. They are deployed as part of the Bicep infrastructure a
 1. Click the `Availability` tab in the left menu.
 1. Click on the Edit button (pencil) of the `Standard Test - Backend API Status` test.
 1. Note that you can add custom headers to be passed with the request under `Standard test info`. 
+
    **Do not use secrets here!** The values are stored in plain text in the test definition and Key Vault references are not supported.
 
 
@@ -161,7 +162,7 @@ Show the Azure Functions implementation.
 
 > TODO: more details
 
-1. Open the workflow `backend-availability-test` workflow in the Azure portal _(or open [workflow.json](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Workflows/backend-availability-test/workflow.json) in the VS Code designer)_.  
+1. Open the workflow `backend-availability-test` workflow in the Azure portal _(or open [workflow.json](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Workflows/backend-availability-test/workflow.json) in the Logic App designer of VS Code)_.  
 
    ![Logic App Workflow](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow.png)
 
