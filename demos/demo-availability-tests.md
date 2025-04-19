@@ -66,3 +66,52 @@ Show details of a test executed from an Logic App Workflow.
    Both the logging of the Logic App Workflow and the API Management request logging are included. The timeline is a little bit 'messy' compared to the others because of the way the Logic App tracks the availability result as a separate action.
 
 1. Close the end-to-end transaction details.
+
+
+### Standard Tests
+
+Show the standard tests. They are deployed as part of the Bicep infrastructure and defined in the `availability-tests.bicep` file.
+
+1. Open [availability-tests.bicep](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/infra/modules/application/availability-tests.bicep).
+
+1. Locate the `backendApiStatusAvailabilityTest` resource that deploys the `Standard Test - Backend API Status` test.  
+
+   This test checks that the `/backend/status` endpoint in the API Management service is available.   
+
+   Some things to note about this test:
+   - The webtest is linked to Application Insights via a hidden tag.
+   - The frequency is set to 300 seconds (5 minutes) and the test is executed from 5 different locations. 
+     This means that the test is executed from each location every 5 minutes. Note that the tests will not run exactly every minute.
+   - The retry has been disabled for demo purposes.
+   - The SSL check has been disabled.
+
+1. Locate the `apimSslCertificateCheckAvailabilityTest` resource that deploys the `Standard Test - API Management SSL Certificate Check'` test.  
+
+   The purpose of this test is to check that the SSL certificate of API Management is valid and not close to expiring. 
+   This test use the standard status endpoint of the API Management service to check for availability. 
+   In this case we use `/internal-status-0123456789abcdef` because we've deployed the Consumption tier of API Management. 
+   For other API Management iters you can use `/status-0123456789abcdef`  .
+
+   Some things to note about this test:  
+   - The SSL check has been enabled and the test will fail if the certificate expires within 30 days or has already expired.
+   - The frequency is as high as possible (15 minutes) because we don't have to be notified the instant that the certificate expires within 30 days.
+     It also runs from only one location to reduce cost.
+   - The retry has been disabled for demo purposes.
+
+1. Navigate to the Application Insights resource in the Azure portal.
+1. Click the `Availability` tab in the left menu.
+1. Click on the Edit button (pencil) of the `Standard Test - Backend API Status` test.
+1. Note that you can add custom headers to be passed with the request under `Standard test info`. 
+   **Do not use secrets here!** The values are stored in plain text in the test definition and Key Vault references are not supported.
+
+
+### Azure Function
+
+
+
+### Logic App Workflow
+
+
+
+### Alerts
+
