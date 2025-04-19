@@ -29,9 +29,11 @@ Show details of a standard test.
 1. Select the `Standard Test - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
 1. Click on an availability test result in the right pane to view the details.
-1. Show the information in the end-to-end transaction details screen. Note that the API Mangement request logging is included. See the following image for an example:  
+1. Show the information in the end-to-end transaction details screen. See the following image for an example:  
 
    ![Standard Test - End-to-end Transaction Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/standard-test-end-to-end-transaction-details.png)
+
+   Note that the API Mangement request logging is included.
 
 1. Close the end-to-end transaction details.
 
@@ -42,9 +44,11 @@ Show details of a test executed from an Azure Function.
 1. Select the `Azure Function - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
 1. Click on an availability test result in the right pane to view the details.
-1. Show the information in the end-to-end transaction details screen. Both the logging of the Azure Function and the API Management request logging are included. See the following image for an example:  
+1. Show the information in the end-to-end transaction details screen. See the following image for an example:  
 
    ![Azure Function - End-to-end Transaction Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/azure-function-end-to-end-transaction-details.png)
+
+   Both the logging of the Azure Function and the API Management request logging are included.
 
 1. Close the end-to-end transaction details.
 
@@ -55,8 +59,10 @@ Show details of a test executed from an Logic App Workflow.
 1. Select the `Logic App Workflow - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
 1. Click on an availability test result in the right pane to view the details.
-1. Show the information in the end-to-end transaction details screen. Both the logging of the Logic App Workflow and the API Management request logging are included. The timeline is a little bit 'messy' compared to the others because of the way the Logic App tracks the availability result as a separate action. See the following image for an example:  
+1. Show the information in the end-to-end transaction details screen. See the following image for an example:  
 
    ![Logic App Workflow - End-to-end Transaction Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow-end-to-end-transaction-details.png)
+
+   Both the logging of the Logic App Workflow and the API Management request logging are included. The timeline is a little bit 'messy' compared to the others because of the way the Logic App tracks the availability result as a separate action.
 
 1. Close the end-to-end transaction details.
