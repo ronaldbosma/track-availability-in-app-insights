@@ -19,6 +19,6 @@ services:
         shell: pwsh
         continueOnError: false
         interactive: true
-        run: dotnet build ../Functions/Functions.csproj --configuration Release
+        run: dotnet build ../Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj --configuration Release
 requiredVersions: 
   azd: ">= 1.12.0"  # azd version 1.12.0 or later is required because of the use of the Bicep deployer() function
