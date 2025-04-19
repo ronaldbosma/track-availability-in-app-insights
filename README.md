@@ -93,12 +93,12 @@ If you've previously deployed this template and deleted the resources, you may e
 ```json
 {
     "code": "DeploymentFailed",
-    "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-track-availability-frc-btmwt/providers/Microsoft.Resources/deployments/apiManagement",
+    "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-track-availability-sdc-cliqc/providers/Microsoft.Resources/deployments/apiManagement",
     "message": "At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/arm-deployment-operations for usage details.",
     "details": [
         {
             "code": "ServiceAlreadyExistsInSoftDeletedState",
-            "message": "Api service apim-track-availability-frc-btmwt was soft-deleted. In order to create the new service with the same name, you have to either undelete the service or purge it. See https://aka.ms/apimsoftdelete."
+            "message": "Api service apim-track-availability-sdc-cliqc was soft-deleted. In order to create the new service with the same name, you have to either undelete the service or purge it. See https://aka.ms/apimsoftdelete."
         }
     ]
 }
@@ -107,7 +107,7 @@ If you've previously deployed this template and deleted the resources, you may e
 Use the [az apim deletedservice list](https://learn.microsoft.com/en-us/cli/azure/apim/deletedservice?view=azure-cli-latest#az-apim-deletedservice-list) Azure CLI command to list all deleted API Management services in your subscription. Locate the service that is in a soft-deleted state and purge it using the [purge](https://learn.microsoft.com/en-us/cli/azure/apim/deletedservice?view=azure-cli-latest#az-apim-deletedservice-purge) command. See the following example:
 
 ```cmd
-az apim deletedservice purge --location "swedencentral" --service-name "apim-track-availability-frc-btmwt"
+az apim deletedservice purge --location "swedencentral" --service-name "apim-track-availability-sdc-cliqc"
 ```
 
 ### Function App deployment failed because of quota limitations
@@ -167,7 +167,7 @@ Sometimes the requests and traces don't show up in Application Insights & Log An
 To resolve this, first remove the environment using `azd down --purge`. Then, permanently delete the Log Analytics workspace using the [`az monitor log-analytics workspace delete`](https://learn.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az-monitor-log-analytics-workspace-delete) command. Here's an example:
 
 ```cmd
-az monitor log-analytics workspace delete --resource-group rg-track-availability-frc-btmwt --workspace-name log-track-availability-frc-btmwt --force
+az monitor log-analytics workspace delete --resource-group rg-track-availability-sdc-cliqc --workspace-name log-track-availability-sdc-cliqc --force
 ```
 
 After that, redeploy the template. If logging still doesn't appear, deploy the template in a different region or using a different environment name.
