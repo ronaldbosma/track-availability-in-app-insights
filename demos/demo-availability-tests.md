@@ -109,7 +109,53 @@ Show the standard tests. They are deployed as part of the Bicep infrastructure a
 
 ### Azure Function
 
+Show the Azure Functions implementation.
 
+1. Open [AvailabilityTest.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/AvailabilityTests/AvailabilityTest.cs).  
+
+   This generic class implements the logic to check for availability and publish the results to Application Insights. 
+   The class requires a test name, function that performs the availability check and a `TelemetryClient` instance.  
+
+   The `ExecuteAsync` method performs the following steps:
+   - An `AvailabilityTelemetry` instance is created which holds the availability test result data.
+   - A `Stopwatch` is used to measure the duration of the test.
+   - An `Activity` is created to enable distributed tracing and correlation of telemetry in App Insights.  
+     Within the activity scope:
+     - Several IDs on the activity are configured on the availability telemetry to enable correlation.
+     - The start time of the test is set.
+     - The method is executed that performs the actual availability check.
+   - If an exception is thrown, the message and exception details are added to the availability telemetry instance.
+   - At then end
+     - The duration of the test is set.
+     - The availability telemetry is published to Application Insights.
+
+1. Open [HttpGetRequestAvailabilityTest.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/AvailabilityTests/HttpGetRequestAvailabilityTest.cs).  
+   
+   Most availability test usually perform an HTTP GET request to check for availability. 
+   The `HttpGetRequestAvailabilityTest` class wraps the `AvailabilityTest` class and provides a default implementation of the `checkAvailabilityAsync` method to perform a GET request on a configured URL.
+
+1. Open [AvailabilityTestFactory.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/AvailabilityTests/AvailabilityTestFactory.cs). This class is a simple factory class to create instances of `IAvailabilityTest`.
+
+1. Open [BackendStatusAvailabilityTest.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/BackendStatusAvailabilityTest.cs).  
+
+   The function is executed every minute.
+   It uses the `HttpGetRequestAvailabilityTest` class to perform a HTTP GET request on the `/backend/status` endpoint in API Management to check for availability. 
+   
+
+1. Open [ApimSslCertificateCheckAvailabilityTest.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/ApimSslCertificateCheckAvailabilityTest.cs).  
+   
+   The function is executed every minute.
+   It uses the `AvailabilityTest` class to check if the SSL certificate of API Management is nearly expired or already expired.
+   The implementation for the check is provided in the `CheckSslCertificateAsync` method, which inturn uses [SslCertificateValidator](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/AvailabilityTests/SslCertificateValidator.cs) class.
+
+1. The necessary DI registrations are configured in [ServiceCollectionExtensions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/ServiceCollectionExtensions.cs).
+
+   Note the following setup of Application Insights. These are required to setup logging and for the `TelemetryClient` to be configured.
+
+   ```csharp
+   services.AddApplicationInsightsTelemetryWorkerService()
+           .ConfigureFunctionsApplicationInsights();
+   ```
 
 ### Logic App Workflow
 
