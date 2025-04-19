@@ -13,13 +13,13 @@ This template deploys the following resources:
 
 The following availability tests are deployed:
 - Two standard tests (webtest):
-  1. Checks the availability of an API in API Management every 5 minutes from 5 locations
-  1. Checks the validity of the SSL certificate of the API Management service
+  1. Checks the availability of an API every 5 minutes from 5 locations
+  1. Checks the validity of the SSL certificate of the API
 - Two Azure Functions:
-  1. Checks the availability of an API in API Management every minute
-  1. Checks the validity of the SSL certificate of the API Management service
+  1. Checks the availability of an API every minute
+  1. Checks the validity of the SSL certificate of the API
 - A Logic App workflow:
-  1. Checks the availability of an API in API Management every minute
+  1. Checks the availability of an API every minute
 
 For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a configurable approximate failure percentage. Note that you can use any backend to check for availability, not just an API in API Management.
 
