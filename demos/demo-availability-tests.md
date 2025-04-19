@@ -24,7 +24,9 @@ Show the availability test results.
 
    ![Availability Test Results](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/availability-test-results.png)
 
-Show details of a `standard test`.
+#### Standard Test Result
+
+Show details of a standard test.
 
 1. Select the `Standard Test - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
@@ -35,7 +37,9 @@ Show details of a `standard test`.
 
 1. Close the end-to-end transaction details.
 
-Show details of a test executed from an `Azure Function`.
+#### Azure Function Test Result
+
+Show details of a test executed from an Azure Function.
 
 1. Select the `Azure Function - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
@@ -46,7 +50,9 @@ Show details of a test executed from an `Azure Function`.
 
 1. Close the end-to-end transaction details.
 
-Show details of a test executed from an `Logic App Workflow`.
+#### Logic App Workflow Test Result
+
+Show details of a test executed from an Logic App Workflow.
 
 1. Select the `Logic App Workflow - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
