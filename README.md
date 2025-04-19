@@ -72,6 +72,10 @@ Once `azd` is installed on your machine, you can deploy this template using the 
 
 1. Once the deployment is complete, you can locally modify the application or infrastructure and run `azd up` again to update the resources in Azure.
 
+### Demo
+
+See the [Demo Guide](demos/demo-availability-tests.md) for a step-by-step walkthrough on how to check and demonstrate the deployed availability tests.
+
 ### Clean up
 
 Once you're done and want to clean up, run the `azd down` command. By including the `--purge` parameter, you ensure that the API Management service doesn't remain in a soft-deleted state, which could block future deployments of the same environment.
