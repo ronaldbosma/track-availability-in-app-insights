@@ -251,3 +251,6 @@ output AZURE_KEY_VAULT_NAME string = keyVaultName
 output AZURE_LOGIC_APP_NAME string = logicAppSettings.logicAppName
 output AZURE_RESOURCE_GROUP string = resourceGroupName
 output AZURE_STORAGE_ACCOUNT_NAME string = storageAccountName
+
+// Return the approximate failure percentage
+output APPROXIMATE_FAILURE_PERCENTAGE int = approximateFailurePercentage
