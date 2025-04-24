@@ -56,7 +56,7 @@ Show details of a test executed from an Azure Function.
 
 #### Logic App Workflow Test Result
 
-Show details of a test executed from an Logic App Workflow.
+Show details of a test executed from a Logic App Workflow.
 
 1. Select the `Logic App Workflow - Backend API Status` test.
 1. Click on either `Successful` or `Failed`.
