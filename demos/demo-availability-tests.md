@@ -160,13 +160,31 @@ Show the Azure Functions implementation.
 
 ### Logic App Workflow
 
-> TODO: more details
+Show the Logic App workflow implementation. 
 
-1. Open the workflow `backend-availability-test` workflow in the Azure portal _(or open [workflow.json](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Workflows/backend-availability-test/workflow.json) in the Logic App designer of VS Code)_.  
+1. Navigate to the Logic App resource in the Azure portal.
+
+1. Open the workflow `backend-availability-test` workflow. The designer should open with the following workflow:  
 
    ![Logic App Workflow](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow.png)
 
-1. [AvailabilityTestFunctions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Functions/AvailabilityTestFunctions.cs)
+   Some things to note about this workflow:
+   - It triggers every minute.
+   - A `TestName` variable is set.
+   - A timer is started.
+   - In the `HTTP` action a call to the `/backend/status` endpoint in API Management is made.
+   - Depending on the response:
+     - if successful, the backend is tracked as available in Application Insights
+     - if failed, the backend is tracked as unavailable in Application Insights
+
+1. The 'Track is (un)available...' actions use custom functions that are deployed inside the Logic App along side the workflow. 
+   Open [AvailabilityTestFunctions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Functions/AvailabilityTestFunctions.cs) to view the implementation.  
+
+   - A `TelemetryClient` instance is created in the constructor of the class.
+   - The `TrackAvailability` and `TrackUnavailability` functions use the `TrackAvailability` method that:
+     - Creates an `AvailabilityTelemetry` object with the test results
+     - Creates an `Activity` to enable distributed tracing and correlation of telemetry in App Insights. 
+     - Publishes the availability telemetry to Application Insights.
 
 ### Alerts
 
