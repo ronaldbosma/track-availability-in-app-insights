@@ -209,7 +209,8 @@ When a test fails, an alert is fired. Follow these steps to view the alert:
 
 1. Open the [alerts.bicep](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/infra/modules/application/alerts.bicep) file to review the Bicep definition.  
 
-   A single alert is created that is triggered when any of the availability tests fail. This way we can also monitor availability tests that are exectued from an Azure Function or Logic App workflow.  
+   A single alert is created that is triggered when any of the availability tests fail. 
+   This way we can also monitor availability tests that are exectuted from an Azure Function or Logic App workflow.  
    
    - The alert is evaluated every 5 minutes.
    - The alert triggers when an availability test doesn't succeed 100% of the time in the last 5 minutes.
