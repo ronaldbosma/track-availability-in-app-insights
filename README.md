@@ -92,7 +92,7 @@ azd down --purge
 The backend API will randomly return errors for an approximate percentage based on the `approximateFailurePercentage` parameter that you can configure in [main.parameters.json](/infra/main.parameters.json). 
 In the following example, the approximate failure percentage is set to 10%:
 
-```json
+```
 "approximateFailurePercentage": {
   "value": ${APPROXIMATE_FAILURE_PERCENTAGE=10}
 }
