@@ -27,6 +27,10 @@ After deployment, availability test results should appear in Application Insight
 
 ![Availability Test Results](/images/availability-test-results.png)
 
+When tests fail, alerts will fire in Azure Monitor.  See the following image for examples:  
+
+![Alerts](/images/alerts.png)
+
 See the [Demo Guide](demos/demo-availability-tests.md) for a more detailed overview of what's included in this template and how it works.
 
 Some things to take note of:
