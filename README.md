@@ -1,9 +1,9 @@
 # Track Availability in Application Insights
 
-An `azd` template (Bicep) that implements three different ways to track availability in Application Insights: a standard test (webtest), an Azure Function and a Logic App workflow.
-
-> [!NOTE]  
-> This template is still under construction.
+An `azd` template (Bicep) that implements three different ways to track availability in Application Insights using: 
+- a standard test (webtest)
+- an Azure Function
+- a Logic App workflow
 
 ## Overview
 
