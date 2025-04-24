@@ -21,9 +21,7 @@ The following availability tests are deployed:
 - A Logic App workflow:
   1. Checks the availability of an API every minute
 
-This sample uses Azure Functions to perform availability tests from code because it provides an easy way to trigger the tests on a schedule, but you can use other services that can host .NET code as well.
-
-For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a [configurable approximate failure percentage](#configure-approximate-failure-percentage). Note that you can use any backend to check for availability, not just an API in API Management.
+For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a [configurable approximate failure percentage](#configure-approximate-failure-percentage). 
 
 After deployment, availability test results should appear in Application Insights. See the following image for an example:  
 
@@ -31,6 +29,11 @@ After deployment, availability test results should appear in Application Insight
 
 See the [Demo Guide](demos/demo-availability-tests.md) for a more detailed overview of what's included in this template and how it works.
 
+Some things to take note of:
+- This sample uses Azure Functions to perform availability tests from code because they provide an easy way to trigger the tests on a schedule. You can use other services that can host .NET code as well.
+- The Logic App sample is not entirely low code. A [Logic App with custom .NET code](https://learn.microsoft.com/en-us/azure/logic-apps/create-run-custom-code-functions) is used in order to track the availability in Application Insights. 
+  A [custom connector](https://github.com/ronaldbosma/LogicApps.ServiceProviders.ApplicationInsights.TrackAvailability) is in the works, but it's not available yet due to some challenges with deployment.
+- You can use any backend to check for availability, not just an API in API Management.
 
 ## Getting Started
 
