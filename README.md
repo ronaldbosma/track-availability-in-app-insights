@@ -119,6 +119,7 @@ The repository consists of the following files and directories:
 
 ```
 ├── demos                      [ Demo guide(s) ]
+├── hooks                      [ AZD hooks ]
 ├── images                     [ Images used in the README ]
 ├── infra                      [ Infrastructure As Code files ]
 │   |── functions              [ Bicep user-defined functions ]
