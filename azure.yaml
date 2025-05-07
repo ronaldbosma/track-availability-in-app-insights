@@ -3,6 +3,10 @@
 name: track-availability-in-app-insights
 metadata:
   template: track-availability-in-app-insights@0.0.1
+hooks:
+  predown:
+    shell: pwsh
+    run: ./hooks/predown.ps1
 services:
   functionApp:
     project: ./src/functionApp/TrackAvailabilityInAppInsights.FunctionApp
