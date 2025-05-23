@@ -18,12 +18,9 @@ services:
     host: function
     language: js  # Logic Apps aren't natively supported by azd yet. By using js, the logic app will be zipped and deployed.
     hooks:
-      # This service is a Logic App with custom .NET code project. We need to build the .NET project first
-      # in order for the assemblies to be included in the /lib/custom folder of the Logic App
       prepackage:
         shell: pwsh
-        continueOnError: false
+        run: ../../../hooks/prepackage-logicapp-build-functions-project.ps1
         interactive: true
-        run: dotnet build ../Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj --configuration Release
 requiredVersions: 
   azd: ">= 1.12.0"  # azd version 1.12.0 or later is required because of the use of the Bicep deployer() function
