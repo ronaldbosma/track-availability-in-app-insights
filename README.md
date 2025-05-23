@@ -54,7 +54,7 @@ Before you can deploy this template, make sure you have the following tools inst
   _(This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.)_
 - [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) 
   _(This template has several hooks. See [this section](#hooks) for more information.)_
-- You need Owner or Contributor permissions on an Azure Subscription to deploy this template.  
+- You need **Owner** permissions, or a combination of **Contributor** and **Role Based Access Control Administrator** permissions on an Azure Subscription to deploy this template.
 
 ### Deployment
 
