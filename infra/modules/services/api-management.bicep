@@ -73,6 +73,7 @@ module assignRolesToApimSystemAssignedIdentity '../shared/assign-roles-to-princi
   name: 'assignRolesToApimSystemAssignedIdentity'
   params: {
     principalId: apiManagementService.identity.principalId
+    principalType: 'ServicePrincipal'
     keyVaultName: keyVaultName
   }
 }

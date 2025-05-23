@@ -122,6 +122,7 @@ module assignRolesToFunctionAppSystemAssignedIdentity '../shared/assign-roles-to
   name: 'assignRolesToFunctionAppSystemAssignedIdentity'
   params: {
     principalId: functionApp.identity.principalId
+    principalType: 'ServicePrincipal'
     keyVaultName: keyVaultName
     storageAccountName: storageAccountName
   }

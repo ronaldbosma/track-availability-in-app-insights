@@ -127,6 +127,7 @@ module assignRolesToLogicAppSystemAssignedIdentity '../shared/assign-roles-to-pr
   name: 'assignRolesToLogicAppSystemAssignedIdentity'
   params: {
     principalId: logicApp.identity.principalId
+    principalType: 'ServicePrincipal'
     keyVaultName: keyVaultName
     storageAccountName: storageAccountName
   }
