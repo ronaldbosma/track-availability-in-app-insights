@@ -48,7 +48,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   name: keyVaultName
 }
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' existing = if (storageAccountName != '') {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' existing = if (storageAccountName != '') {
   name: storageAccountName
 }
 

@@ -20,7 +20,7 @@ param approximateFailurePercentage int
 // Existing resources
 //=============================================================================
 
-resource apiManagementService 'Microsoft.ApiManagement/service@2023-09-01-preview' existing = {
+resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-preview' existing = {
   name: apiManagementServiceName
 }
 
@@ -34,7 +34,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
 
 // Named value for approximate failure percentage
 
-resource approximateFailurePercentageNamedValue 'Microsoft.ApiManagement/service/namedValues@2023-09-01-preview' = {
+resource approximateFailurePercentageNamedValue 'Microsoft.ApiManagement/service/namedValues@2024-06-01-preview' = {
   name: 'approximate-failure-percentage'
   parent: apiManagementService
   properties: {
@@ -45,7 +45,7 @@ resource approximateFailurePercentageNamedValue 'Microsoft.ApiManagement/service
 
 // Backend API
 
-resource backendApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = {
+resource backendApi 'Microsoft.ApiManagement/service/apis@2024-06-01-preview' = {
   name: 'backend-api'
   parent: apiManagementService
   properties: {
@@ -83,7 +83,7 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = 
 
 // Function App Subscription
 
-resource functionAppSubscription 'Microsoft.ApiManagement/service/subscriptions@2023-09-01-preview' = {
+resource functionAppSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-06-01-preview' = {
   parent: apiManagementService
   name: 'function-app'
   properties: {
@@ -104,7 +104,7 @@ resource functionAppSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@202
 
 // Logic App Subscription
 
-resource logicAppSubscription 'Microsoft.ApiManagement/service/subscriptions@2023-09-01-preview' = {
+resource logicAppSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-06-01-preview' = {
   parent: apiManagementService
   name: 'logic-app'
   properties: {
