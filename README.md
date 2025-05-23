@@ -53,7 +53,7 @@ Before you can deploy this template, make sure you have the following tools inst
 - [npm CLI](https://nodejs.org/) 
   _(This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.)_
 - [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) 
-  _(This template has several hooks: one to build the custom .NET code project for the Logic App using a prepackage hook, and a predown hook to permanently delete the log analytics workspace to prevent issues with future deployments.)_
+  _(This template has several hooks. See [this section](#hooks) for more information.)_
 - You need Owner or Contributor permissions on an Azure Subscription to deploy this template.  
 
 ### Deployment
@@ -136,6 +136,20 @@ The repository consists of the following files and directories:
 ├── azure.yaml                 [ Describes the apps and types of Azure resources ]
 └── bicepconfig.json           [ Bicep configuration file ]
 ```
+
+
+## Hooks
+
+This template has several hooks that are executed at different stages of the deployment process. The following hooks are included:
+
+- [predown-remove-law.ps1](hooks/predown-remove-law.ps1): 
+  This PowerShell script is executed before the resources are removed. 
+  It permanently deletes the Log Analytics workspace to prevent issues with future deployments. 
+  Sometimes the requests and traces don't show up in Application Insights & Log Analytics when removing and deploying the template multiple times.
+
+- [prepackage-logicapp-build-functions-project.ps1](hooks/prepackage-logicapp-build-functions-project.ps1): 
+  This PowerShell script is executed before the Logic App is packaged. 
+  It builds the custom .NET code project for the Logic App using the `dotnet build` command.
 
 
 ## Troubleshooting
