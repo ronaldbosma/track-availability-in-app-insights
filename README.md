@@ -142,14 +142,14 @@ The repository consists of the following files and directories:
 
 This template has several hooks that are executed at different stages of the deployment process. The following hooks are included:
 
+- [prepackage-logicapp-build-functions-project.ps1](hooks/prepackage-logicapp-build-functions-project.ps1): 
+  This PowerShell script is executed before the Logic App is packaged. 
+  It builds the custom .NET code project for the Logic App using the `dotnet build` command.
+
 - [predown-remove-law.ps1](hooks/predown-remove-law.ps1): 
   This PowerShell script is executed before the resources are removed. 
   It permanently deletes the Log Analytics workspace to prevent issues with future deployments. 
   Sometimes the requests and traces don't show up in Application Insights & Log Analytics when removing and deploying the template multiple times.
-
-- [prepackage-logicapp-build-functions-project.ps1](hooks/prepackage-logicapp-build-functions-project.ps1): 
-  This PowerShell script is executed before the Logic App is packaged. 
-  It builds the custom .NET code project for the Logic App using the `dotnet build` command.
 
 
 ## Troubleshooting
