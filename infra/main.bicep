@@ -88,7 +88,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-07-01' = {
 }
 
 module keyVault 'modules/services/key-vault.bicep' = {
-  name: 'keyVault'
   scope: resourceGroup
   params: {
     location: location
@@ -98,7 +97,6 @@ module keyVault 'modules/services/key-vault.bicep' = {
 }
 
 module storageAccount 'modules/services/storage-account.bicep' = {
-  name: 'storageAccount'
   scope: resourceGroup
   params: {
     location: location
@@ -108,7 +106,6 @@ module storageAccount 'modules/services/storage-account.bicep' = {
 }
 
 module appInsights 'modules/services/app-insights.bicep' = {
-  name: 'appInsights'
   scope: resourceGroup
   params: {
     location: location
@@ -118,7 +115,6 @@ module appInsights 'modules/services/app-insights.bicep' = {
 }
 
 module apiManagement 'modules/services/api-management.bicep' = {
-  name: 'apiManagement'
   scope: resourceGroup
   params: {
     location: location
@@ -134,7 +130,6 @@ module apiManagement 'modules/services/api-management.bicep' = {
 }
 
 module functionApp 'modules/services/function-app.bicep' = {
-  name: 'functionApp'
   scope: resourceGroup
   params: {
     location: location
@@ -154,7 +149,6 @@ module functionApp 'modules/services/function-app.bicep' = {
 }
 
 module logicApp 'modules/services/logic-app.bicep' = {
-  name: 'logicApp'
   scope: resourceGroup
   params: {
     location: location
@@ -174,7 +168,6 @@ module logicApp 'modules/services/logic-app.bicep' = {
 }
 
 module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = {
-  name: 'assignRolesToDeployer'
   scope: resourceGroup
   params: {
     principalId: deployer().objectId
@@ -194,7 +187,6 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
 //=============================================================================
 
 module backendApi 'modules/application/backend-api.bicep' = {
-  name: 'backendApi'
   scope: resourceGroup
   params: {
     apiManagementServiceName: apiManagementSettings.serviceName
@@ -208,7 +200,6 @@ module backendApi 'modules/application/backend-api.bicep' = {
 }
 
 module availabilityTests 'modules/application/availability-tests.bicep' = {
-  name: 'availabilityTests'
   scope: resourceGroup
   params: {
     environmentName: environmentName
@@ -225,7 +216,6 @@ module availabilityTests 'modules/application/availability-tests.bicep' = {
 }
 
 module alerts 'modules/application/alerts.bicep' = {
-  name: 'alerts'
   scope: resourceGroup
   params: {
     environmentName: environmentName

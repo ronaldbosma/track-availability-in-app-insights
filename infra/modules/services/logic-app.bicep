@@ -124,7 +124,6 @@ resource logicApp 'Microsoft.Web/sites@2024-04-01' = {
 // Assign roles to system-assigned identity of Logic App
 
 module assignRolesToLogicAppSystemAssignedIdentity '../shared/assign-roles-to-principal.bicep' = {
-  name: 'assignRolesToLogicAppSystemAssignedIdentity'
   params: {
     principalId: logicApp.identity.principalId
     principalType: 'ServicePrincipal'
@@ -139,7 +138,6 @@ module assignRolesToLogicAppSystemAssignedIdentity '../shared/assign-roles-to-pr
 //        to prevent other (manually) created app settings from being removed.
 
 module setLogicAppSettings '../shared/merge-app-settings.bicep' = {
-  name: 'setLogicAppSettings'
   params: {
     siteName: logicAppSettings.logicAppName
     currentAppSettings: list('${logicApp.id}/config/appsettings', logicApp.apiVersion).properties
