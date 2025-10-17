@@ -39,6 +39,10 @@ Some things to take note of:
   A [custom connector](https://github.com/ronaldbosma/LogicApps.ServiceProviders.ApplicationInsights.TrackAvailability) is in the works, but it's not available yet due to some challenges with deployment.
 - You can use any backend to check for availability, not just an API in API Management.
 
+> [!IMPORTANT]  
+> This template is not production-ready; it uses minimal cost SKUs and omits network isolation, advanced security, governance and resiliency. Harden security, implement enterprise controls and/or replace modules with [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/) before any production use.
+
+
 ## Getting Started
 
 ### Prerequisites  
