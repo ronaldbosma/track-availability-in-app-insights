@@ -49,7 +49,7 @@ $retryIntervalSeconds = 10
 # Tracking: use script start as offset for the lookback window
 $startTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
 
-Write-Host 'Starting availability tests verification (metrics method)...'
+Write-Host 'Starting availability tests verification...'
 Write-Host "Checking for results published after $startTime"
 Write-Host "Retry strategy: $maxRetries retries every $retryIntervalSeconds seconds (total ~$([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes)"
 Write-Host ''
@@ -75,10 +75,10 @@ Write-Host ''
 $failedTests = @($summaryRows | Where-Object { $_.Status -ne 'Found' })
 
 if ($failedTests.Count -eq 0) {
-    Write-Host '✓ All tests verified successfully (metrics method)!'
+    Write-Host '✓ All tests verified successfully!'
     exit 0
 }
 else {
-    Write-Host '✗ Verification failed (metrics method). Some tests did not publish results.'
+    Write-Host '✗ Verification failed. Some tests did not publish results.'
     exit 1
 }
