@@ -196,7 +196,7 @@ jobs:
   # ------------------------------------------------------------
 
   verify-monitoring:
-    name: Execute Integration Tests
+    name: Verify Monitoring
     needs: deploy
     runs-on: ubuntu-latest
     permissions:
@@ -204,7 +204,6 @@ jobs:
     
     steps:
     # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
-    # This is necessary for the integration test to retrieve the APIM subscription key from Key Vault.
     - name: Azure CLI Login
       uses: azure/login@v2
       with:
