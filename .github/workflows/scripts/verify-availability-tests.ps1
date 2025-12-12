@@ -27,7 +27,7 @@ The list of availability test names to verify. Defaults to the five built-in tes
 .EXAMPLE
 PS> .\verify-availability-tests.ps1 -ResourceGroupName "rg-track-availability-sdc-cliqc" -AppInsightsName "appi-track-availability-sdc-cliqc" 
 
-Runs the verification with default retry settings and prints a summary.
+Runs the verification with default retry settings and tests.
 
 .EXAMPLE
 PS> .\verify-availability-tests.ps1 -ResourceGroupName "rg-track-availability-sdc-cliqc" -AppInsightsName "appi-track-availability-sdc-cliqc" -MaxRetries 45 -RetryIntervalSeconds 5 -StartTime (Get-Date).AddMinutes(-15) -TestNames @('Test A','Test B')
