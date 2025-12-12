@@ -203,6 +203,9 @@ jobs:
       id-token: write # Required to fetch an OIDC token for Azure authentication
     
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
     # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
     - name: Azure CLI Login
       uses: azure/login@v2
@@ -211,10 +214,18 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
         
-    # TODO: implement verification of availability tests
-    - name: Verify Availability Tests
+    - name: Verify Availability Tests (Metrics Method)
       run: |
-        az version
+        .\.github\workflows\scripts\verify-availability-tests-metrics.ps1 `
+          -ResourceGroupName "${{ needs.deploy.outputs.AZURE_RESOURCE_GROUP }}" `
+          -AppInsightsName "${{ needs.deploy.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}" `
+          -SubscriptionId $env:AZURE_SUBSCRIPTION_ID
+
+    - name: Verify Availability Tests (Query Method)
+      run: |
+        .\.github\workflows\scripts\verify-availability-tests-query.ps1 `
+          -ResourceGroupName "${{ needs.deploy.outputs.AZURE_RESOURCE_GROUP }}" `
+          -AppInsightsName "${{ needs.deploy.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}"
 
 
   # ------------------------------------------------------------
