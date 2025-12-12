@@ -162,7 +162,7 @@ This template has several hooks that are executed at different stages of the dep
 
 - [predown-remove-law.ps1](hooks/predown-remove-law.ps1): 
   This PowerShell script is executed before the resources are removed. 
-  It permanently deletes the Log Analytics workspace to prevent issues with future deployments. 
+  It permanently deletes all Log Analytics workspaces in the resource group to prevent issues with future deployments.
   Sometimes the requests and traces don't show up in Application Insights & Log Analytics when removing and deploying the template multiple times.
 
 
