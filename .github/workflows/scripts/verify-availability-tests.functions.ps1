@@ -13,8 +13,7 @@ function Get-AverageAvailabilityPercentageForTest {
         [Parameter(Mandatory = $true)] [string]$ResourceGroupName,
         [Parameter(Mandatory = $true)] [string]$AppInsightsName,
         [Parameter(Mandatory = $true)] [string]$TestName,
-        [Parameter(Mandatory = $true)] [string]$StartTime,
-        [Parameter(Mandatory = $true)] [string]$EndTime
+        [Parameter(Mandatory = $true)] [string]$StartTime
     )
 
     try {
@@ -24,7 +23,6 @@ function Get-AverageAvailabilityPercentageForTest {
             --resource-type 'Microsoft.Insights/components' `
             --metric 'availabilityResults/availabilityPercentage' `
             --start-time $StartTime `
-            --end-time $EndTime `
             --interval PT5M `
             --filter "availabilityResult/name eq '$TestName'" `
             --output json 2>$null | ConvertFrom-Json
