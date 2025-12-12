@@ -39,7 +39,7 @@ $testNames = @(
     'Azure Function - Backend API Status',
     'Logic App Workflow - Backend API Status',
     'Standard Test - API Management SSL Certificate Check',
-    'Standard Test - Backend API Statuss'
+    'Standard Test - Backend API Status'
 )
 
 $maxRetries = 30
