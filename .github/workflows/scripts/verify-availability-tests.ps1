@@ -149,7 +149,7 @@ function Test-AvailabilityMetricForTest {
         else {
             return [pscustomobject]@{
                 Name    = $TestName
-                Status  = 'NotFound'
+                Status  = 'Not Found'
                 Average = $null
                 Success = $false
             }
