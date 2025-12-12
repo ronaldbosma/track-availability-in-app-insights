@@ -7,52 +7,6 @@ Contains reusable functions for retrying operations and querying Application Ins
 to verify that availability tests have published results.
 #>
 
-function Invoke-WithRetry {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true)]
-        [scriptblock]$Operation,
-
-        [Parameter()]
-        [int]$MaxAttempts = 15,
-
-        [Parameter()]
-        [int]$DelayInSeconds = 2
-    )
-
-    $attempt = 1
-    $lastResult = $null
-
-    while ($attempt -le $MaxAttempts) {
-        try {
-            $lastResult = & $Operation
-
-            if ($lastResult -and $lastResult.Success) {
-                Write-Host "  Operation succeeded on attempt $attempt"
-                return $lastResult
-            }
-
-            if ($attempt -eq $MaxAttempts) {
-                Write-Host "  Operation did not meet success criteria after $MaxAttempts attempts"
-                return $lastResult
-            }
-
-            Write-Host "  Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
-            Start-Sleep -Seconds $DelayInSeconds
-            $attempt++
-        }
-        catch {
-            if ($attempt -eq $MaxAttempts) {
-                Write-Error "Operation failed on final attempt: $($_.Exception.Message)"
-                throw
-            }
-            Write-Host "  Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
-            Start-Sleep -Seconds $DelayInSeconds
-            $attempt++
-        }
-    }
-}
-
 function Test-AvailabilityMetricForTest {
     [CmdletBinding()]
     param(
@@ -117,6 +71,52 @@ function Test-AvailabilityMetricForTest {
             AvailabilityPercentage = $null
             Success                = $false
             ErrorMessage           = $_.Exception.Message
+        }
+    }
+}
+
+function Invoke-WithRetry {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [scriptblock]$Operation,
+
+        [Parameter()]
+        [int]$MaxAttempts = 15,
+
+        [Parameter()]
+        [int]$DelayInSeconds = 2
+    )
+
+    $attempt = 1
+    $lastResult = $null
+
+    while ($attempt -le $MaxAttempts) {
+        try {
+            $lastResult = & $Operation
+
+            if ($lastResult -and $lastResult.Success) {
+                Write-Host "  Operation succeeded on attempt $attempt"
+                return $lastResult
+            }
+
+            if ($attempt -eq $MaxAttempts) {
+                Write-Host "  Operation did not meet success criteria after $MaxAttempts attempts"
+                return $lastResult
+            }
+
+            Write-Host "  Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
+            Start-Sleep -Seconds $DelayInSeconds
+            $attempt++
+        }
+        catch {
+            if ($attempt -eq $MaxAttempts) {
+                Write-Error "Operation failed on final attempt: $($_.Exception.Message)"
+                throw
+            }
+            Write-Host "  Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
+            Start-Sleep -Seconds $DelayInSeconds
+            $attempt++
         }
     }
 }
