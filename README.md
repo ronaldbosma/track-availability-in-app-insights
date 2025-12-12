@@ -14,10 +14,10 @@ This template deploys the following resources:
 The following availability tests are deployed:
 - Two standard tests (webtest):
   1. Checks the availability of an API every 5 minutes from 5 locations
-  1. Checks the validity of the SSL certificate of the API
+  1. Checks the validity of the SSL certificate of API Management
 - Two Azure Functions:
   1. Checks the availability of an API every minute
-  1. Checks the validity of the SSL certificate of the API
+  1. Checks the validity of the SSL certificate of API Management
 - A Logic App workflow:
   1. Checks the availability of an API every minute
 
