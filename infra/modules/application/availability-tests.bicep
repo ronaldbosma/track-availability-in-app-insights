@@ -121,7 +121,7 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
     Enabled: true
     RetryEnabled: false // Set to false for this demo to reduce the number of failed calls
 
-    // NOTE: Normally I would set the frequency to 900 (15 minutes) and execute the test from a single location
+    // NOTE: In a real world scenario, I would set the frequency to the maximum of 900 (15 minutes) and execute the test from a single location
     //       because we don't have to be notified the instant that the certificate expires within 30 days and it minimizes costs.
     //
     //       However, for demo purposes I set the frequency to 300 (5 minutes) and configured multiple locations.

@@ -96,8 +96,12 @@ Show the standard tests. They are deployed as part of the Bicep infrastructure a
 
    Some things to note about this test:  
    - The SSL check has been enabled and the test will fail if the certificate expires within 30 days or has already expired.
-   - The frequency is as high as possible (15 minutes) because we don't have to be notified the instant that the certificate expires within 30 days.
-     It also runs from only one location to reduce cost.
+   - The frequency is set to 300 seconds (5 minutes) and the test is executed from 5 different locations. 
+     This means that the test is executed from each location every 5 minutes. Note that the tests will not run exactly every minute.
+     > In a real world scenario, I would set the frequency to the maximum of 900 (15 minutes) and execute the test from a single location
+     > because we don't have to be notified the instant that the certificate expires within 30 days and it minimizes costs.
+     > However, for demo purposes I set the frequency to 300 (5 minutes) and configured multiple locations.
+     > This also makes the 'Verify Availability Tests' step in the GitHub Actions workflow succeed faster.
    - The retry has been disabled for demo purposes.
 
 1. Navigate to the Application Insights resource in the Azure portal.
