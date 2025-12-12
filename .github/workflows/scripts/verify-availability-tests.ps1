@@ -140,29 +140,29 @@ function Test-AvailabilityMetricForTest {
 
         if ($null -ne $latestAverage) {
             return [pscustomobject]@{
-                Name    = $TestName
-                Status  = 'Found'
-                Average = $latestAverage
-                Success = $true
+                Name                   = $TestName
+                Status                 = 'Found'
+                AvailabilityPercentage = $latestAverage
+                Success                = $true
             }
         }
         else {
             return [pscustomobject]@{
-                Name    = $TestName
-                Status  = 'Not Found'
-                Average = $null
-                Success = $false
+                Name                   = $TestName
+                Status                 = 'Not Found'
+                AvailabilityPercentage = $null
+                Success                = $false
             }
         }
     }
     catch {
         Write-Error "  Metrics query error for '$TestName' in '$AppInsightsName' (RG: '$ResourceGroupName'): $($_.Exception.Message)"
         return [pscustomobject]@{
-            Name        = $TestName
-            Status      = 'Error'
-            Average     = $null
-            Success     = $false
-            ErrorMessage = $_.Exception.Message
+            Name                   = $TestName
+            Status                 = 'Error'
+            AvailabilityPercentage = $null
+            Success                = $false
+            ErrorMessage           = $_.Exception.Message
         }
     }
 }
@@ -182,7 +182,7 @@ foreach ($testName in $testNames) {
 
 Write-Host ''
 Write-Host 'Summary (last 5-min averages):'
-$summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, Average
+$summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, AvailabilityPercentage
 Write-Host ''
 
 $anyFailures = ($summaryRows | Where-Object { $_.Status -ne 'Found' }).Count -gt 0
