@@ -60,7 +60,8 @@ foreach ($testName in $testNames) {
     Write-Host "Verifying availability test: $testName"
 
     $resultRow = Invoke-WithRetry -Operation {
-        Get-AverageAvailabilityPercentageForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime
+        $endTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+        Get-AverageAvailabilityPercentageForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
     } -MaxAttempts $maxRetries -DelayInSeconds $retryIntervalSeconds
 
     $summaryRows += $resultRow
