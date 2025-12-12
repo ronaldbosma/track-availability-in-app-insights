@@ -61,7 +61,7 @@ foreach ($testName in $testNames) {
 
     $resultRow = Invoke-WithRetry -Operation {
         $endTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-        Test-AvailabilityMetricForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
+        Get-AverageAvailabilityPercentageForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
     } -MaxAttempts $maxRetries -DelayInSeconds $retryIntervalSeconds
 
     $summaryRows += $resultRow

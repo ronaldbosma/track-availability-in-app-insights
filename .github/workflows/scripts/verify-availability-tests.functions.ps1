@@ -7,7 +7,7 @@ Contains reusable functions for retrying operations and querying Application Ins
 to verify that availability tests have published results.
 #>
 
-function Test-AvailabilityMetricForTest {
+function Get-AverageAvailabilityPercentageForTest {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)] [string]$ResourceGroupName,
