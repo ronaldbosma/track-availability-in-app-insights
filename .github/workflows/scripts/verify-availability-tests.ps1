@@ -16,6 +16,11 @@ The name of the Application Insights component.
 PS> .\verify-availability-tests.ps1 -ResourceGroupName "rg-track-availability-sdc-cliqc" -AppInsightsName "appi-track-availability-sdc-cliqc" 
 
 Runs the verification with default retry settings and prints a summary.
+
+.EXAMPLE
+PS> .\verify-availability-tests.ps1 -ResourceGroupName "rg-track-availability-sdc-cliqc" -AppInsightsName "appi-track-availability-sdc-cliqc" -MaxRetries 45 -RetryIntervalSeconds 5 -StartTime (Get-Date).AddMinutes(-15) -TestNames @('Test A','Test B')
+
+Runs verification with custom retry settings, a custom start time, and a custom list of test names.
 #>
 
 [CmdletBinding()]
@@ -24,7 +29,27 @@ param(
     [string]$ResourceGroupName,
 
     [Parameter(Mandatory = $true)]
-    [string]$AppInsightsName
+    [string]$AppInsightsName,
+
+    # Optional parameters for retry strategy and time window
+    [Parameter()]
+    [int]$MaxRetries = 30,
+
+    [Parameter()]
+    [int]$RetryIntervalSeconds = 10,
+
+    [Parameter()]
+    $StartTime = (Get-Date),
+
+    # Optional list of test names to verify
+    [Parameter()]
+    [string[]]$TestNames = @(
+        'Azure Function - API Management SSL Certificate Check',
+        'Azure Function - Backend API Status',
+        'Logic App Workflow - Backend API Status',
+        'Standard Test - API Management SSL Certificate Check',
+        'Standard Test - Backend API Status'
+    )
 )
 
 Set-StrictMode -Version Latest
@@ -35,34 +60,19 @@ $functionsPath = Join-Path -Path $PSScriptRoot -ChildPath 'verify-availability-t
 . $functionsPath
 
 
-$testNames = @(
-    'Azure Function - API Management SSL Certificate Check',
-    'Azure Function - Backend API Status',
-    'Logic App Workflow - Backend API Status',
-    'Standard Test - API Management SSL Certificate Check',
-    'Standard Test - Backend API Status'
-)
-
-$maxRetries = 30
-$retryIntervalSeconds = 10
-
-# Tracking: use script start as offset for the lookback window
-$startTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-
 Write-Host 'Starting availability tests verification...'
-Write-Host "Checking for results published after $startTime"
-Write-Host "Retry strategy: $maxRetries retries every $retryIntervalSeconds seconds (total ~$([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes)"
+Write-Host "Checking for results published after $StartTime"
+Write-Host "Retry strategy: $MaxRetries retries every $RetryIntervalSeconds seconds (total ~$([math]::Round($MaxRetries * $RetryIntervalSeconds / 60, 1)) minutes)"
 Write-Host ''
 
 $summaryRows = @()
 
-foreach ($testName in $testNames) {
+foreach ($testName in $TestNames) {
     Write-Host "Verifying availability test: $testName"
 
     $resultRow = Invoke-WithRetry -Operation {
-        $endTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-        Get-AverageAvailabilityPercentageForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
-    } -MaxAttempts $maxRetries -DelayInSeconds $retryIntervalSeconds
+        Get-AverageAvailabilityPercentageForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $StartTime
+    } -MaxAttempts $MaxRetries -DelayInSeconds $RetryIntervalSeconds
 
     $summaryRows += $resultRow
 }

@@ -13,18 +13,22 @@ function Get-AverageAvailabilityPercentageForTest {
         [Parameter(Mandatory = $true)] [string]$ResourceGroupName,
         [Parameter(Mandatory = $true)] [string]$AppInsightsName,
         [Parameter(Mandatory = $true)] [string]$TestName,
-        [Parameter(Mandatory = $true)] [string]$StartTime,
-        [Parameter(Mandatory = $true)] [string]$EndTime
+        [Parameter(Mandatory = $true)] [DateTime]$StartTime,
+        [Parameter()] [DateTime]$EndTime = (Get-Date)
     )
 
     try {
+        # Ensure time parameters are formatted as UTC ISO 8601 strings
+        $startTimeStr = ([datetime]$StartTime).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+        $endTimeStr   = ([datetime]$EndTime).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+
         $result = az monitor metrics list `
             --resource "$AppInsightsName" `
             --resource-group "$ResourceGroupName" `
             --resource-type 'Microsoft.Insights/components' `
             --metric 'availabilityResults/availabilityPercentage' `
-            --start-time $StartTime `
-            --end-time $EndTime `
+            --start-time $startTimeStr `
+            --end-time $endTimeStr `
             --interval PT5M `
             --filter "availabilityResult/name eq '$TestName'" `
             --output json 2>$null | ConvertFrom-Json
