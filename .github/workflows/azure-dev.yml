@@ -214,16 +214,9 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
         
-    - name: Verify Availability Tests (Metrics Method)
+    - name: Verify Availability Tests
       run: |
         .\.github\workflows\scripts\verify-availability-tests-metrics.ps1 `
-          -ResourceGroupName "${{ needs.deploy.outputs.AZURE_RESOURCE_GROUP }}" `
-          -AppInsightsName "${{ needs.deploy.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}" `
-          -SubscriptionId $env:AZURE_SUBSCRIPTION_ID
-
-    - name: Verify Availability Tests (Query Method)
-      run: |
-        .\.github\workflows\scripts\verify-availability-tests-query.ps1 `
           -ResourceGroupName "${{ needs.deploy.outputs.AZURE_RESOURCE_GROUP }}" `
           -AppInsightsName "${{ needs.deploy.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}"
 
