@@ -39,7 +39,7 @@ $testNames = @(
     'Azure Function - Backend API Status',
     'Logic App Workflow - Backend API Status',
     'Standard Test - API Management SSL Certificate Check',
-    'Standard Test - Backend API Status'
+    'Standard Test - Backend API Statuss'
 )
 
 $maxRetries = 1
@@ -75,16 +75,16 @@ function Invoke-WithRetry {
             $lastResult = & $Operation
 
             if ($lastResult -and $lastResult.Success) {
-                Write-Host "Operation succeeded on attempt $attempt"
+                Write-Host "    Operation succeeded on attempt $attempt"
                 return $lastResult
             }
 
             if ($attempt -eq $MaxAttempts) {
-                Write-Host "Operation did not meet success criteria after $MaxAttempts attempts"
+                Write-Host "    Operation did not meet success criteria after $MaxAttempts attempts"
                 return $lastResult
             }
 
-            Write-Host "Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
+            Write-Host "    Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
             Start-Sleep -Seconds $DelayInSeconds
             $attempt++
         }
@@ -93,7 +93,7 @@ function Invoke-WithRetry {
                 Write-Error "Operation failed on final attempt: $($_.Exception.Message)"
                 throw
             }
-            Write-Host "Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
+            Write-Host "    Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
             Start-Sleep -Seconds $DelayInSeconds
             $attempt++
         }
@@ -170,7 +170,6 @@ function Test-AvailabilityMetricForTest {
     }
 }
 
-$failedTests = @()
 $summaryRows = @()
 
 foreach ($testName in $testNames) {
@@ -179,30 +178,21 @@ foreach ($testName in $testNames) {
         Test-AvailabilityMetricForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
     } -MaxAttempts $maxRetries -DelayInSeconds $retryIntervalSeconds
 
-    if (-not $resultRow.Success) {
-        $failedTests += $testName
-    }
     $summaryRows += $resultRow
-}
-
-# Final result and summary
-if ($failedTests.Count -eq 0) {
-    Write-Host ''
-    Write-Host '✓ All tests verified successfully (metrics method)!'
-    Write-Host ''
-    Write-Host 'Summary (last 5-min averages):'
-    $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, Average
-    exit 0
-}
-
-Write-Host ''
-Write-Host "✗ Verification failed (metrics method) - The following tests did not publish results within $([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes:"
-foreach ($test in $failedTests) {
-    Write-Host "  - $test"
 }
 
 Write-Host ''
 Write-Host 'Summary (last 5-min averages):'
 $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, Average
+Write-Host ''
 
-exit 1
+$anyFailures = ($summaryRows | Where-Object { $_.Status -ne 'Found' }).Count -gt 0
+
+if (-not $anyFailures) {
+    Write-Host '✓ All tests verified successfully (metrics method)!'
+    exit 0
+}
+else {
+    Write-Host '✗ Verification failed (metrics method). Some tests did not publish results.'
+    exit 1
+}
