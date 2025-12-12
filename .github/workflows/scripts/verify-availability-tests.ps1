@@ -78,7 +78,7 @@ foreach ($testName in $TestNames) {
 }
 
 Write-Host ''
-Write-Host 'Summary (last 5-min averages):'
+Write-Host 'Summary (last 5-min average availability percentage per test):'
 $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, AvailabilityPercentage
 Write-Host ''
 
