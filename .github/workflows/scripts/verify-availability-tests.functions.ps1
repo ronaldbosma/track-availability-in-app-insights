@@ -14,7 +14,8 @@ function Get-AverageAvailabilityPercentageForTest {
         [Parameter(Mandatory = $true)] [string]$AppInsightsName,
         [Parameter(Mandatory = $true)] [string]$TestName,
         [Parameter(Mandatory = $true)] [DateTime]$StartTime,
-        [Parameter()] [DateTime]$EndTime = (Get-Date)
+        [Parameter()] [DateTime]$EndTime = (Get-Date),
+        [Parameter()] [string]$Interval = 'PT5M'
     )
 
     try {
@@ -29,7 +30,7 @@ function Get-AverageAvailabilityPercentageForTest {
             --metric 'availabilityResults/availabilityPercentage' `
             --start-time $startTimeStr `
             --end-time $endTimeStr `
-            --interval PT5M `
+            --interval $Interval `
             --filter "availabilityResult/name eq '$TestName'" `
             --output json 2>$null | ConvertFrom-Json
 
