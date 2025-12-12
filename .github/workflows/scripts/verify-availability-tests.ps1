@@ -49,10 +49,10 @@ $lookbackMinutes = 2
 # Tracking: use script start as offset for the lookback window
 $startTime = (Get-Date).AddMinutes(-$lookbackMinutes).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
 
-Write-Output 'Starting availability tests verification (metrics method)...'
-Write-Output "Checking for results published after $startTime"
-Write-Output "Retry strategy: $maxRetries retries every $retryIntervalSeconds seconds (total ~$([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes)"
-Write-Output ''
+Write-Host 'Starting availability tests verification (metrics method)...'
+Write-Host "Checking for results published after $startTime"
+Write-Host "Retry strategy: $maxRetries retries every $retryIntervalSeconds seconds (total ~$([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes)"
+Write-Host ''
 
 function Invoke-WithRetry {
     [CmdletBinding()]
@@ -75,16 +75,16 @@ function Invoke-WithRetry {
             $lastResult = & $Operation
 
             if ($lastResult -and $lastResult.Success) {
-                Write-Output "Operation succeeded on attempt $attempt"
+                Write-Host "Operation succeeded on attempt $attempt"
                 return $lastResult
             }
 
             if ($attempt -eq $MaxAttempts) {
-                Write-Output "Operation did not meet success criteria after $MaxAttempts attempts"
+                Write-Host "Operation did not meet success criteria after $MaxAttempts attempts"
                 return $lastResult
             }
 
-            Write-Output "Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
+            Write-Host "Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
             Start-Sleep -Seconds $DelayInSeconds
             $attempt++
         }
@@ -93,7 +93,7 @@ function Invoke-WithRetry {
                 Write-Error "Operation failed on final attempt: $($_.Exception.Message)"
                 throw
             }
-            Write-Output "Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
+            Write-Host "Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
             Start-Sleep -Seconds $DelayInSeconds
             $attempt++
         }
@@ -140,7 +140,7 @@ function Test-AvailabilityMetricForTest {
         }
 
         if ($null -ne $latestAverage) {
-            Write-Output "  ✓ $TestName - metric data found"
+            Write-Host "  ✓ $TestName - metric data found"
             return [pscustomobject]@{
                 Name    = $TestName
                 Status  = 'Found'
@@ -149,7 +149,7 @@ function Test-AvailabilityMetricForTest {
             }
         }
         else {
-            Write-Output "  ✗ $TestName - no metric data found yet"
+            Write-Host "  ✗ $TestName - no metric data found yet"
             return [pscustomobject]@{
                 Name    = $TestName
                 Status  = 'NotFound'
@@ -187,22 +187,22 @@ foreach ($testName in $testNames) {
 
 # Final result and summary
 if ($failedTests.Count -eq 0) {
-    Write-Output ''
-    Write-Output '✓ All tests verified successfully (metrics method)!'
-    Write-Output ''
-    Write-Output 'Summary (last 5-min averages):'
+    Write-Host ''
+    Write-Host '✓ All tests verified successfully (metrics method)!'
+    Write-Host ''
+    Write-Host 'Summary (last 5-min averages):'
     $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, Average
     exit 0
 }
 
-Write-Output ''
-Write-Output "✗ Verification failed (metrics method) - The following tests did not publish results within $([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes:"
+Write-Host ''
+Write-Host "✗ Verification failed (metrics method) - The following tests did not publish results within $([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes:"
 foreach ($test in $failedTests) {
-    Write-Output "  - $test"
+    Write-Host "  - $test"
 }
 
-Write-Output ''
-Write-Output 'Summary (last 5-min averages):'
+Write-Host ''
+Write-Host 'Summary (last 5-min averages):'
 $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, Average
 
 exit 1
