@@ -59,7 +59,6 @@ param(
         'Azure Function - API Management SSL Certificate Check',
         'Azure Function - Backend API Status',
         'Logic App Workflow - Backend API Status',
-        'Unknow Test Name',
         'Standard Test - API Management SSL Certificate Check',
         'Standard Test - Backend API Status'
     )
