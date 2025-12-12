@@ -75,7 +75,7 @@ Write-Host ''
 # We consider it a success if all tests have availability results (status 'Found'). It's OK if the availability percentage is not 100%.
 $failedVerifications = @($summaryRows | Where-Object { $_.Status -ne 'Found' })
 if ($failedVerifications.Count -eq 0) {
-    Write-Host '✓ All tests verified successfully!'
+    Write-Host '✓ All tests have availability results!'
     exit 0
 }
 else {
