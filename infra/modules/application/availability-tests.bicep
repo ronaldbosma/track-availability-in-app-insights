@@ -121,12 +121,27 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
     Enabled: true
     RetryEnabled: false // Set to false for this demo to reduce the number of failed calls
 
-    // The frequency is as high as possible because we don't have to be notified the instant that the certificate expires within 30 days.
-    // It also runs from only one location to reduce cost.
-    Frequency: 900 // 15 minutes
+    // NOTE: In a real world scenario, I would set the frequency to the maximum of 900 (15 minutes) and execute the test from a single location
+    //       because we don't have to be notified the instant that the certificate expires within 30 days and it minimizes costs.
+    //
+    //       However, for demo purposes I set the frequency to 300 (5 minutes) and configured multiple locations.
+    //       This also makes the 'Verify Availability Tests' step in the GitHub Actions workflow succeed faster.
+    Frequency: 300
     Locations: [
       {
         Id: 'emea-nl-ams-azr' // West Europe
+      }
+      {
+        Id: 'emea-gb-db3-azr' // North Europe
+      }
+      {
+        Id: 'emea-ru-msa-edge' // UK South
+      }
+      {
+        Id: 'emea-fr-pra-edge' // France Central
+      }
+      {
+        Id: 'emea-ch-zrh-edge' // France South
       }
     ]
 
