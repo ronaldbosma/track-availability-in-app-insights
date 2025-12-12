@@ -216,7 +216,7 @@ jobs:
         
     - name: Verify Availability Tests
       run: |
-        .\.github\workflows\scripts\verify-availability-tests-metrics.ps1 `
+        .\.github\workflows\scripts\verify-availability-tests.ps1 `
           -ResourceGroupName "${{ needs.deploy.outputs.AZURE_RESOURCE_GROUP }}" `
           -AppInsightsName "${{ needs.deploy.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}"
 
