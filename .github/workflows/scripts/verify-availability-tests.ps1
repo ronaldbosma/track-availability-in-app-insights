@@ -61,7 +61,7 @@ $functionsPath = Join-Path -Path $PSScriptRoot -ChildPath 'verify-availability-t
 
 
 Write-Host 'Starting availability tests verification...'
-Write-Host "Checking for results published after $StartTime"
+Write-Host "Checking for results published after $($StartTime.ToString("o"))"
 Write-Host "Retry strategy: $MaxRetries retries every $RetryIntervalSeconds seconds (total ~$([math]::Round($MaxRetries * $RetryIntervalSeconds / 60, 1)) minutes)"
 Write-Host ''
 
