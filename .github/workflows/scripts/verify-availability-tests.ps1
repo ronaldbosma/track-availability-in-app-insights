@@ -12,6 +12,18 @@ The resource group name containing the Application Insights component.
 .PARAMETER AppInsightsName
 The name of the Application Insights component.
 
+.PARAMETER MaxRetries
+The maximum number of retry attempts to wait for metrics ingestion.
+
+.PARAMETER RetryIntervalSeconds
+The delay in seconds between retry attempts.
+
+.PARAMETER StartTime
+The start of the time window to query availability metrics for. Defaults to current time.
+
+.PARAMETER TestNames
+The list of availability test names to verify. Defaults to the five built-in tests.
+
 .EXAMPLE
 PS> .\verify-availability-tests.ps1 -ResourceGroupName "rg-track-availability-sdc-cliqc" -AppInsightsName "appi-track-availability-sdc-cliqc" 
 
