@@ -1,3 +1,12 @@
+<#
+.SYNOPSIS
+Helper functions for verifying availability tests in Application Insights.
+
+.DESCRIPTION
+Contains reusable functions for retrying operations and querying Application Insights metrics
+to verify that availability tests have published results.
+#>
+
 function Invoke-WithRetry {
     [CmdletBinding()]
     param(
