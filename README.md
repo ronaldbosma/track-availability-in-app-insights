@@ -176,7 +176,7 @@ This template includes a GitHub Actions workflow that automates the build, deplo
 
 The pipeline consists of the following jobs:
 
-- **Build, Verify and Package**: This job sets up the build environment, validates the Bicep template and packages the Function App, Logic App and integration tests.
+- **Build, Verify and Package**: This job sets up the build environment, validates the Bicep template and packages the Function App and Logic App.
 - **Deploy to Azure**: This job provisions the Azure infrastructure and deploys the packaged applications to the created resources.
 - **Verify Monitoring**: This job verifies that the availability tests are running and reporting results to Application Insights.
 - **Clean Up Resources**: This job removes all deployed Azure resources.  
