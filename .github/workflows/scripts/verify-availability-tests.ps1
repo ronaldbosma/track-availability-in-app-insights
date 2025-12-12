@@ -72,9 +72,9 @@ Write-Host 'Summary (last 5-min averages):'
 $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, AvailabilityPercentage
 Write-Host ''
 
-$failedTests = @($summaryRows | Where-Object { $_.Status -ne 'Found' })
-
-if ($failedTests.Count -eq 0) {
+# We consider it a success if all tests have availability results (status 'Found'). It's OK if the availability percentage is not 100%.
+$failedVerifications = @($summaryRows | Where-Object { $_.Status -ne 'Found' })
+if ($failedVerifications.Count -eq 0) {
     Write-Host '✓ All tests verified successfully!'
     exit 0
 }
