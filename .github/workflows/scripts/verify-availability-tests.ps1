@@ -42,12 +42,11 @@ $testNames = @(
     'Standard Test - Backend API Statuss'
 )
 
-$maxRetries = 1
-$retryIntervalSeconds = 1
-$lookbackMinutes = 2
+$maxRetries = 30
+$retryIntervalSeconds = 10
 
 # Tracking: use script start as offset for the lookback window
-$startTime = (Get-Date).AddMinutes(-$lookbackMinutes).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+$startTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
 
 Write-Host 'Starting availability tests verification (metrics method)...'
 Write-Host "Checking for results published after $startTime"
@@ -75,16 +74,16 @@ function Invoke-WithRetry {
             $lastResult = & $Operation
 
             if ($lastResult -and $lastResult.Success) {
-                Write-Host "    Operation succeeded on attempt $attempt"
+                Write-Host "  Operation succeeded on attempt $attempt"
                 return $lastResult
             }
 
             if ($attempt -eq $MaxAttempts) {
-                Write-Host "    Operation did not meet success criteria after $MaxAttempts attempts"
+                Write-Host "  Operation did not meet success criteria after $MaxAttempts attempts"
                 return $lastResult
             }
 
-            Write-Host "    Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
+            Write-Host "  Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
             Start-Sleep -Seconds $DelayInSeconds
             $attempt++
         }
@@ -93,7 +92,7 @@ function Invoke-WithRetry {
                 Write-Error "Operation failed on final attempt: $($_.Exception.Message)"
                 throw
             }
-            Write-Host "    Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
+            Write-Host "  Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
             Start-Sleep -Seconds $DelayInSeconds
             $attempt++
         }
@@ -140,7 +139,6 @@ function Test-AvailabilityMetricForTest {
         }
 
         if ($null -ne $latestAverage) {
-            Write-Host "  ✓ $TestName - metric data found"
             return [pscustomobject]@{
                 Name    = $TestName
                 Status  = 'Found'
@@ -149,7 +147,6 @@ function Test-AvailabilityMetricForTest {
             }
         }
         else {
-            Write-Host "  ✗ $TestName - no metric data found yet"
             return [pscustomobject]@{
                 Name    = $TestName
                 Status  = 'NotFound'
@@ -173,6 +170,8 @@ function Test-AvailabilityMetricForTest {
 $summaryRows = @()
 
 foreach ($testName in $testNames) {
+    Write-Host "Verifying availability test: $testName"
+
     $resultRow = Invoke-WithRetry -Operation {
         $endTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
         Test-AvailabilityMetricForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
