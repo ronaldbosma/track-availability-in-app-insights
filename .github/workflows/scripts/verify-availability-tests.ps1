@@ -1,78 +1,107 @@
 <#
-Verifies that all availability tests have published at least one result to Application Insights using metrics.
-Uses a retry mechanism to account for data ingestion latency.
+.SYNOPSIS
+Verifies that availability tests have published at least one result to Application Insights using metrics.
 
-Usage:
-    .\verify-availability-tests-metrics.ps1 -ResourceGroupName "my-rg" -AppInsightsName "appi-prod-001"
+.DESCRIPTION
+Queries the Application Insights metric 'availabilityResults/availabilityPercentage' for a fixed set of
+availability tests. Uses a retry mechanism to account for ingestion latency. Prints a final summary table.
+
+.PARAMETER ResourceGroupName
+The resource group name containing the Application Insights component.
+
+.PARAMETER AppInsightsName
+The name of the Application Insights component.
+
+.EXAMPLE
+PS> .\verify-availability-tests.ps1 -ResourceGroupName "rg-track-availability-sdc-cliqc" -AppInsightsName "appi-track-availability-sdc-cliqc" 
+
+Runs the verification with default retry settings and prints a summary.
 #>
 
+[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [string]$ResourceGroupName,
-    
+
     [Parameter(Mandatory = $true)]
     [string]$AppInsightsName
 )
 
-# Configuration
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+# Constants and configuration
+$metricName   = 'availabilityResults/availabilityPercentage'
+$resourceType = 'Microsoft.Insights/components'
+
 $testNames = @(
-    "Azure Function - API Management SSL Certificate Check",
-    "Azure Function - Backend API Status",
-    "Logic App Workflow - Backend API Status",
-    "Standard Test - API Management SSL Certificate Check",
-    "Standard Test - Backend API Status"
+    'Azure Function - API Management SSL Certificate Check',
+    'Azure Function - Backend API Status',
+    'Logic App Workflow - Backend API Status',
+    'Standard Test - API Management SSL Certificate Check',
+    'Standard Test - Backend API Status'
 )
 
-$maxRetries = 30
-$retryIntervalSeconds = 10
+$maxRetries = 1
+$retryIntervalSeconds = 1
 $lookbackMinutes = 2
 
-# Tracking: use script start as offset for the 2-minute lookback window
+# Tracking: use script start as offset for the lookback window
 $startTime = (Get-Date).AddMinutes(-$lookbackMinutes).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-$failedTests = @()
-$summaryRows = @()
 
-Write-Host "Starting availability tests verification (Metrics method)..."
-Write-Host "Checking for results published after $startTime"
-Write-Host "Retry strategy: $maxRetries retries every $retryIntervalSeconds seconds (total ~$([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes)"
-Write-Host ""
+Write-Output 'Starting availability tests verification (metrics method)...'
+Write-Output "Checking for results published after $startTime"
+Write-Output "Retry strategy: $maxRetries retries every $retryIntervalSeconds seconds (total ~$([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes)"
+Write-Output ''
 
-# Local retry function (generic)
 function Invoke-WithRetry {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [scriptblock]$ScriptBlock,
-        
-        [Parameter(Mandatory = $false)]
+        [scriptblock]$Operation,
+
+        [Parameter()]
         [int]$MaxAttempts = 15,
-        
-        [Parameter(Mandatory = $false)]
+
+        [Parameter()]
         [int]$DelayInSeconds = 2
     )
-    
+
     $attempt = 1
-    
+    $lastResult = $null
+
     while ($attempt -le $MaxAttempts) {
-        & $ScriptBlock
-        
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host "Operation succeeded on attempt $attempt"
-            return
+        try {
+            $lastResult = & $Operation
+
+            if ($lastResult -and $lastResult.Success) {
+                Write-Output "Operation succeeded on attempt $attempt"
+                return $lastResult
+            }
+
+            if ($attempt -eq $MaxAttempts) {
+                Write-Output "Operation did not meet success criteria after $MaxAttempts attempts"
+                return $lastResult
+            }
+
+            Write-Output "Operation not successful (attempt $attempt/$MaxAttempts). Retrying in $DelayInSeconds seconds..."
+            Start-Sleep -Seconds $DelayInSeconds
+            $attempt++
         }
-        
-        if ($attempt -eq $MaxAttempts) {
-            Write-Host "Operation failed after $MaxAttempts attempts (exit code: $LASTEXITCODE)"
-            return
+        catch {
+            if ($attempt -eq $MaxAttempts) {
+                Write-Error "Operation failed on final attempt: $($_.Exception.Message)"
+                throw
+            }
+            Write-Output "Operation threw an error (attempt $attempt/$MaxAttempts): $($_.Exception.Message). Retrying in $DelayInSeconds seconds..."
+            Start-Sleep -Seconds $DelayInSeconds
+            $attempt++
         }
-        
-        Write-Host "Operation failed (attempt $attempt/$MaxAttempts, exit code: $LASTEXITCODE). Retrying in $DelayInSeconds seconds..."
-        Start-Sleep -Seconds $DelayInSeconds
-        $attempt++
     }
 }
 
-# Function: checks if availability metric exists for a single test within the time window
 function Test-AvailabilityMetricForTest {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)] [string]$ResourceGroupName,
         [Parameter(Mandatory = $true)] [string]$AppInsightsName,
@@ -85,81 +114,95 @@ function Test-AvailabilityMetricForTest {
         $result = az monitor metrics list `
             --resource "$AppInsightsName" `
             --resource-group "$ResourceGroupName" `
-            --resource-type "Microsoft.Insights/components" `
-            --metric "availabilityResults/availabilityPercentage" `
+            --resource-type $resourceType `
+            --metric $metricName `
             --start-time $StartTime `
             --end-time $EndTime `
             --interval PT5M `
             --filter "availabilityResult/name eq '$TestName'" `
             --output json 2>$null | ConvertFrom-Json
 
-        $hasMetric = $false
         $latestAverage = $null
-        if ($result.value -and $result.value.Count -gt 0) {
+
+        if ($result -and $result.value) {
+            $allTimeSeries = @()
             foreach ($metric in $result.value) {
-                if ($metric.timeseries -and $metric.timeseries.Count -gt 0) {
-                    foreach ($ts in $metric.timeseries) {
-                        if ($ts.data -and $ts.data.Count -gt 0) {
-                            $hasMetric = $true
-                            $latestAverage = $ts.data[-1].average
-                            break
-                        }
-                    }
-                    if ($hasMetric) { break }
+                if ($metric.timeseries) { $allTimeSeries += $metric.timeseries }
+            }
+
+            $tsWithData = $allTimeSeries | Where-Object { $_.data -and $_.data.Count -gt 0 } | Select-Object -First 1
+            if ($tsWithData) {
+                $latestPoint = $tsWithData.data[-1]
+                if ($latestPoint -and $null -ne $latestPoint.average) {
+                    $latestAverage = [double]::Parse($latestPoint.average.ToString())
                 }
-                if ($hasMetric) { break }
             }
         }
 
-        if ($hasMetric) {
-            Write-Host "  ✓ $TestName - Metric data found"
-            $global:LASTEXITCODE = 0
-            return [pscustomobject]@{ Name = $TestName; Status = 'Found'; Average = [double]::Parse($latestAverage.ToString()) }
+        if ($null -ne $latestAverage) {
+            Write-Output "  ✓ $TestName - metric data found"
+            return [pscustomobject]@{
+                Name    = $TestName
+                Status  = 'Found'
+                Average = $latestAverage
+                Success = $true
+            }
         }
         else {
-            Write-Host "  ✗ $TestName - No metric data found yet"
-            $global:LASTEXITCODE = 1
-            return [pscustomobject]@{ Name = $TestName; Status = 'NotFound'; Average = $null }
+            Write-Output "  ✗ $TestName - no metric data found yet"
+            return [pscustomobject]@{
+                Name    = $TestName
+                Status  = 'NotFound'
+                Average = $null
+                Success = $false
+            }
         }
     }
     catch {
-        Write-Host "  ⚠ $TestName - Metrics query error: $_"
-        $global:LASTEXITCODE = 1
-        return [pscustomobject]@{ Name = $TestName; Status = 'Error'; Average = $null }
+        Write-Error "  Metrics query error for '$TestName' in '$AppInsightsName' (RG: '$ResourceGroupName'): $($_.Exception.Message)"
+        return [pscustomobject]@{
+            Name        = $TestName
+            Status      = 'Error'
+            Average     = $null
+            Success     = $false
+            ErrorMessage = $_.Exception.Message
+        }
     }
 }
 
-# Execute for each test with retry
+$failedTests = @()
+$summaryRows = @()
+
 foreach ($testName in $testNames) {
-    Invoke-WithRetry -ScriptBlock {
+    $resultRow = Invoke-WithRetry -Operation {
         $endTime = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-        $script:resultRow = Test-AvailabilityMetricForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
+        Test-AvailabilityMetricForTest -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName -TestName $testName -StartTime $startTime -EndTime $endTime
     } -MaxAttempts $maxRetries -DelayInSeconds $retryIntervalSeconds
 
-    if ($LASTEXITCODE -ne 0) {
+    if (-not $resultRow.Success) {
         $failedTests += $testName
     }
-    $summaryRows += $script:resultRow
+    $summaryRows += $resultRow
 }
 
-# Final result
+# Final result and summary
 if ($failedTests.Count -eq 0) {
-    Write-Host ""
-    Write-Host "✓ All tests verified successfully (Metrics method)!"
-    Write-Host ""
-    Write-Host "Summary (last 5-min averages):"
+    Write-Output ''
+    Write-Output '✓ All tests verified successfully (metrics method)!'
+    Write-Output ''
+    Write-Output 'Summary (last 5-min averages):'
     $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, Average
     exit 0
 }
 
-Write-Host ""
-Write-Host "✗ Verification failed (Metrics method) - The following tests did not publish results within $([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes:"
+Write-Output ''
+Write-Output "✗ Verification failed (metrics method) - The following tests did not publish results within $([math]::Round($maxRetries * $retryIntervalSeconds / 60, 1)) minutes:"
 foreach ($test in $failedTests) {
-    Write-Host "  - $test"
+    Write-Output "  - $test"
 }
 
-Write-Host ""
-Write-Host "Summary (last 5-min averages):"
+Write-Output ''
+Write-Output 'Summary (last 5-min averages):'
 $summaryRows | Sort-Object Name | Format-Table -AutoSize Name, Status, Average
 
 exit 1
