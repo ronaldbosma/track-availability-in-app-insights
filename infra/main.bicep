@@ -9,7 +9,7 @@ targetScope = 'subscription'
 // Imports
 //=============================================================================
 
-import { getResourceName, getInstanceId } from './functions/naming-conventions.bicep'
+import { getResourceName, generateInstanceId } from './functions/naming-conventions.bicep'
 
 //=============================================================================
 // Parameters
@@ -24,10 +24,6 @@ param location string
 @description('The name of the environment to deploy to')
 param environmentName string
 
-@maxLength(5) // The maximum length of the storage account name and key vault name is 24 characters. To prevent errors the instance name should be short.
-@description('The instance that will be added to the deployed resources names to make them unique. Will be generated if not provided.')
-param instance string = ''
-
 @description('The approximate percentage of failures that will be simulated. 0-100')
 @minValue(0)
 @maxValue(100)
@@ -37,8 +33,8 @@ param approximateFailurePercentage int
 // Variables
 //=============================================================================
 
-// Determine the instance id based on the provided instance or by generating a new one
-var instanceId = getInstanceId(environmentName, location, instance)
+// Generate an instance ID to ensure unique resource names
+var instanceId string = generateInstanceId(environmentName, location)
 
 var resourceGroupName = getResourceName('resourceGroup', environmentName, location, instanceId)
 
