@@ -199,7 +199,7 @@ module availabilityTests 'modules/application/availability-tests.bicep' = {
     environmentName: environmentName
     location: location
     tags: tags
-    apiManagementServiceName: apiManagementSettings.serviceName
+    apiManagementSettings: apiManagementSettings
     appInsightsName: appInsightsSettings.appInsightsName
   }
   dependsOn: [

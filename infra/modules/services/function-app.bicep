@@ -60,6 +60,7 @@ var appSettings object = {
   // API Management App Settings
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'function-app-subscription-key')
+  ApiManagement_statusEndpoint: helpers.getApiManagementStatusEndpoint(apiManagementSettings.sku)
 }
 
 //=============================================================================

@@ -11,7 +11,6 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
     public class ApimSslCertificateCheckAvailabilityTest(IAvailabilityTestFactory availabilityTestFactory, IConfiguration configuration, SslCertificateValidator sslCertificateValidator)
     {
         private const string TestName = "Azure Function - API Management SSL Certificate Check";
-        private const string RequestUri = "/internal-status-0123456789abcdef";
 
         [Function(nameof(ApimSslCertificateCheckAvailabilityTest))]
         public async Task Run([TimerTrigger("0 * * * * *")] TimerInfo timerInfo)
@@ -25,8 +24,9 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
             Uri apimBaseUrl = new(configuration["ApiManagement_gatewayUrl"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_gatewayUrl not specified"));
             using HttpClientHandler handler = new() { ServerCertificateCustomValidationCallback = sslCertificateValidator.Validate };
             using HttpClient client = new(handler) { BaseAddress = apimBaseUrl };
-            
-            await client.GetAsync(RequestUri);
+
+            string apimStatusEndpoint = configuration["ApiManagement_statusEndpoint"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_statusEndpoint not specified");
+            await client.GetAsync(apimStatusEndpoint);
         }
     }
 }

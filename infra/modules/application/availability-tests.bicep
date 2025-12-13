@@ -8,6 +8,7 @@
 
 import { getResourceName } from '../../functions/naming-conventions.bicep'
 import * as helpers from '../../functions/helpers.bicep'
+import { apiManagementSettingsType } from '../../types/settings.bicep'
 
 //=============================================================================
 // Parameters
@@ -22,8 +23,8 @@ param location string
 @description('The tags to associate with the resource')
 param tags object
 
-@description('The name of the API Management service')
-param apiManagementServiceName string
+@description('The settings for the API Management Service that will be used')
+param apiManagementSettings apiManagementSettingsType
 
 @description('The name of the App Insights instance that will be used by the Logic App')
 param appInsightsName string
@@ -90,7 +91,7 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
 
     Request: {
       HttpVerb: 'GET'
-      RequestUrl: '${helpers.getApiManagementGatewayUrl(apiManagementServiceName)}/backend/status'
+      RequestUrl: '${helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)}/backend/status'
     }
 
     ValidationRules: {
@@ -146,10 +147,9 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
     ]
 
     // Get status of API Management using the default status endpoint.
-    // For the Consumptier tier, the status endpoint is /internal-status-0123456789abcdef. For other tiers it's /status-0123456789abcdef.
     Request: {
       HttpVerb: 'GET'
-      RequestUrl: '${helpers.getApiManagementGatewayUrl(apiManagementServiceName)}/internal-status-0123456789abcdef'
+      RequestUrl: '${helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)}/${helpers.getApiManagementStatusEndpoint(apiManagementSettings.sku)}'
     }
 
     ValidationRules: {
