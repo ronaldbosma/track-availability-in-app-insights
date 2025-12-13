@@ -10,6 +10,7 @@ targetScope = 'subscription'
 //=============================================================================
 
 import { getResourceName, generateInstanceId } from './functions/naming-conventions.bicep'
+import { apiManagementSettingsType, appInsightsSettingsType, functionAppSettingsType, logicAppSettingsType } from './types/settings.bicep'
 
 //=============================================================================
 // Parameters
@@ -36,36 +37,36 @@ param approximateFailurePercentage int
 // Generate an instance ID to ensure unique resource names
 var instanceId string = generateInstanceId(environmentName, location)
 
-var resourceGroupName = getResourceName('resourceGroup', environmentName, location, instanceId)
+var resourceGroupName string = getResourceName('resourceGroup', environmentName, location, instanceId)
 
-var apiManagementSettings = {
+var apiManagementSettings apiManagementSettingsType = {
   serviceName: getResourceName('apiManagement', environmentName, location, instanceId)
   sku: 'Consumption'
 }
 
-var appInsightsSettings = {
+var appInsightsSettings appInsightsSettingsType = {
   appInsightsName: getResourceName('applicationInsights', environmentName, location, instanceId)
   logAnalyticsWorkspaceName: getResourceName('logAnalyticsWorkspace', environmentName, location, instanceId)
   retentionInDays: 30
 }
 
-var functionAppSettings = {
+var functionAppSettings functionAppSettingsType = {
   functionAppName: getResourceName('functionApp', environmentName, location, instanceId)
   appServicePlanName: getResourceName('appServicePlan', environmentName, location, 'functionapp-${instanceId}')
   netFrameworkVersion: 'v9.0'
 }
 
-var logicAppSettings = {
+var logicAppSettings logicAppSettingsType = {
   logicAppName: getResourceName('logicApp', environmentName, location, instanceId)
   appServicePlanName: getResourceName('appServicePlan', environmentName, location, 'logicapp-${instanceId}')
   netFrameworkVersion: 'v9.0'
 }
 
-var keyVaultName = getResourceName('keyVault', environmentName, location, instanceId)
+var keyVaultName string = getResourceName('keyVault', environmentName, location, instanceId)
 
-var storageAccountName = getResourceName('storageAccount', environmentName, location, instanceId)
+var storageAccountName string = getResourceName('storageAccount', environmentName, location, instanceId)
 
-var tags = {
+var tags { *: string } = {
   'azd-env-name': environmentName
   'azd-template': 'ronaldbosma/track-availability-in-app-insights'
 }

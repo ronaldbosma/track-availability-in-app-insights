@@ -32,8 +32,8 @@ param appInsightsName string
 // Variables
 //=============================================================================
 
-var backendApiStatusAvailabilityTestName = getResourceName('webtest', environmentName, location, 'backend-api-status')
-var apimSslCertificateCheckAvailabilityTestName = getResourceName('webtest', environmentName, location, 'apim-ssl-certificate-check')
+var backendApiStatusAvailabilityTestName string = getResourceName('webtest', environmentName, location, 'backend-api-status')
+var apimSslCertificateCheckAvailabilityTestName string = getResourceName('webtest', environmentName, location, 'apim-ssl-certificate-check')
 
 //=============================================================================
 // Existing resources
