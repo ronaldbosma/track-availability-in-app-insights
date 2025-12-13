@@ -40,15 +40,15 @@ param storageAccountName string
 
 // azd uses the 'azd-service-name' tag to identify the service when deploying the app source code from the src folder.
 // In this case the logic app workflow(s) and related assets.
-var serviceTags = union(tags, {
+var serviceTags { *: string } = union(tags, {
   'azd-service-name': 'logicApp'
 })
 
 // Construct the storage account connection string
 // NOTE: tried using a key vault secret but regularly got errors because the role assignment for the function app on the key vault was not yet effective
-var storageAccountConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+var storageAccountConnectionString string = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
 
-var appSettings = {
+var appSettings object = {
   APP_KIND: 'workflowApp'
   APPLICATIONINSIGHTS_CONNECTION_STRING: appInsights.properties.ConnectionString
   AzureFunctionsJobHost__extensionBundle__id: 'Microsoft.Azure.Functions.ExtensionBundle.Workflows'
@@ -58,7 +58,7 @@ var appSettings = {
   FUNCTIONS_WORKER_RUNTIME: 'dotnet'
   WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: storageAccountConnectionString
   WEBSITE_CONTENTSHARE: toLower(logicAppSettings.logicAppName)
-  WEBSITE_NODE_DEFAULT_VERSION: '~20'
+  WEBSITE_NODE_DEFAULT_VERSION: '~22'
 
   // API Management App Settings
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
