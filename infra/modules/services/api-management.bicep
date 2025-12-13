@@ -35,6 +35,9 @@ var serviceTags = union(tags, {
   'azd-service-name': 'apim'
 })
 
+var publisherName string = 'admin@example.org'
+var publisherEmail string = 'admin@example.org'
+
 //=============================================================================
 // Existing resources
 //=============================================================================
@@ -58,8 +61,8 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-previe
     capacity: apiManagementSettings.sku == 'Consumption' ? 0 : 1
   }
   properties: {
-    publisherName: apiManagementSettings.publisherName
-    publisherEmail: apiManagementSettings.publisherEmail
+    publisherName: publisherName
+    publisherEmail: publisherEmail
   }
   identity: {
     type: 'SystemAssigned'

@@ -41,8 +41,6 @@ var resourceGroupName = getResourceName('resourceGroup', environmentName, locati
 var apiManagementSettings = {
   serviceName: getResourceName('apiManagement', environmentName, location, instanceId)
   sku: 'Consumption'
-  publisherName: 'admin@example.org'
-  publisherEmail: 'admin@example.org'
 }
 
 var appInsightsSettings = {
