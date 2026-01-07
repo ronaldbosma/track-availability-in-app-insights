@@ -190,6 +190,19 @@ Show the Logic App workflow implementation.
      - Creates an `Activity` to enable distributed tracing and correlation of telemetry in App Insights. 
      - Publishes the availability telemetry to Application Insights.
 
+### SSL Certificate Expiry
+
+Show the SSL certificate expiry check.
+
+1. Change the SSL certificate expiry threshold as described [here](..\README.md#ssl-certificate-remaining-lifetime-days) to 365 days.
+
+1. Redeploy the infrastructure using `azd provision`.
+
+1. Navigate to the `Availability` in the Application Insights resource in the Azure portal.
+
+1. Wait for the various 'SSL Certificate Check' availability tests to execute and fail because the certificate is expiring within 365 days.
+
+
 ### Alerts
 
 The backend API has been implemented to return a `503 Service Unavailable` status code for an approximate percentage of the time. 
