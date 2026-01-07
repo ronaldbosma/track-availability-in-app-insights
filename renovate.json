@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["replacements:all", "workarounds:all", "group:all"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["dotnet-sdk"],
+      "matchPaths": ["src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"],
+      "allowedVersions": "8.*",
+      "description": "Logic App custom code projects should use .NET 8."
+    },
+    {
+      "matchPackageNames": ["Microsoft.Azure.Functions.Worker.Sdk", "Microsoft.Extensions.Logging.Abstractions", "Microsoft.Extensions.Logging"],
+      "matchPaths": ["src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"],
+      "enabled": false,
+      "description": "Disable updates for specific packages in Logic App custom code projects, because these require specific versions to match the Logic App runtime."
+    }
+  ]
+}
