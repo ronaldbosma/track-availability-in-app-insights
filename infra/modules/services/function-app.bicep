@@ -66,7 +66,7 @@ var appSettings object = {
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'function-app-subscription-key')
   ApiManagement_statusEndpoint: helpers.getApiManagementStatusEndpoint(apiManagementSettings.sku)
 
-  // SSL Certificate Settings
+  // SSL Certificate Check Settings
   SSL_CERT_REMAINING_LIFETIME_DAYS: string(sslCertRemainingLifetimeDays)
 }
 
