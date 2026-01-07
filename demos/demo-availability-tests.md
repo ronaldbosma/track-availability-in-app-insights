@@ -209,7 +209,7 @@ Show the SSL certificate expiry check.
 ### Alerts
 
 The backend API has been implemented to return a `503 Service Unavailable` status code for an approximate percentage of the time. 
-See the [Configure approximate failure percentage](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#approximate-failure-percentage) section in the README for more information.
+See the [Approximate failure percentage](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#approximate-failure-percentage) section in the README for more information.
 
 There are two alerts included in the templates:
 - Failed availability test, which triggers when any of the availability tests fail.
