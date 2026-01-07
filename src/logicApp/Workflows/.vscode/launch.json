@@ -2,10 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to logic app Workflows",
-      "type": "coreclr",
-      "request": "attach",
-      "processId": "${command:azureLogicAppsStandard.pickProcess}"
+      "name": "Run/Debug logic app with local function Workflows",
+      "type": "logicapp",
+      "request": "launch",
+      "funcRuntime": "coreclr",
+      "customCodeRuntime": "coreclr",
+      "isCodeless": true
     }
   ]
 }

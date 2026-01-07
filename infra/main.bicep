@@ -68,7 +68,7 @@ var functionAppSettings functionAppSettingsType = {
 var logicAppSettings logicAppSettingsType = {
   logicAppName: getResourceName('logicApp', environmentName, location, instanceId)
   appServicePlanName: getResourceName('appServicePlan', environmentName, location, 'logicapp-${instanceId}')
-  netFrameworkVersion: 'v9.0'
+  netFrameworkVersion: 'v8.0'
 }
 
 var keyVaultName string = getResourceName('keyVault', environmentName, location, instanceId)
