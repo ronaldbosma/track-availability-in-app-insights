@@ -208,30 +208,46 @@ Show the SSL certificate expiry check.
 The backend API has been implemented to return a `503 Service Unavailable` status code for an approximate percentage of the time. 
 See the [Configure approximate failure percentage](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#configure-approximate-failure-percentage) section in the README for more information.
 
-When a test fails, a 'failed availability test' alert is fired. Follow these steps to view the alert:
+There are two alerts included in the template to monitor the availability tests:
+- Failed availability test, which triggers when any of the availability tests fail.
+- Failed requests, which triggers when a failed request is logged in App Insights.
+
+Follow these steps to view the alerts:
 
 1. In the Azure Portal, navigate to Azure Monitor.
 
 1. Click on `Alerts` in the left menu.
 
-1. If an availability test failed, you should see alerts fired:  
+1. If an availability test or request failed, you should see alerts fired:  
 
    ![Alerts](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/alerts.png)
    
-1. Click on the alert to view the details. 
+1. For a 'failed availability test' alert, to see which test failed:
 
-1. Expand the 'Additional details'. The `availabilityResult/name` dimension specifies which test has failed.  
+   1. Click on the alert to view the details. 
 
-   ![Alert Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/alert-details.png)
+   1. Expand the 'Additional details'. The `availabilityResult/name` dimension specifies which test has failed.  
+
+      ![Alert Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/alert-details.png)
+
+1. For a 'failed request' alert, to see which requests failed:
+
+   1. Click on the alert to view the details. 
+
+   1. Click on the 'View results in Logs' link to view the failed requests in App Insights.
 
 1. Open the [alerts.bicep](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/infra/modules/application/alerts.bicep) file to review the Bicep definition.  
 
-   A single alert is created that is triggered when any of the availability tests fail. 
+   An alert is created that is triggered when any of the availability tests fail. 
    This way we can also monitor availability tests that are exectuted from an Azure Function or Logic App workflow.  
    
    - The alert is evaluated every 5 minutes.
    - The alert triggers when an availability test doesn't succeed 100% of the time in the last 5 minutes.
    - By using a dimension, the alert is triggered for each test separately.
+
+   An alert is created that is triggered when failed requests are logged in App Insights.
+   - The alert is evaluated every 5 minutes.
+   - The alert triggers when there is at least 1 failed request in the last 5 minutes.
 
 #### Email Notification
 
