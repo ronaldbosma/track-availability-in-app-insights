@@ -110,22 +110,22 @@ Once you're done and want to clean up, run the `azd down` command. By including 
 azd down --purge
 ```
 
-## Configure approximate failure percentage
+## Configuration
 
-The backend API will randomly return errors for an approximate percentage based on the `approximateFailurePercentage` parameter that you can configure in [main.parameters.json](/infra/main.parameters.json). 
-In the following example, the approximate failure percentage is set to 10%:
+### Approximate failure percentage
 
+The backend API will randomly return errors for an approximate percentage based on the `approximateFailurePercentage` parameter that is configured in [main.parameters.json](/infra/main.parameters.json). The default is 10%.
+
+To change it to a different value, like 50%, run the following command before deploying the template:
+
+```cmd
+azd env set APPROXIMATE_FAILURE_PERCENTAGE 50
 ```
-"approximateFailurePercentage": {
-  "value": ${APPROXIMATE_FAILURE_PERCENTAGE=10}
-}
-```
-
-As you can see, the value can also be set using the `APPROXIMATE_FAILURE_PERCENTAGE` environment variable.
 
 The value is used to create a named value in API Management called `approximate-failure-percentage`. 
 The backend API has a policy that uses the named value to implement the logic to return either a `200 OK` or `503 Service Unavailable` response. 
 See [backend-api.get-status.xml](/infra/modules/application/backend-api.get-status.xml) for the details.
+
 
 ## Contents
 
