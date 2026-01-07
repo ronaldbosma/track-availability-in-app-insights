@@ -136,6 +136,13 @@ To change it to a different value, like 365 days, run the following command befo
 azd env set SSL_CERT_REMAINING_LIFETIME_DAYS 365
 ```
 
+### Alert recipient email address
+
+By default, no email notifications are sent when an alert is triggered. To enable email notifications, set the `alertRecipientEmailAddress` parameter before deploying the template by running the following command:
+
+```cmd
+azd env set ALERT_RECIPIENT_EMAIL_ADDRESS "your-email@example.com"
+```
 
 ## Contents
 

@@ -34,6 +34,9 @@ param approximateFailurePercentage int
 @allowed([1, 7, 30, 90, 365])
 param sslCertRemainingLifetimeDays int
 
+@description('Email address to send alerts to')
+param alertRecipientEmailAddress string = ''
+
 //=============================================================================
 // Variables
 //=============================================================================
@@ -42,6 +45,8 @@ param sslCertRemainingLifetimeDays int
 var instanceId string = generateInstanceId(environmentName, location)
 
 var resourceGroupName string = getResourceName('resourceGroup', environmentName, location, instanceId)
+
+var actionGroupName string = getResourceName('actionGroup', environmentName, location, instanceId)
 
 var apiManagementSettings apiManagementSettingsType = {
   serviceName: getResourceName('apiManagement', environmentName, location, instanceId)
@@ -198,6 +203,14 @@ module backendApi 'modules/application/backend-api.bicep' = {
   ]
 }
 
+module actionGroup 'modules/application/action-group.bicep' = {
+  scope: resourceGroup
+  params: {
+    name: actionGroupName
+    alertRecipientEmailAddress: alertRecipientEmailAddress
+  }
+}
+
 module availabilityTests 'modules/application/availability-tests.bicep' = {
   scope: resourceGroup
   params: {
@@ -222,6 +235,7 @@ module alerts 'modules/application/alerts.bicep' = {
     location: location
     tags: tags
     appInsightsName: appInsightsSettings.appInsightsName
+    actionGroupId: actionGroup.outputs.id
   }
   dependsOn: [
     appInsights
@@ -243,6 +257,7 @@ output AZURE_LOGIC_APP_NAME string = logicAppSettings.logicAppName
 output AZURE_RESOURCE_GROUP string = resourceGroupName
 output AZURE_STORAGE_ACCOUNT_NAME string = storageAccountName
 
-// Return settings
+// Return configuration settings
 output APPROXIMATE_FAILURE_PERCENTAGE int = approximateFailurePercentage
 output SSL_CERT_REMAINING_LIFETIME_DAYS int = sslCertRemainingLifetimeDays
+output ALERT_RECIPIENT_EMAIL_ADDRESS string = alertRecipientEmailAddress

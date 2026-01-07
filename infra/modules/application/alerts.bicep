@@ -24,6 +24,9 @@ param tags object
 @description('The name of the App Insights instance that will be used by the Logic App')
 param appInsightsName string
 
+@description('The ID of the action group to notify when an alert is triggered')
+param actionGroupId string
+
 //=============================================================================
 // Existing resources
 //=============================================================================
@@ -51,6 +54,12 @@ resource failedAvailabilityTestAlert 'Microsoft.Insights/metricAlerts@2018-03-01
 
     scopes: [
       appInsights.id
+    ]
+
+    actions: [
+      {
+        actionGroupId: actionGroupId
+      }
     ]
 
     evaluationFrequency: 'PT5M' // Execute every 5 minutes

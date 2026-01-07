@@ -208,7 +208,7 @@ Show the SSL certificate expiry check.
 The backend API has been implemented to return a `503 Service Unavailable` status code for an approximate percentage of the time. 
 See the [Configure approximate failure percentage](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#configure-approximate-failure-percentage) section in the README for more information.
 
-When a test fails, an alert is fired. Follow these steps to view the alert:
+When a test fails, a 'failed availability test' alert is fired. Follow these steps to view the alert:
 
 1. In the Azure Portal, navigate to Azure Monitor.
 
@@ -232,3 +232,17 @@ When a test fails, an alert is fired. Follow these steps to view the alert:
    - The alert is evaluated every 5 minutes.
    - The alert triggers when an availability test doesn't succeed 100% of the time in the last 5 minutes.
    - By using a dimension, the alert is triggered for each test separately.
+
+#### Email Notification
+
+The alerts have an action group configured that can send notifications and take actions when an alert is triggered.
+By default, no notification and actions are configured, but you can easily configure email notifications by following these steps:
+
+1. Configure an email address to send alerts to as described [here](..\README.md#alert-recipient-email-address).
+
+1. Redeploy the infrastructure using `azd provision`.
+
+1. When an availability test fails, an email notification is sent to the configured email address.
+
+1. The subject of the email will contain the fires/resolved alert. 
+   - For a 'failed availability test' alert, open the email and locate the `Dimensions.Dimension value1` property to see to which test the alert corresponds.

@@ -13,6 +13,9 @@
     },
     "sslCertRemainingLifetimeDays": {
       "value": "${SSL_CERT_REMAINING_LIFETIME_DAYS=30}"
+    },
+    "alertRecipientEmailAddress": {
+      "value": "${ALERT_RECIPIENT_EMAIL_ADDRESS}"
     }
   }
 }
