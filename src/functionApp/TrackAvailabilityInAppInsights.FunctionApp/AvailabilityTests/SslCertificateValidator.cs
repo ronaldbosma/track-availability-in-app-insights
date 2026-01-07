@@ -9,8 +9,6 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
     /// </summary>
     public class SslCertificateValidator(ILoggerFactory loggerFactory)
     {
-        private const int AllowedAmountOfDaysUntilCertificateExpiration = 30;
-
         private readonly ILogger _logger = loggerFactory.CreateLogger<SslCertificateValidator>();
 
         /// <summary>
@@ -29,7 +27,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
             }
 
             X509Certificate2 certificate2 = new(certificate);
-            if (certificate2.NotAfter <= DateTime.Now.AddDays(AllowedAmountOfDaysUntilCertificateExpiration))
+            if (certificate2.NotAfter <= GetExpirationThreshold())
             {
                 _logger.LogError("The SSL server certificate is close to its expiration date of: {ExpirationDate}", certificate2.NotAfter);
                 return false;
@@ -42,6 +40,16 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
             }
 
             return true;
+        }
+
+        private static DateTime GetExpirationThreshold()
+        {
+            if (!int.TryParse(Environment.GetEnvironmentVariable("SSL_CERT_REMAINING_LIFETIME_DAYS"), out int sslCertRemainingLifetimeDays))
+            {
+                sslCertRemainingLifetimeDays = 30;
+            }
+
+            return DateTime.Now.AddDays(sslCertRemainingLifetimeDays);
         }
     }
 }

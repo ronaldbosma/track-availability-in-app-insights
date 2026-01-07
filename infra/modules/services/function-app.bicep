@@ -34,6 +34,10 @@ param keyVaultName string
 @description('Name of the storage account that will be used by the Function App')
 param storageAccountName string
 
+@description('Lifespan of SSL certificate validity in days. SSL certificate check availability test will fail if the certificate expires within this number of days.')
+@minValue(0)
+param sslCertRemainingLifetimeDays int
+
 //=============================================================================
 // Variables
 //=============================================================================
@@ -61,6 +65,9 @@ var appSettings object = {
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'function-app-subscription-key')
   ApiManagement_statusEndpoint: helpers.getApiManagementStatusEndpoint(apiManagementSettings.sku)
+
+  // SSL Certificate Check Settings
+  SSL_CERT_REMAINING_LIFETIME_DAYS: string(sslCertRemainingLifetimeDays)
 }
 
 //=============================================================================

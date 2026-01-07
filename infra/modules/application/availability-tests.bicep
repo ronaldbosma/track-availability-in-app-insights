@@ -29,6 +29,10 @@ param apiManagementSettings apiManagementSettingsType
 @description('The name of the App Insights instance that will be used by the Logic App')
 param appInsightsName string
 
+@description('Lifespan of SSL certificate validity in days. SSL certificate check availability test will fail if the certificate expires within this number of days.')
+@allowed([1, 7, 30, 90, 365])
+param sslCertRemainingLifetimeDays int
+
 //=============================================================================
 // Variables
 //=============================================================================
@@ -156,7 +160,7 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
       ExpectedHttpStatusCode: 200
       IgnoreHttpStatusCode: false
       SSLCheck: true
-      SSLCertRemainingLifetimeCheck: 30 // Check if the SSL certificate is valid for at least 30 days
+      SSLCertRemainingLifetimeCheck: sslCertRemainingLifetimeDays // Check if the SSL certificate is valid for at least the specified number of days
     }
 
     SyntheticMonitorId: apimSslCertificateCheckAvailabilityTestName
