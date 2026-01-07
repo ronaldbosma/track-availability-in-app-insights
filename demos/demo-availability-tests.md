@@ -194,7 +194,7 @@ Show the Logic App workflow implementation.
 
 Show the SSL certificate expiry check.
 
-1. Change the SSL certificate expiry threshold as described [here](..\README.md#ssl-certificate-remaining-lifetime-days) to 365 days.
+1. Change the SSL certificate expiry threshold as described [here](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#ssl-certificate-remaining-lifetime-days) to 365 days.
 
 1. Redeploy the infrastructure using `azd provision`.
 
@@ -206,7 +206,7 @@ Show the SSL certificate expiry check.
 ### Alerts
 
 The backend API has been implemented to return a `503 Service Unavailable` status code for an approximate percentage of the time. 
-See the [Configure approximate failure percentage](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#configure-approximate-failure-percentage) section in the README for more information.
+See the [Configure approximate failure percentage](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#approximate-failure-percentage) section in the README for more information.
 
 There are two alerts included in the template to monitor the availability tests:
 - Failed availability test, which triggers when any of the availability tests fail.
@@ -254,7 +254,7 @@ Follow these steps to view the alerts:
 The alerts have an action group configured that can send notifications and take actions when an alert is triggered.
 By default, no notification and actions are configured, but you can easily configure email notifications by following these steps:
 
-1. Configure an email address to send alerts to as described [here](..\README.md#alert-recipient-email-address).
+1. Configure an email address to send alerts to as described [here](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#alert-recipient-email-address).
 
 1. Redeploy the infrastructure using `azd provision`.
 

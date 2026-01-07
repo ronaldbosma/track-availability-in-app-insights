@@ -21,7 +21,7 @@ The following availability tests are deployed:
 - A Logic App workflow:
   1. Checks the availability of an API every minute
 
-For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a [configurable approximate failure percentage](#configure-approximate-failure-percentage). 
+For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a [configurable approximate failure percentage](#approximate-failure-percentage). 
 
 After deployment, availability test results should appear in Application Insights. See the following image for an example:  
 
