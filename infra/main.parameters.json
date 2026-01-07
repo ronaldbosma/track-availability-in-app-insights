@@ -10,6 +10,9 @@
     },
     "approximateFailurePercentage": {
       "value": "${APPROXIMATE_FAILURE_PERCENTAGE=10}"
+    },
+    "sslCertRemainingLifetimeDays": {
+      "value": "${SSL_CERT_REMAINING_LIFETIME_DAYS=30}"
     }
   }
 }

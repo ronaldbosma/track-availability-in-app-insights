@@ -126,6 +126,16 @@ The value is used to create a named value in API Management called `approximate-
 The backend API has a policy that uses the named value to implement the logic to return either a `200 OK` or `503 Service Unavailable` response. 
 See [backend-api.get-status.xml](/infra/modules/application/backend-api.get-status.xml) for the details.
 
+### SSL certificate remaining lifetime days
+
+The SSL certificate check availability test will fail if the API Management certificate expires within the specified number of days, which is set through the `sslCertRemainingLifetimeDays` parameter that is configured in [main.parameters.json](/infra/main.parameters.json). The default is 30 days.
+
+To change it to a different value, like 365 days, run the following command before deploying the template:
+
+```cmd
+azd env set SSL_CERT_REMAINING_LIFETIME_DAYS 365
+```
+
 
 ## Contents
 

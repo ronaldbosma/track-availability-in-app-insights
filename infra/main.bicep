@@ -30,6 +30,10 @@ param environmentName string
 @maxValue(100)
 param approximateFailurePercentage int
 
+@description('Lifespan of SSL certificate validity in days. SSL certificate check availability test will fail if the certificate expires within this number of days.')
+@allowed([1, 7, 30, 90, 365])
+param sslCertRemainingLifetimeDays int
+
 //=============================================================================
 // Variables
 //=============================================================================
@@ -201,6 +205,7 @@ module availabilityTests 'modules/application/availability-tests.bicep' = {
     tags: tags
     apiManagementSettings: apiManagementSettings
     appInsightsName: appInsightsSettings.appInsightsName
+    sslCertRemainingLifetimeDays: sslCertRemainingLifetimeDays
   }
   dependsOn: [
     appInsights
@@ -237,5 +242,6 @@ output AZURE_LOGIC_APP_NAME string = logicAppSettings.logicAppName
 output AZURE_RESOURCE_GROUP string = resourceGroupName
 output AZURE_STORAGE_ACCOUNT_NAME string = storageAccountName
 
-// Return the approximate failure percentage
+// Return settings
 output APPROXIMATE_FAILURE_PERCENTAGE int = approximateFailurePercentage
+output SSL_CERT_REMAINING_LIFETIME_DAYS int = sslCertRemainingLifetimeDays
