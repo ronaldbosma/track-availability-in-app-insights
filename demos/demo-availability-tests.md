@@ -262,3 +262,4 @@ By default, no notification and actions are configured, but you can easily confi
 
 1. The subject of the email will contain the fires/resolved alert. 
    - For a 'failed availability test' alert, open the email and locate the `Dimensions.Dimension value1` property to see to which test the alert corresponds.
+   - For a 'failed request' alert, open the email and click on the 'View query results' link to view the failed requests in App Insights.
