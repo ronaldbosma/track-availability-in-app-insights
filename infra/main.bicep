@@ -137,6 +137,7 @@ module functionApp 'modules/services/function-app.bicep' = {
     appInsightsName: appInsightsSettings.appInsightsName
     keyVaultName: keyVaultName
     storageAccountName: storageAccountName
+    sslCertRemainingLifetimeDays: sslCertRemainingLifetimeDays
   }
   dependsOn: [
     appInsights
