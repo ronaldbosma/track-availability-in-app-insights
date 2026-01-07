@@ -29,8 +29,10 @@ env:
   AZURE_ENV_NAME: ${{ github.event.pull_request.number && format('{0}-pr{1}', vars.AZURE_ENV_NAME, github.event.pull_request.number) || vars.AZURE_ENV_NAME }}
   AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
-  # Set the approximate percentage of failures that the backend API will simulate
+  # Set configuration settings
   APPROXIMATE_FAILURE_PERCENTAGE: ${{ vars.APPROXIMATE_FAILURE_PERCENTAGE }}
+  SSL_CERT_REMAINING_LIFETIME_DAYS: ${{ vars.SSL_CERT_REMAINING_LIFETIME_DAYS }}
+  ALERT_RECIPIENT_EMAIL_ADDRESS: ${{ vars.ALERT_RECIPIENT_EMAIL_ADDRESS }}
 
 jobs:
 
@@ -96,7 +98,9 @@ jobs:
           --location $env:AZURE_LOCATION `
           --parameters location=$env:AZURE_LOCATION `
                        environmentName=$env:AZURE_ENV_NAME `
-                       approximateFailurePercentage=$env:APPROXIMATE_FAILURE_PERCENTAGE
+                       approximateFailurePercentage=$env:APPROXIMATE_FAILURE_PERCENTAGE `
+                       sslCertRemainingLifetimeDays=$env:SSL_CERT_REMAINING_LIFETIME_DAYS `
+                       alertRecipientEmailAddress=$env:ALERT_RECIPIENT_EMAIL_ADDRESS
 
     - name: Create artifacts folder
       run: |
