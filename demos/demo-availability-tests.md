@@ -1,6 +1,9 @@
 # Track Availability in Application Insights - Demo Availability Tests
 
-In this demo scenario, we will demonstrate the availability tests that are deployed as part of the template. The template deploys serveral different availability tests: standard tests (webtest), Azure Functions, and a Logic App workflow. The tests check the availability of an API in API Management and the validity of the SSL certificate of the API Management service. An alert on failing tests is also included. See the following diagram for an overview:
+In this demo scenario, we will demonstrate the availability tests that are deployed as part of the template. 
+The template deploys serveral different availability tests: standard tests (webtest), Azure Functions, and a Logic App workflow. 
+The tests check the availability of an API in API Management and the validity of the SSL certificate of the API Management service. 
+Alerts on failing tests and requests are also included. See the following diagram for an overview:
 
 ![Infra](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/track-availability-diagrams-app.png)
 
