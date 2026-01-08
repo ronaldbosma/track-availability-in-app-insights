@@ -109,7 +109,7 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
 }
 
 
-// Add availability test that checks if the SSL certificate of the API Management service is valid for at least 30 days
+// Add availability test that checks if the SSL certificate of the API Management service is valid for at least the configured number of days
 
 resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@2022-06-15' = {
   name: apimSslCertificateCheckAvailabilityTestName
@@ -120,7 +120,7 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
 
   properties: {
     Name: 'Standard Test - API Management SSL Certificate Check' // This name will be displayed in the availability test overview in the Azure portal
-    Description: 'Check if the SSL certificate of the API Management service is valid for at least 30 days'
+    Description: 'Check if the SSL certificate of the API Management service is valid for at least ${sslCertRemainingLifetimeDays} days'
 
     Kind: 'standard'
     Enabled: true
