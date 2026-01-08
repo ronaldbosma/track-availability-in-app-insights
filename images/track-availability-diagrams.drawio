@@ -52,87 +52,87 @@
       <root>
         <mxCell id="YByChsD_46FsNSkpOSq7-0" />
         <mxCell id="YByChsD_46FsNSkpOSq7-1" parent="YByChsD_46FsNSkpOSq7-0" />
-        <mxCell id="YByChsD_46FsNSkpOSq7-3" edge="1" parent="YByChsD_46FsNSkpOSq7-1" source="YByChsD_46FsNSkpOSq7-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="YByChsD_46FsNSkpOSq7-10" value="&lt;i&gt;1. Check availability&lt;/i&gt;">
+        <mxCell id="YByChsD_46FsNSkpOSq7-3" edge="1" parent="YByChsD_46FsNSkpOSq7-1" source="YByChsD_46FsNSkpOSq7-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=13;" target="YByChsD_46FsNSkpOSq7-10" value="&lt;i&gt;1. Check availability&lt;/i&gt;">
           <mxGeometry relative="1" x="-0.0769" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="300" y="329" as="sourcePoint" />
             <mxPoint x="450" y="330" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="YByChsD_46FsNSkpOSq7-4" edge="1" parent="YByChsD_46FsNSkpOSq7-1" source="YByChsD_46FsNSkpOSq7-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=2" target="YByChsD_46FsNSkpOSq7-6" value="2. Track availability">
+        <mxCell id="YByChsD_46FsNSkpOSq7-4" edge="1" parent="YByChsD_46FsNSkpOSq7-1" source="YByChsD_46FsNSkpOSq7-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=2;fontSize=13;" target="YByChsD_46FsNSkpOSq7-6" value="2. Track availability">
           <mxGeometry relative="1" x="-0.1367" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="300" y="460" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="YByChsD_46FsNSkpOSq7-6" parent="YByChsD_46FsNSkpOSq7-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/management_governance/Application_Insights.svg;" value="Application Insights" vertex="1">
-          <mxGeometry height="63" width="44" x="439" y="426.75" as="geometry" />
+        <mxCell id="YByChsD_46FsNSkpOSq7-6" parent="YByChsD_46FsNSkpOSq7-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=15;image=img/lib/azure2/management_governance/Application_Insights.svg;" value="Application Insights" vertex="1">
+          <mxGeometry height="103.25" width="72.11" x="439" y="426.75" as="geometry" />
         </mxCell>
-        <mxCell id="YByChsD_46FsNSkpOSq7-9" parent="YByChsD_46FsNSkpOSq7-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/general/Globe.svg;" value="Standard Test&lt;div&gt;(webtest)&lt;/div&gt;" vertex="1">
-          <mxGeometry height="66" width="56.00000000000001" x="206" y="350" as="geometry" />
+        <mxCell id="YByChsD_46FsNSkpOSq7-9" parent="YByChsD_46FsNSkpOSq7-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=15;image=img/lib/azure2/general/Globe.svg;" value="Standard Test&lt;div&gt;(webtest)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="108.43" width="92" x="170" y="307.57" as="geometry" />
         </mxCell>
-        <mxCell id="YByChsD_46FsNSkpOSq7-10" parent="YByChsD_46FsNSkpOSq7-1" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+JiN4YTsgICAgPHBhdGggZmlsbD0iIzU3YTMwMCIgZD0iTTAgMjAuODRoMTkuNTV2OC4zMkgweiIvPiYjeGE7ICAgIDxwYXRoIGZpbGw9IiM1OWI0ZDkiIGQ9Ik00MS42OCAyMC44NGgxMC4yNnY4LjMySDQxLjY4eiIvPiYjeGE7ICAgIDxjaXJjbGUgZmlsbD0iIzU3YTMwMCIgcj0iOS40NiIgY3k9IjI1IiBjeD0iMjAuMTIiLz4mI3hhOyAgICA8cGF0aCBmaWxsPSIjNTliNGQ5IiBkPSJNMjAuMTIuNDh2MTAuOTZhMSAxIDAgMCAxIDAgMjcuMTR2MTAuOTZhMSAxIDAgMCAwIDAtNDkuMDVaIi8+JiN4YTs8L3N2Zz4=;" value="API" vertex="1">
-          <mxGeometry height="62" width="62" x="430" y="298.25" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram name="overview-azure-function" id="wA56ldCAZx3XRMtL9uK-">
-    <mxGraphModel dx="2066" dy="1201" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-      <root>
-        <mxCell id="im4lJH6G0GnZrEF-wFfx-0" />
-        <mxCell id="im4lJH6G0GnZrEF-wFfx-1" parent="im4lJH6G0GnZrEF-wFfx-0" />
-        <mxCell id="im4lJH6G0GnZrEF-wFfx-2" edge="1" parent="im4lJH6G0GnZrEF-wFfx-1" source="T1lmLtcQQQoilMq9-ejr-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="im4lJH6G0GnZrEF-wFfx-6" value="&lt;i&gt;1. Check availability&lt;/i&gt;">
-          <mxGeometry relative="1" x="-0.0769" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="262" y="376.3700440528635" as="sourcePoint" />
-            <mxPoint x="450" y="330" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="im4lJH6G0GnZrEF-wFfx-3" edge="1" parent="im4lJH6G0GnZrEF-wFfx-1" source="T1lmLtcQQQoilMq9-ejr-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=2" target="im4lJH6G0GnZrEF-wFfx-4" value="2. Track availability">
-          <mxGeometry relative="1" x="-0.1367" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="262" y="392.2819383259912" as="sourcePoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="im4lJH6G0GnZrEF-wFfx-4" parent="im4lJH6G0GnZrEF-wFfx-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/management_governance/Application_Insights.svg;" value="Application Insights" vertex="1">
-          <mxGeometry height="63" width="44" x="439" y="426.75" as="geometry" />
-        </mxCell>
-        <mxCell id="im4lJH6G0GnZrEF-wFfx-6" parent="im4lJH6G0GnZrEF-wFfx-1" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+JiN4YTsgICAgPHBhdGggZmlsbD0iIzU3YTMwMCIgZD0iTTAgMjAuODRoMTkuNTV2OC4zMkgweiIvPiYjeGE7ICAgIDxwYXRoIGZpbGw9IiM1OWI0ZDkiIGQ9Ik00MS42OCAyMC44NGgxMC4yNnY4LjMySDQxLjY4eiIvPiYjeGE7ICAgIDxjaXJjbGUgZmlsbD0iIzU3YTMwMCIgcj0iOS40NiIgY3k9IjI1IiBjeD0iMjAuMTIiLz4mI3hhOyAgICA8cGF0aCBmaWxsPSIjNTliNGQ5IiBkPSJNMjAuMTIuNDh2MTAuOTZhMSAxIDAgMCAxIDAgMjcuMTR2MTAuOTZhMSAxIDAgMCAwIDAtNDkuMDVaIi8+JiN4YTs8L3N2Zz4=;" value="API" vertex="1">
-          <mxGeometry height="62" width="62" x="430" y="298.25" as="geometry" />
-        </mxCell>
-        <mxCell id="T1lmLtcQQQoilMq9-ejr-1" parent="im4lJH6G0GnZrEF-wFfx-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/Function_Apps.svg;" value="Azure Function" vertex="1">
-          <mxGeometry height="60" width="68" x="194" y="356" as="geometry" />
+        <mxCell id="YByChsD_46FsNSkpOSq7-10" parent="YByChsD_46FsNSkpOSq7-1" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+JiN4YTsgICAgPHBhdGggZmlsbD0iIzU3YTMwMCIgZD0iTTAgMjAuODRoMTkuNTV2OC4zMkgweiIvPiYjeGE7ICAgIDxwYXRoIGZpbGw9IiM1OWI0ZDkiIGQ9Ik00MS42OCAyMC44NGgxMC4yNnY4LjMySDQxLjY4eiIvPiYjeGE7ICAgIDxjaXJjbGUgZmlsbD0iIzU3YTMwMCIgcj0iOS40NiIgY3k9IjI1IiBjeD0iMjAuMTIiLz4mI3hhOyAgICA8cGF0aCBmaWxsPSIjNTliNGQ5IiBkPSJNMjAuMTIuNDh2MTAuOTZhMSAxIDAgMCAxIDAgMjcuMTR2MTAuOTZhMSAxIDAgMCAwIDAtNDkuMDVaIi8+JiN4YTs8L3N2Zz4=;fontSize=15;" value="API" vertex="1">
+          <mxGeometry height="100.25" width="100.25" x="430" y="260" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram name="overview-logic-app" id="NiO-3pzpxjFLCkUF0CI2">
+  <diagram name="overview-azure-function" id="_2wJa-QbL3YUBG3xeAWd">
     <mxGraphModel dx="2066" dy="1201" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
-        <mxCell id="9n8BMfyEcH4DuDwmcN1d-0" />
-        <mxCell id="9n8BMfyEcH4DuDwmcN1d-1" parent="9n8BMfyEcH4DuDwmcN1d-0" />
-        <mxCell id="9n8BMfyEcH4DuDwmcN1d-2" edge="1" parent="9n8BMfyEcH4DuDwmcN1d-1" source="XoreQRn0L8qcpculWh20-0" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="9n8BMfyEcH4DuDwmcN1d-6" value="&lt;i&gt;1. Check availability&lt;/i&gt;">
+        <mxCell id="zSnP9hWImc4BTnfx4Qur-0" />
+        <mxCell id="zSnP9hWImc4BTnfx4Qur-1" parent="zSnP9hWImc4BTnfx4Qur-0" />
+        <mxCell id="zSnP9hWImc4BTnfx4Qur-2" edge="1" parent="zSnP9hWImc4BTnfx4Qur-1" source="jRJsiQvmpqo-UfoN0ESy-0" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=13;" target="zSnP9hWImc4BTnfx4Qur-6" value="&lt;i&gt;1. Check availability&lt;/i&gt;">
           <mxGeometry relative="1" x="-0.0769" as="geometry">
             <mxPoint as="offset" />
-            <mxPoint x="262" y="376.3700440528635" as="sourcePoint" />
+            <mxPoint x="262" y="352.7878963558919" as="sourcePoint" />
             <mxPoint x="450" y="330" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9n8BMfyEcH4DuDwmcN1d-3" edge="1" parent="9n8BMfyEcH4DuDwmcN1d-1" source="XoreQRn0L8qcpculWh20-0" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=2" target="9n8BMfyEcH4DuDwmcN1d-4" value="2. Track availability">
+        <mxCell id="zSnP9hWImc4BTnfx4Qur-3" edge="1" parent="zSnP9hWImc4BTnfx4Qur-1" source="jRJsiQvmpqo-UfoN0ESy-0" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=2;fontSize=13;" target="zSnP9hWImc4BTnfx4Qur-4" value="2. Track availability">
           <mxGeometry relative="1" x="-0.1367" as="geometry">
             <mxPoint as="offset" />
-            <mxPoint x="262" y="392.2819383259912" as="sourcePoint" />
+            <mxPoint x="262" y="382.48770791916763" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9n8BMfyEcH4DuDwmcN1d-4" parent="9n8BMfyEcH4DuDwmcN1d-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/management_governance/Application_Insights.svg;" value="Application Insights" vertex="1">
-          <mxGeometry height="63" width="44" x="439" y="426.75" as="geometry" />
+        <mxCell id="zSnP9hWImc4BTnfx4Qur-4" parent="zSnP9hWImc4BTnfx4Qur-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=15;image=img/lib/azure2/management_governance/Application_Insights.svg;" value="Application Insights" vertex="1">
+          <mxGeometry height="103.25" width="72.11" x="439" y="426.75" as="geometry" />
         </mxCell>
-        <mxCell id="9n8BMfyEcH4DuDwmcN1d-6" parent="9n8BMfyEcH4DuDwmcN1d-1" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+JiN4YTsgICAgPHBhdGggZmlsbD0iIzU3YTMwMCIgZD0iTTAgMjAuODRoMTkuNTV2OC4zMkgweiIvPiYjeGE7ICAgIDxwYXRoIGZpbGw9IiM1OWI0ZDkiIGQ9Ik00MS42OCAyMC44NGgxMC4yNnY4LjMySDQxLjY4eiIvPiYjeGE7ICAgIDxjaXJjbGUgZmlsbD0iIzU3YTMwMCIgcj0iOS40NiIgY3k9IjI1IiBjeD0iMjAuMTIiLz4mI3hhOyAgICA8cGF0aCBmaWxsPSIjNTliNGQ5IiBkPSJNMjAuMTIuNDh2MTAuOTZhMSAxIDAgMCAxIDAgMjcuMTR2MTAuOTZhMSAxIDAgMCAwIDAtNDkuMDVaIi8+JiN4YTs8L3N2Zz4=;" value="API" vertex="1">
-          <mxGeometry height="62" width="62" x="430" y="298.25" as="geometry" />
+        <mxCell id="zSnP9hWImc4BTnfx4Qur-6" parent="zSnP9hWImc4BTnfx4Qur-1" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+JiN4YTsgICAgPHBhdGggZmlsbD0iIzU3YTMwMCIgZD0iTTAgMjAuODRoMTkuNTV2OC4zMkgweiIvPiYjeGE7ICAgIDxwYXRoIGZpbGw9IiM1OWI0ZDkiIGQ9Ik00MS42OCAyMC44NGgxMC4yNnY4LjMySDQxLjY4eiIvPiYjeGE7ICAgIDxjaXJjbGUgZmlsbD0iIzU3YTMwMCIgcj0iOS40NiIgY3k9IjI1IiBjeD0iMjAuMTIiLz4mI3hhOyAgICA8cGF0aCBmaWxsPSIjNTliNGQ5IiBkPSJNMjAuMTIuNDh2MTAuOTZhMSAxIDAgMCAxIDAgMjcuMTR2MTAuOTZhMSAxIDAgMCAwIDAtNDkuMDVaIi8+JiN4YTs8L3N2Zz4=;fontSize=15;" value="API" vertex="1">
+          <mxGeometry height="100.25" width="100.25" x="430" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="XoreQRn0L8qcpculWh20-0" parent="9n8BMfyEcH4DuDwmcN1d-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/internet_of_things/Logic_Apps.svg;" value="Logic App Workflow" vertex="1">
-          <mxGeometry height="68" width="68" x="194" y="348" as="geometry" />
+        <mxCell id="jRJsiQvmpqo-UfoN0ESy-0" parent="zSnP9hWImc4BTnfx4Qur-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=15;image=img/lib/azure2/compute/Function_Apps.svg;" value="Azure Function" vertex="1">
+          <mxGeometry height="102.43" width="116.09" x="160" y="307.57" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="overview-logic-app-workflow" id="72FcIRndJpjeIQYiH33V">
+    <mxGraphModel dx="2066" dy="1201" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="G1P9zAjw9N7TZLpZO9kC-0" />
+        <mxCell id="G1P9zAjw9N7TZLpZO9kC-1" parent="G1P9zAjw9N7TZLpZO9kC-0" />
+        <mxCell id="iaPAa52HY43USOY7GjMZ-0" parent="G1P9zAjw9N7TZLpZO9kC-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=15;image=img/lib/azure2/internet_of_things/Logic_Apps.svg;" value="Logic App Workflow" vertex="1">
+          <mxGeometry height="102.43" width="102.43" x="166.83" y="307.57" as="geometry" />
+        </mxCell>
+        <mxCell id="G1P9zAjw9N7TZLpZO9kC-2" edge="1" parent="G1P9zAjw9N7TZLpZO9kC-1" source="iaPAa52HY43USOY7GjMZ-0" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=13;" target="G1P9zAjw9N7TZLpZO9kC-5" value="&lt;i&gt;1. Check availability&lt;/i&gt;">
+          <mxGeometry relative="1" x="-0.0769" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="276.09000000000015" y="348.00787202380934" as="sourcePoint" />
+            <mxPoint x="450" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G1P9zAjw9N7TZLpZO9kC-3" edge="1" parent="G1P9zAjw9N7TZLpZO9kC-1" source="iaPAa52HY43USOY7GjMZ-0" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=2;fontSize=13;" target="G1P9zAjw9N7TZLpZO9kC-4" value="2. Track availability">
+          <mxGeometry relative="1" x="-0.1367" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="276.09000000000015" y="385.7940718259988" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G1P9zAjw9N7TZLpZO9kC-4" parent="G1P9zAjw9N7TZLpZO9kC-1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=15;image=img/lib/azure2/management_governance/Application_Insights.svg;" value="Application Insights" vertex="1">
+          <mxGeometry height="103.25" width="72.11" x="439" y="426.75" as="geometry" />
+        </mxCell>
+        <mxCell id="G1P9zAjw9N7TZLpZO9kC-5" parent="G1P9zAjw9N7TZLpZO9kC-1" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+JiN4YTsgICAgPHBhdGggZmlsbD0iIzU3YTMwMCIgZD0iTTAgMjAuODRoMTkuNTV2OC4zMkgweiIvPiYjeGE7ICAgIDxwYXRoIGZpbGw9IiM1OWI0ZDkiIGQ9Ik00MS42OCAyMC44NGgxMC4yNnY4LjMySDQxLjY4eiIvPiYjeGE7ICAgIDxjaXJjbGUgZmlsbD0iIzU3YTMwMCIgcj0iOS40NiIgY3k9IjI1IiBjeD0iMjAuMTIiLz4mI3hhOyAgICA8cGF0aCBmaWxsPSIjNTliNGQ5IiBkPSJNMjAuMTIuNDh2MTAuOTZhMSAxIDAgMCAxIDAgMjcuMTR2MTAuOTZhMSAxIDAgMCAwIDAtNDkuMDVaIi8+JiN4YTs8L3N2Zz4=;fontSize=15;" value="API" vertex="1">
+          <mxGeometry height="100.25" width="100.25" x="430" y="260" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
