@@ -5,7 +5,7 @@ The template deploys serveral different availability tests: standard tests (webt
 The tests check the availability of an API in API Management and the validity of the SSL certificate of the API Management service. 
 Alerts on failing tests and requests are also included. See the following diagram for an overview:
 
-![Infra](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/track-availability-diagrams-app.png)
+![Infra](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/diagrams-overview.png)
 
 ## 1. What resources are getting deployed
 

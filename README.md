@@ -9,7 +9,7 @@ An `azd` template (Bicep) that implements three different ways to track availabi
 
 This template deploys the following resources:
 
-![Track Availability App](/images/track-availability-diagrams-app.png)
+![Track Availability App](/images/diagrams-overview.png)
 
 The following availability tests are deployed:
 - Two standard tests (webtest):
