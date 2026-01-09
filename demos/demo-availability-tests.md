@@ -162,7 +162,7 @@ Show the Azure Functions implementation.
    The function is executed every minute.
    It uses the `HttpGetRequestAvailabilityTest` class to perform a HTTP GET request on the `/backend/status` endpoint in API Management to check for availability.  
 
-   See the following sequence diagram for an overview of the flow:  
+   See the following sequence diagram for an overview of the flow (it's more complex than the previous but it makes creating a test much easier):  
    ![Azure Functions - Sequence Diagram - Get Request](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/diagrams-functions-sequence-diagram-get-request.png)
    
 1. The necessary DI registrations are configured in [ServiceCollectionExtensions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/ServiceCollectionExtensions.cs).
