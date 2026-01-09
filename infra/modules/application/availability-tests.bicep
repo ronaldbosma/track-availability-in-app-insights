@@ -64,6 +64,7 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
   properties: {
     Name: 'Standard Test - Backend API Status' // This name will be displayed in the availability test overview in the Azure portal
     Description: 'Status of the backend API tested from a standard test (webtest)'
+    SyntheticMonitorId: 'Standard Test - Backend API Status'
 
     Kind: 'standard'
     Enabled: true
@@ -103,8 +104,6 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
       IgnoreHttpStatusCode: false
       SSLCheck: false // A separate test will check the SSL certificate of the API Management service
     }
-
-    SyntheticMonitorId: backendApiStatusAvailabilityTestName
   }
 }
 
@@ -121,6 +120,7 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
   properties: {
     Name: 'Standard Test - API Management SSL Certificate Check' // This name will be displayed in the availability test overview in the Azure portal
     Description: 'Check if the SSL certificate of the API Management service is valid for at least ${sslCertRemainingLifetimeDays} days'
+    SyntheticMonitorId: 'Standard Test - API Management SSL Certificate Check'
 
     Kind: 'standard'
     Enabled: true
@@ -162,7 +162,5 @@ resource apimSslCertificateCheckAvailabilityTest 'Microsoft.Insights/webtests@20
       SSLCheck: true
       SSLCertRemainingLifetimeCheck: sslCertRemainingLifetimeDays // Check if the SSL certificate is valid for at least the specified number of days
     }
-
-    SyntheticMonitorId: apimSslCertificateCheckAvailabilityTestName
   }
 }
