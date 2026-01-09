@@ -4,9 +4,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
     using System.Diagnostics;
     using System.Threading.Tasks;
     using Microsoft.ApplicationInsights;
-    using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.DataContracts;
-    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Azure.Functions.Extensions.Workflows;
     using Microsoft.Azure.Functions.Worker;
     using Microsoft.Extensions.Logging;
@@ -19,16 +17,10 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
         private readonly TelemetryClient _telemetryClient;
         private readonly ILogger<AvailabilityTestFunctions> _logger;
 
-        public AvailabilityTestFunctions(ILoggerFactory loggerFactory)
+        public AvailabilityTestFunctions(TelemetryClient telemetryClient, ILoggerFactory loggerFactory)
         {
+            _telemetryClient = telemetryClient;
             _logger = loggerFactory.CreateLogger<AvailabilityTestFunctions>();
-
-            TelemetryConfiguration telemetryConfiguration = new()
-            {
-                ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"),
-                TelemetryChannel = new InMemoryChannel()
-            };
-            _telemetryClient = new TelemetryClient(telemetryConfiguration); 
         }
 
         [Function("TrackIsAvailable")]
