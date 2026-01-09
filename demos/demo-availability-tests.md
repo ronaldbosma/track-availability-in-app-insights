@@ -148,22 +148,23 @@ Show the Azure Functions implementation.
 
 1. Open [AvailabilityTestFactory.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/AvailabilityTests/AvailabilityTestFactory.cs). This class is a simple factory class to create instances of `IAvailabilityTest`.
 
+1. Open [ApimSslCertificateCheckAvailabilityTest.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/ApimSslCertificateCheckAvailabilityTest.cs).  
+   
+   The function is executed every minute.
+   It shows how to use the `AvailabilityTest` class directly, and it checks if the SSL certificate of API Management is nearly expired or already expired.
+   The implementation for the check is provided in the `CheckSslCertificateAsync` method, which inturn uses [SslCertificateValidator](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/AvailabilityTests/SslCertificateValidator.cs) class.  
+
+   See the following sequence diagram for an overview of the flow:  
+   ![Azure Functions - Sequence Diagram](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/diagrams-functions-sequence-diagram.png)
+
 1. Open [BackendStatusAvailabilityTest.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/BackendStatusAvailabilityTest.cs).  
 
    The function is executed every minute.
    It uses the `HttpGetRequestAvailabilityTest` class to perform a HTTP GET request on the `/backend/status` endpoint in API Management to check for availability.  
 
+   See the following sequence diagram for an overview of the flow:  
    ![Azure Functions - Sequence Diagram - Get Request](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/diagrams-functions-sequence-diagram-get-request.png)
    
-
-1. Open [ApimSslCertificateCheckAvailabilityTest.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/ApimSslCertificateCheckAvailabilityTest.cs).  
-   
-   The function is executed every minute.
-   It uses the `AvailabilityTest` class to check if the SSL certificate of API Management is nearly expired or already expired.
-   The implementation for the check is provided in the `CheckSslCertificateAsync` method, which inturn uses [SslCertificateValidator](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/AvailabilityTests/SslCertificateValidator.cs) class.  
-
-   ![Azure Functions - Sequence Diagram](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/diagrams-functions-sequence-diagram.png)
-
 1. The necessary DI registrations are configured in [ServiceCollectionExtensions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/functionApp/TrackAvailabilityInAppInsights.FunctionApp/ServiceCollectionExtensions.cs).
 
    Note the following setup of Application Insights. These are required to setup logging and for the `TelemetryClient` to be configured.
