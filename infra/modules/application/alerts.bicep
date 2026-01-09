@@ -124,9 +124,9 @@ resource failedRequestsScheduledQueryRule 'Microsoft.Insights/scheduledQueryRule
       ]
     }
     
-    evaluationFrequency: 'PT5M'  // Execute every 5 minutes
-    windowSize: 'PT5M'           // Look at the availability test results from the last 5 minutes
-    muteActionsDuration: 'PT15M' // maximum of 1 alert per 15 minutes (unless solved)
+    evaluationFrequency: 'PT15M' // Execute every 15 minutes
+    windowSize: 'PT15M'          // Look at the query results from the last 15 minutes
+    muteActionsDuration: 'PT1H'  // Maximum of 1 alert per 1 hour (unless solved)
 
     criteria: {
       allOf: [
