@@ -15,7 +15,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
         /// <param name="services">The service collection to configure.</param>
         public void Configure(IServiceCollection services)
         {
-            
             TelemetryConfiguration telemetryConfiguration = new()
             {
                 ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"),
