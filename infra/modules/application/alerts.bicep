@@ -108,7 +108,7 @@ resource failedRequestsScheduledQueryRule 'Microsoft.Insights/scheduledQueryRule
   tags: tags
 
   properties: {
-    displayName: 'Failed Requests Alert'
+    displayName: 'Failed Requests Alert - ${appInsightsName}'
     description: 'Alert that triggers when a failed request is logged in Application Insights'
     severity: 1
     enabled: true
