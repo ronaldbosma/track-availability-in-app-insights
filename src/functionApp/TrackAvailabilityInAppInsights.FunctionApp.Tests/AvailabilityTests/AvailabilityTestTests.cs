@@ -41,7 +41,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             Exception actualException = await Assert.ThrowsAsync<Exception>(act);
             Assert.AreEqual(exception.Message, actualException.Message);
 
-            _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest("Foo", exception.Message);
+            _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(TestName, exception.Message);
         }
     }
 }
