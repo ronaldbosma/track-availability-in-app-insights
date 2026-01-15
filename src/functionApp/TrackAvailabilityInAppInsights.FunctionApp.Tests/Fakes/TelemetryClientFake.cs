@@ -34,7 +34,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
 
         public void VerifyThatSuccessfulAvailabilityIsTrackedForTest(string expectedTestName)
         {
-            Assert.AreEqual(1, _telemetryChannelFake.SentItems.Count);
+            Assert.HasCount(1, _telemetryChannelFake.SentItems);
 
             var item = _telemetryChannelFake.SentItems.Single() as AvailabilityTelemetry;
             Assert.IsNotNull(item, $"Sent item should be of type {nameof(AvailabilityTelemetry)}");
@@ -48,7 +48,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
 
         public void VerifyThatFailedAvailabilityIsTrackedForTest(string expectedTestName, string expectedExceptionMessage)
         {
-            Assert.AreEqual(1, _telemetryChannelFake.SentItems.Count);
+            Assert.HasCount(1, _telemetryChannelFake.SentItems);
 
             var item = _telemetryChannelFake.SentItems.Single() as AvailabilityTelemetry;
             Assert.IsNotNull(item, $"Sent item should be of type {nameof(AvailabilityTelemetry)}");

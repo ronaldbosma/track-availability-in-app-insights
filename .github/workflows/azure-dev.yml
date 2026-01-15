@@ -102,6 +102,19 @@ jobs:
                        sslCertRemainingLifetimeDays=$env:SSL_CERT_REMAINING_LIFETIME_DAYS `
                        alertRecipientEmailAddress=$env:ALERT_RECIPIENT_EMAIL_ADDRESS
 
+    - name: Run Unit Tests for Function App
+      run: |
+        dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/functionApp"
+      working-directory: ./src/functionApp/TrackAvailabilityInAppInsights.FunctionApp.Tests
+
+    - name: Upload Unit Test Results
+      if: always()
+      uses: actions/upload-artifact@v6
+      with:
+        name: unit-test-results
+        path: ./artifacts/TestResults/
+        retention-days: 1
+
     - name: Create artifacts folder
       run: |
         mkdir -p ./artifacts

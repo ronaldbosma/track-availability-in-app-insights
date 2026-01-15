@@ -38,7 +38,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             async Task act() => await sut.ExecuteAsync();
 
             // Assert
-            Exception actualException = await Assert.ThrowsExceptionAsync<Exception>(act);
+            Exception actualException = await Assert.ThrowsAsync<Exception>(act);
             Assert.AreEqual(exception.Message, actualException.Message);
 
             _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(TestName, exception.Message);

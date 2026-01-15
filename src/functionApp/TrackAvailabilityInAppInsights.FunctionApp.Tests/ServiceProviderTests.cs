@@ -11,8 +11,8 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests
         /// This test will run for each Azure Function and check if its class can be resolved.
         /// If it fails, it will most likely mean that a dependency registration is missing.
         /// </summary>
-        [DataTestMethod]
-        [DynamicData(nameof(GetAzureFunctionClasses), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetAzureFunctionClasses))]
         public void GetService_AllDependenciesAreRegistered_FunctionIsResolved(Type expectedAzureFunctionClass)
         {
             // Arrange
