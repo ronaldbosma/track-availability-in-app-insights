@@ -1,0 +1,120 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Initialize_TestName": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "TestName",
+                            "type": "string",
+                            "value": "Logic App Workflow - API Management SSL Certificate Check"
+                        }
+                    ]
+                },
+                "runAfter": {}
+            },
+            "Start_time": {
+                "type": "Expression",
+                "kind": "CurrentTime",
+                "inputs": {},
+                "runAfter": {
+                    "Initialize_TestName": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Get_APIM_SSL_server_certificate_expiration_in_days": {
+                "type": "InvokeFunction",
+                "inputs": {
+                    "functionName": "GetSslServerCertificateExpirationInDays",
+                    "parameters": {
+                        "hostname": "@parameters('api-management-hostname')",
+                        "port": 443
+                    }
+                },
+                "runAfter": {
+                    "Start_time": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Certificate_expires_soon_or_has_expired": {
+                "type": "If",
+                "expression": {
+                    "and": [
+                        {
+                            "lessOrEquals": [
+                                "@body('Get_APIM_SSL_server_certificate_expiration_in_days')",
+                                "@parameters('ssl-cert-remaining-lifetime-days')"
+                            ]
+                        }
+                    ]
+                },
+                "actions": {
+                    "Track_certificate_expiration_(in_App_Insights)": {
+                        "type": "InvokeFunction",
+                        "inputs": {
+                            "functionName": "TrackIsUnavailable",
+                            "parameters": {
+                                "testName": "@variables('TestName')",
+                                "startTime": "@body('Start_time')",
+                                "message": "@concat('SSL server certificate for ', parameters('api-management-hostname'), ' is expiring in ', body('Get_APIM_SSL_server_certificate_expiration_in_days'), ' days')"
+                            }
+                        }
+                    }
+                },
+                "else": {
+                    "actions": {
+                        "Track_is_available_(in_App_Insights)": {
+                            "type": "InvokeFunction",
+                            "inputs": {
+                                "functionName": "TrackIsAvailable",
+                                "parameters": {
+                                    "testName": "@variables('TestName')",
+                                    "startTime": "@body('Start_time')"
+                                }
+                            }
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Get_APIM_SSL_server_certificate_expiration_in_days": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Track_is_unavailable_(in_App_Insights)": {
+                "type": "InvokeFunction",
+                "inputs": {
+                    "functionName": "TrackIsUnavailable",
+                    "parameters": {
+                        "testName": "@variables('TestName')",
+                        "startTime": "@body('Start_time')",
+                        "message": "Unable to determine APIM SSL server certificate expiration"
+                    }
+                },
+                "runAfter": {
+                    "Get_APIM_SSL_server_certificate_expiration_in_days": [
+                        "TIMEDOUT",
+                        "SKIPPED",
+                        "FAILED"
+                    ]
+                }
+            }
+        },
+        "triggers": {
+            "Recurrence": {
+                "type": "Recurrence",
+                "recurrence": {
+                    "interval": 1,
+                    "frequency": "Minute"
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}
