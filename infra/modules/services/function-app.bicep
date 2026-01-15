@@ -62,9 +62,9 @@ var appSettings object = {
   WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1'
   
   // API Management App Settings
-  ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
-  ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'function-app-subscription-key')
-  ApiManagement_statusEndpoint: helpers.getApiManagementStatusEndpoint(apiManagementSettings.sku)
+  ApiManagement__GatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
+  ApiManagement__SubscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'function-app-subscription-key')
+  ApiManagement__StatusEndpoint: helpers.getApiManagementStatusEndpoint(apiManagementSettings.sku)
 
   // SSL Certificate Check Settings
   SSL_CERT_REMAINING_LIFETIME_DAYS: string(sslCertRemainingLifetimeDays)
