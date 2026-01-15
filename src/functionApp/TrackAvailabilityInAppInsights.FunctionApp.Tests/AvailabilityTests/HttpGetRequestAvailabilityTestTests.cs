@@ -56,7 +56,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
             async Task act() => await sut.ExecuteAsync();
 
             // Assert
-            Exception actualException = await Assert.ThrowsExceptionAsync<HttpRequestException>(act);
+            Exception actualException = await Assert.ThrowsAsync<HttpRequestException>(act);
             Assert.AreEqual("Response status code does not indicate success: 503 (Service Unavailable).", actualException.Message);
 
             _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(name, "Response status code does not indicate success: 503 (Service Unavailable).");
