@@ -58,6 +58,7 @@ param(
     [string[]]$TestNames = @(
         'Azure Function - API Management SSL Certificate Check',
         'Azure Function - Backend API Status',
+        'Logic App Workflow - API Management SSL Certificate Check',
         'Logic App Workflow - Backend API Status',
         'Standard Test - API Management SSL Certificate Check',
         'Standard Test - Backend API Status'
