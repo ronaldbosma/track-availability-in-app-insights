@@ -98,11 +98,11 @@ Show the standard tests. They are deployed as part of the Bicep infrastructure a
    For other API Management iters you can use `/status-0123456789abcdef`.  
 
    Some things to note about this test:  
-   - The SSL check has been enabled and the test will fail if the certificate expires within 30 days or has already expired.
+   - The SSL check has been enabled and the test will fail if the certificate expires within the configured number of days (default is 30) or has already expired.
    - The frequency is set to 300 seconds (5 minutes) and the test is executed from 5 different locations. 
      This means that the test is executed from each location every 5 minutes. Note that the tests will not run exactly every minute.
      > In a real world scenario, I would set the frequency to the maximum of 900 (15 minutes) and execute the test from a single location
-     > because we don't have to be notified the instant that the certificate expires within 30 days and it minimizes costs.
+     > because we don't have to be notified the instant that the certificate expires within the configured number of days and it minimizes costs.
      > However, for demo purposes I set the frequency to 300 (5 minutes) and configured multiple locations.
      > This also makes the 'Verify Availability Tests' step in the GitHub Actions workflow succeed faster.
    - The retry has been disabled for demo purposes.
@@ -180,9 +180,9 @@ Show the Logic App workflow implementation.
 
 1. Navigate to the Logic App resource in the Azure portal.
 
-1. Open the workflow `backend-availability-test` workflow. The designer should open with the following workflow:  
+1. Open the `backend-availability-test` workflow to show an availability test that performs an HTTP get on the backend API. The designer should open with the following workflow:  
 
-   ![Logic App Workflow](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow.png)
+   ![Logic App Workflow](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow-backend-status.png)
 
    Some things to note about this workflow:
    - It triggers every minute.
@@ -201,6 +201,18 @@ Show the Logic App workflow implementation.
      - Creates an `AvailabilityTelemetry` object with the test results
      - Creates an `Activity` to enable distributed tracing and correlation of telemetry in App Insights. 
      - Publishes the availability telemetry to Application Insights.
+
+1. Open the `apim-ssl-certificate-check-availability-test` workflow to show an availability test that checks the SSL certificate expiry of API Management. The designer should open with the following workflow:  
+
+   ![Logic App Workflow](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/logic-app-workflow-ssl-cert-check.png)
+
+   Some things to note about this workflow:
+   - Similarly to the previous workflow, it triggers every minute, sets a `TestName` variable and starts a timer.
+   - It uses the `GetSslServerCertificateExpirationInDays` function to get the number of days until the SSL certificate expires. See [SslServerCertificateFunctions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Functions/SslServerCertificateFunctions.cs) for the implementation of this function.
+   - Depending on the number of days until expiry:
+     - if greater than the configured number of days (default is 30), the test is tracked as available in Application Insights (meaning that the certificate is valid)
+     - if less than or equal to the configured number of days, the test is tracked as unavailable in Application Insights (meaning that the certificate is nearly expired or already expired)
+   - If determining the expiry fails, the test is also tracked as unavailable in Application Insights.
 
 ### SSL Certificate Expiry
 
