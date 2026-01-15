@@ -37,7 +37,6 @@ See the [Demo Guide](demos/demo-availability-tests.md) for a more detailed overv
 Some things to take note of:
 - This sample uses Azure Functions to perform availability tests from code because they provide an easy way to trigger the tests on a schedule. You can use other services that host .NET code as well.
 - The Logic App sample is not entirely low code. A [Logic App with custom .NET code](https://learn.microsoft.com/en-us/azure/logic-apps/create-run-custom-code-functions) is used in order to track the availability in Application Insights. 
-  A [custom connector](https://github.com/ronaldbosma/LogicApps.ServiceProviders.ApplicationInsights.TrackAvailability) is in the works, but it's not available yet due to some challenges with deployment.
 - You can use any backend to check for availability, not just an API in API Management.
 
 > [!IMPORTANT]  
