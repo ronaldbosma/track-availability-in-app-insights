@@ -112,7 +112,7 @@ jobs:
       uses: actions/upload-artifact@v6
       with:
         name: unit-test-results
-        path: ./artifacts/TestResults
+        path: ./artifacts/TestResults/**/*.trx
         retention-days: 1
 
     - name: Create artifacts folder
