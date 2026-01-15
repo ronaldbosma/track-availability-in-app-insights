@@ -12,6 +12,7 @@
     "value": "@appsetting('ApiManagement_subscriptionKey')"
   },
   "ssl-cert-remaining-lifetime-days": {
-    "type": "Int"
+    "type": "Int",
+    "value": "@appsetting('SSL_CERT_REMAINING_LIFETIME_DAYS')"
   }
 }
