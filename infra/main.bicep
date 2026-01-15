@@ -162,6 +162,7 @@ module logicApp 'modules/services/logic-app.bicep' = {
     appInsightsName: appInsightsSettings.appInsightsName
     keyVaultName: keyVaultName
     storageAccountName: storageAccountName
+    sslCertRemainingLifetimeDays: sslCertRemainingLifetimeDays
   }
   dependsOn: [
     appInsights

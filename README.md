@@ -18,8 +18,9 @@ The following availability tests are deployed:
 - Two Azure Functions:
   1. Checks the availability of an API every minute
   1. Checks the validity of the SSL certificate of API Management
-- A Logic App workflow:
+- Two Logic App workflows:
   1. Checks the availability of an API every minute
+  1. Checks the validity of the SSL certificate of API Management
 
 For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a configurable [approximate failure percentage](#approximate-failure-percentage). 
 
@@ -36,7 +37,6 @@ See the [Demo Guide](demos/demo-availability-tests.md) for a more detailed overv
 Some things to take note of:
 - This sample uses Azure Functions to perform availability tests from code because they provide an easy way to trigger the tests on a schedule. You can use other services that host .NET code as well.
 - The Logic App sample is not entirely low code. A [Logic App with custom .NET code](https://learn.microsoft.com/en-us/azure/logic-apps/create-run-custom-code-functions) is used in order to track the availability in Application Insights. 
-  A [custom connector](https://github.com/ronaldbosma/LogicApps.ServiceProviders.ApplicationInsights.TrackAvailability) is in the works, but it's not available yet due to some challenges with deployment.
 - You can use any backend to check for availability, not just an API in API Management.
 
 > [!IMPORTANT]  
@@ -193,7 +193,7 @@ This template includes a GitHub Actions workflow that automates the build, deplo
 
 The pipeline consists of the following jobs:
 
-- **Build, Verify and Package**: This job sets up the build environment, validates the Bicep template and packages the Function App and Logic App.
+- **Build, Verify and Package**: This job sets up the build environment, validates the Bicep template, executes unit tests and packages the Function App and Logic App.
 - **Deploy to Azure**: This job provisions the Azure infrastructure and deploys the packaged applications to the created resources.
 - **Verify Monitoring**: This job verifies that the availability tests are running and reporting results to Application Insights.
 - **Clean Up Resources**: This job removes all deployed Azure resources.  

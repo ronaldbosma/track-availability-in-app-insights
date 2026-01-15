@@ -34,6 +34,10 @@ param keyVaultName string
 @description('Name of the storage account that will be used by the Logic App')
 param storageAccountName string
 
+@description('Lifespan of SSL certificate validity in days. SSL certificate check availability test will fail if the certificate expires within this number of days.')
+@minValue(0)
+param sslCertRemainingLifetimeDays int
+
 //=============================================================================
 // Variables
 //=============================================================================
@@ -61,8 +65,12 @@ var appSettings object = {
   WEBSITE_NODE_DEFAULT_VERSION: '~22'
 
   // API Management App Settings
+  ApiManagement_hostname: helpers.getApiManagementHostname(apiManagementSettings.serviceName)
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'logic-app-subscription-key')
+  
+  // SSL Certificate Check Settings
+  SSL_CERT_REMAINING_LIFETIME_DAYS: string(sslCertRemainingLifetimeDays)
 }
 
 //=============================================================================

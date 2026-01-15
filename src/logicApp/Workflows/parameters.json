@@ -1,4 +1,8 @@
 {
+  "api-management-hostname": {
+    "type": "String",
+    "value": "@appsetting('ApiManagement_hostname')"
+  },
   "api-management-gateway-url": {
     "type": "String",
     "value": "@appsetting('ApiManagement_gatewayUrl')"
@@ -6,5 +10,9 @@
   "api-management-subscription-key": {
     "type": "String",
     "value": "@appsetting('ApiManagement_subscriptionKey')"
+  },
+  "ssl-cert-remaining-lifetime-days": {
+    "type": "String",
+    "value": "@appsetting('SSL_CERT_REMAINING_LIFETIME_DAYS')"
   }
 }
