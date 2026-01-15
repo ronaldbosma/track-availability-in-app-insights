@@ -18,8 +18,9 @@ The following availability tests are deployed:
 - Two Azure Functions:
   1. Checks the availability of an API every minute
   1. Checks the validity of the SSL certificate of API Management
-- A Logic App workflow:
+- Two Logic App workflows:
   1. Checks the availability of an API every minute
+  1. Checks the validity of the SSL certificate of API Management
 
 For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a configurable [approximate failure percentage](#approximate-failure-percentage). 
 
