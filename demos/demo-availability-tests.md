@@ -210,8 +210,8 @@ Show the Logic App workflow implementation.
    - Similarly to the previous workflow, it triggers every minute, sets a `TestName` variable and starts a timer.
    - It uses the `GetSslServerCertificateExpirationInDays` function to get the number of days until the SSL certificate expires. See [SslServerCertificateFunctions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Functions/SslServerCertificateFunctions.cs) for the implementation of this function.
    - Depending on the number of days until expiry:
+     - if less than or equal to the configured number of days, the test is tracked as unavailable in Application Insights (meaning that the certificate is nearly expired or already expired) and the workflow status is set to failed
      - if greater than the configured number of days (default is 30), the test is tracked as available in Application Insights (meaning that the certificate is valid)
-     - if less than or equal to the configured number of days, the test is tracked as unavailable in Application Insights (meaning that the certificate is nearly expired or already expired)
    - If determining the expiry fails, the test is also tracked as unavailable in Application Insights.
 
 ### SSL Certificate Expiry
