@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Configuration;
-using System.Configuration;
+using Microsoft.Extensions.Options;
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp
@@ -8,7 +7,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
     /// <summary>
     /// Function to test if the SSL certificate of API Management nearly expires/has expired.
     /// </summary>
-    public class ApimSslCertificateCheckAvailabilityTest(IAvailabilityTestFactory availabilityTestFactory, IConfiguration configuration, SslCertificateValidator sslCertificateValidator)
+    public class ApimSslCertificateCheckAvailabilityTest(IAvailabilityTestFactory availabilityTestFactory, IOptions<ApiManagementOptions> apimOptions, SslCertificateValidator sslCertificateValidator)
     {
         private const string TestName = "Azure Function - API Management SSL Certificate Check";
 
@@ -21,12 +20,10 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
 
         private async Task CheckSslCertificateAsync()
         {
-            Uri apimBaseUrl = new(configuration["ApiManagement_gatewayUrl"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_gatewayUrl not specified"));
             using HttpClientHandler handler = new() { ServerCertificateCustomValidationCallback = sslCertificateValidator.Validate };
-            using HttpClient client = new(handler) { BaseAddress = apimBaseUrl };
+            using HttpClient client = new(handler) { BaseAddress = new Uri(apimOptions.Value.GatewayUrl) };
 
-            string apimStatusEndpoint = configuration["ApiManagement_statusEndpoint"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_statusEndpoint not specified");
-            await client.GetAsync(apimStatusEndpoint);
+            await client.GetAsync(apimOptions.Value.StatusEndpoint);
         }
     }
 }

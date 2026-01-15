@@ -1,25 +1,31 @@
 ﻿using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
+using Microsoft.Extensions.Options;
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp
 {
     internal static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterDependencies(this IServiceCollection services, IConfigurationManager configuration)
+        public static IServiceCollection RegisterDependencies(this IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetryWorkerService()
                     .ConfigureFunctionsApplicationInsights();
 
+            services.AddOptionsWithValidateOnStart<ApiManagementOptions>()
+                    .BindConfiguration(ApiManagementOptions.SectionKey)
+                    .ValidateDataAnnotations();
+
             services.AddSingleton<IAvailabilityTestFactory, AvailabilityTestFactory>();
             services.AddSingleton<SslCertificateValidator>();
 
-            services.AddHttpClient("apim", client =>
+            services.AddHttpClient("apim", (sp, client) =>
             {
-                client.BaseAddress = new Uri(configuration["ApiManagement_gatewayUrl"] ?? throw new ConfigurationErrorsException("Setting ApiManagement_gatewayUrl not specified"));
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration["ApiManagement_subscriptionKey"]);
+                var options = sp.GetRequiredService<IOptions<ApiManagementOptions>>().Value;
+
+                client.BaseAddress = new Uri(options.GatewayUrl);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", options.SubscriptionKey);
             });
 
             return services;

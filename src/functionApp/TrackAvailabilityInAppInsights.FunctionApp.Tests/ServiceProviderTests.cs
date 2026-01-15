@@ -20,12 +20,13 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests
 
             // Create a configuration with the required settings
             ConfigurationManager configuration = new();
-            configuration["ApiManagement_gatewayUrl"] = "https://example.com";
-            configuration["ApiManagement_subscriptionKey"] = "abcdefg1234567890";
+            configuration["ApiManagement__GatewayUrl"] = "https://example.com";
+            configuration["ApiManagement__SubscriptionKey"] = "abcdefg1234567890";
+            configuration["ApiManagement__StatusEndpoint"] = "status-0123456789abcdef";
             services.AddSingleton<IConfiguration>(configuration);
 
             // Register the Azure Function App depencencies
-            services.RegisterDependencies(configuration);
+            services.RegisterDependencies();
 
             // The Azure Function class is automatically registered when the function runtime is running.
             // For the test, we need to register the Azure Function class explicitly.
