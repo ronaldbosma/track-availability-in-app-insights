@@ -51,7 +51,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving SSL server certificate expiration for host {Hostname} on port {Port}: {Message}", hostname, port, ex.Message);
+                _logger.LogError(ex, "Error retrieving SSL server certificate expiration for host {Hostname} on port {Port}: {Exception}", hostname, port, ex.ToString());
                 throw;
             }
         }
