@@ -47,7 +47,7 @@
                         {
                             "lessOrEquals": [
                                 "@body('Get_APIM_SSL_server_certificate_expiration_in_days')",
-                                "@parameters('ssl-cert-remaining-lifetime-days')"
+                                "@int(parameters('ssl-cert-remaining-lifetime-days'))"
                             ]
                         }
                     ]
