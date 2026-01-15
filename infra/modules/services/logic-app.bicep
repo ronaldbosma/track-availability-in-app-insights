@@ -65,6 +65,7 @@ var appSettings object = {
   WEBSITE_NODE_DEFAULT_VERSION: '~22'
 
   // API Management App Settings
+  ApiManagement_hostname: helpers.getApiManagementHostname(apiManagementSettings.serviceName)
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'logic-app-subscription-key')
   
