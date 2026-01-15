@@ -63,6 +63,17 @@
                                 "message": "@concat('SSL server certificate for ', parameters('api-management-hostname'), ' is expiring in ', body('Get_APIM_SSL_server_certificate_expiration_in_days'), ' days')"
                             }
                         }
+                    },
+                    "Terminate_-_Certificate_expires_soon_or_has_expired": {
+                        "type": "Terminate",
+                        "inputs": {
+                            "runStatus": "Failed"
+                        },
+                        "runAfter": {
+                            "Track_certificate_expiration_(in_App_Insights)": [
+                                "SUCCEEDED"
+                            ]
+                        }
                     }
                 },
                 "else": {
