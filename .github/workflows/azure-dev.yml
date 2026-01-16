@@ -159,6 +159,8 @@ jobs:
   deploy:
     name: Deploy to Azure
     needs: build-verify-package
+    # Temporarily disable job
+    if: false
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Required to fetch an OIDC token for Azure authentication
@@ -226,6 +228,8 @@ jobs:
   verify-monitoring:
     name: Verify Monitoring
     needs: deploy
+    # Temporarily disable job
+    if: false
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Required to fetch an OIDC token for Azure authentication
@@ -256,7 +260,9 @@ jobs:
   cleanup:
     name: Clean Up Resources
     needs: [deploy, verify-monitoring]
-    if: ${{ success() && (github.event_name != 'workflow_dispatch' || github.event.inputs.cleanup-resources == 'true') }}
+    # Temporarily disable job
+    if: false
+    # if: ${{ success() && (github.event_name != 'workflow_dispatch' || github.event.inputs.cleanup-resources == 'true') }}
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Required to fetch an OIDC token for Azure authentication
