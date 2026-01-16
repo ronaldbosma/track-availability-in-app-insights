@@ -40,7 +40,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
             await _sut.TrackIsAvailable(testName, startTime);
 
             // Assert
-            _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(testName);
+            _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest("Foo");
         }
         
         [TestMethod]
