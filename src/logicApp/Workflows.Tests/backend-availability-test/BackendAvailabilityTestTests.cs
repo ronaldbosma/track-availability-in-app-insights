@@ -1,5 +1,6 @@
 using Microsoft.Azure.Workflows.UnitTesting.Definitions;
 using Newtonsoft.Json.Linq;
+using System.Net;
 using TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs;
 using Workflows.Tests.Mocks.backend_availability_test;
 
@@ -22,7 +23,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             // Arrange
             var trigger = new RecurrenceTriggerMock();
 
-            var httpSuccessResponse = new HTTPActionOutput() { StatusCode = System.Net.HttpStatusCode.OK };
+            var httpSuccessResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.OK };
             var httpActionMock = new HTTPActionMock(name: "HTTP", outputs: httpSuccessResponse);
 
             var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: "Track_is_available_(in_App_Insights)", outputBody: []);
