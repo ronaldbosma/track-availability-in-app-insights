@@ -9,13 +9,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
     [TestClass]
     public class BackendAvailabilityTestTests
     {
-        public TestExecutor TestExecutor;
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            this.TestExecutor = new TestExecutor("backend-availability-test/testSettings.config");
-        }
+        private readonly TestExecutor _testExecutor = new("backend-availability-test/testSettings.config");
 
         [TestMethod]
         public async Task RunWorkflow_BackendIsAvailable_AvailabilitySuccessTrackedAndWorkflowSucceeds()
@@ -37,7 +31,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
                     {trackIsAvailableMock.Name, trackIsAvailableMock }
                 }
             );
-            var testRun = await this.TestExecutor
+            var testRun = await this._testExecutor
                 .Create()
                 .RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
 
