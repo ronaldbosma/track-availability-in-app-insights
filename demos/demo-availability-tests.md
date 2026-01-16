@@ -196,8 +196,8 @@ Show the Logic App workflow implementation.
 1. The 'Track is (un)available...' actions use custom functions that are deployed inside the Logic App along side the workflow. 
    Open [AvailabilityTestFunctions.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Functions/AvailabilityTestFunctions.cs) to view the implementation.  
 
-   - A `TelemetryClient` instance is created in the constructor of the class.
-   - The `TrackAvailability` and `TrackUnavailability` functions use the `TrackAvailability` method that:
+   - A `TelemetryClient` and `ILoggerFactory` instance are injected in the constructor. The `TelemetryClient` is registered in the [Startup.cs](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/src/logicApp/Functions/Startup.cs), while the `ILoggerFactory` is registered by default.
+   - The `TrackIsAvailable` and `TrackIsUnavailable` functions use the `TrackAvailability` method that:
      - Creates an `AvailabilityTelemetry` object with the test results
      - Creates an `Activity` to enable distributed tracing and correlation of telemetry in App Insights. 
      - Publishes the availability telemetry to Application Insights.
