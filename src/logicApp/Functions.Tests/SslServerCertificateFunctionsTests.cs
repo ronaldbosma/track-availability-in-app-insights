@@ -23,7 +23,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
         }
 
         [TestMethod]
-        public async Task GetSslServerCertificateExpirationInDays_InvalidHostname_ThrowsException()
+        public async Task GetSslServerCertificateExpirationInDays_InvalidHostname_ThrowsSocketException()
         {
             // Arrange
             string hostname = "invalid.hostname.that.does.not.exist.example";
