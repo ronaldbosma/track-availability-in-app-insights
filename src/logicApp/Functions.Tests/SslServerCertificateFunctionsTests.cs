@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
@@ -32,8 +33,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
             async Task act() => await _sut.GetSslServerCertificateExpirationInDays(hostname, port);
 
             // Assert
-            Exception actualException = await Assert.ThrowsAsync<Exception>(act);
-            Assert.AreEqual("No such host is known.", actualException.Message);
+            await Assert.ThrowsExactlyAsync<SocketException>(act);
         }
     }
 }
