@@ -107,6 +107,11 @@ jobs:
         dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/functionApp"
       working-directory: ./src/functionApp/TrackAvailabilityInAppInsights.FunctionApp.Tests
 
+    - name: Run Unit Tests for Logic App Functions
+      run: |
+        dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/logicApp"
+      working-directory: ./src/logicApp/Functions.Tests
+
     - name: Upload Unit Test Results
       if: always()
       uses: actions/upload-artifact@v6
