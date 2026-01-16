@@ -254,7 +254,7 @@ Follow these steps to view the alerts:
 
       ![Alert Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/alert-details.png)
 
-1. For a 'failed request' alert, to see which requests failed:
+1. For a 'failed requests' alert, to see which requests failed:
 
    1. Click on the alert to view the details. 
 
@@ -286,4 +286,4 @@ By default, no notification and actions are configured, but you can easily confi
 
 1. The subject of the email will contain the name of the alert that was fired/resolved. 
    - For a 'failed availability test' alert, open the email and locate the `Dimensions.Dimension value1` property to see to which test the alert corresponds.
-   - For a 'failed request' alert, open the email and click on the 'View query results' link to view the failed requests in App Insights.
+   - For a 'failed requests' alert, open the email and click on the 'View query results' link to view the failed requests in App Insights.
