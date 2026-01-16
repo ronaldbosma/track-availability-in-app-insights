@@ -31,7 +31,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
                     {trackIsAvailableMock.Name, trackIsAvailableMock }
                 }
             );
-            var testRun = await this._testExecutor
+            var testRun = await _testExecutor
                 .Create()
                 .RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
 
