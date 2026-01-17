@@ -23,8 +23,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public async Task RunWorkflow_BackendIsAvailable_AvailabilitySuccessTrackedAndWorkflowSucceeds()
         {
             // Arrange
-            var trigger = new RecurrenceTriggerMock();
-
             var httpSuccessResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.OK };
             var httpActionMock = new HTTPActionMock(name: ActionNames.Http, outputs: httpSuccessResponse);
 
@@ -32,7 +30,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsAvailable, outputs: trackIsAvailableOutput);
 
             // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(trigger, [httpActionMock, trackIsAvailableMock]);
+            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [httpActionMock, trackIsAvailableMock]);
 
             // Assert
             Assert.IsNotNull(testRun);
@@ -52,8 +50,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public async Task RunWorkflow_BackendIsUnavailable_AvailabilityFailureTrackedAndWorkflowFails()
         {
             // Arrange
-            var trigger = new RecurrenceTriggerMock();
-
             var httpServiceUnavailableResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.ServiceUnavailable };
             var httpActionMock = new HTTPActionMock(TestWorkflowStatus.Failed, name: ActionNames.Http, outputs: httpServiceUnavailableResponse);
 
@@ -61,7 +57,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var trackIsUnavailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsUnavailable, outputs: trackIsUnavailableOutput);
 
             // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(trigger, [httpActionMock, trackIsUnavailableMock]);
+            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [httpActionMock, trackIsUnavailableMock]);
 
             // Assert
             Assert.IsNotNull(testRun);
