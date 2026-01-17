@@ -42,7 +42,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsAvailable, FunctionNames.TrackIsAvailable, expectedParameters);
 
-            testRun.VerifyActionStatus(ActionNames.TrackIsUnavailable, TestWorkflowStatus.Skipped);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);
 
-            testRun.VerifyActionStatus(ActionNames.TrackIsAvailable, TestWorkflowStatus.Skipped);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
         }
     }
 }

@@ -21,6 +21,11 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             Assert.AreEqual(expectedStatus, action.Status, $"Unexpected status for action: {actionName}");
         }
 
+        public static void VerifyActionWasSkipped(this TestWorkflowRun testRun, string actionName)
+        {
+            testRun.VerifyActionStatus(actionName, TestWorkflowStatus.Skipped);
+        }
+
         public static void VerifyActionStatus(this TestWorkflowRun testRun, string actionName, TestWorkflowStatus expectedStatus)
         {
             var action = testRun.GetAction(actionName);

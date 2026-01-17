@@ -46,8 +46,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsAvailable, FunctionNames.TrackIsAvailable, expectedParameters);
 
-            testRun.VerifyActionStatus(ActionNames.TrackCertificateExpiration, TestWorkflowStatus.Skipped);
-            testRun.VerifyActionStatus(ActionNames.TrackIsUnavailable, TestWorkflowStatus.Skipped);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackCertificateExpiration);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
         }
 
         [TestMethod]
@@ -76,8 +76,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
 
-            testRun.VerifyActionStatus(ActionNames.TrackIsAvailable, TestWorkflowStatus.Skipped);
-            testRun.VerifyActionStatus(ActionNames.TrackIsUnavailable, TestWorkflowStatus.Skipped);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
         }
 
         [TestMethod]
@@ -106,8 +106,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
 
-            testRun.VerifyActionStatus(ActionNames.TrackIsAvailable, TestWorkflowStatus.Skipped);
-            testRun.VerifyActionStatus(ActionNames.TrackIsUnavailable, TestWorkflowStatus.Skipped);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
         }
 
         [TestMethod]
@@ -134,8 +134,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);
 
-            testRun.VerifyActionStatus(ActionNames.TrackIsAvailable, TestWorkflowStatus.Skipped);
-            testRun.VerifyActionStatus(ActionNames.TrackCertificateExpiration, TestWorkflowStatus.Skipped);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
+            testRun.VerifyActionWasSkipped(ActionNames.TrackCertificateExpiration);
         }
     }
 }
