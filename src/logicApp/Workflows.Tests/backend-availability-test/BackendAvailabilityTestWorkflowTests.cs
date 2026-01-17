@@ -10,14 +10,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
     {
         private readonly TestExecutor _testExecutor = new(workflow: "backend-availability-test");
 
-        private static class ActionNames
-        {
-            public const string Http = "HTTP";
-            public const string StartTime = "Start_time";
-            public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
-            public const string TrackIsUnavailable = "Track_is_unavailable_(in_App_Insights)";
-        }
-
         [TestMethod]
         public async Task RunWorkflow_BackendIsAvailable_AvailabilitySuccessTrackedAndWorkflowSucceeds()
         {
@@ -67,6 +59,14 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);
 
             testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
+        }
+
+        private static class ActionNames
+        {
+            public const string Http = "HTTP";
+            public const string StartTime = "Start_time";
+            public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
+            public const string TrackIsUnavailable = "Track_is_unavailable_(in_App_Insights)";
         }
     }
 }

@@ -11,15 +11,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
     {
         private readonly TestExecutor _testExecutor = new(workflow: "apim-ssl-certificate-check-availability-test");
 
-        private static class ActionNames
-        {
-            public const string GetApimSslServerCertificateExpirationInDays = "Get_APIM_SSL_server_certificate_expiration_in_days";
-            public const string StartTime = "Start_time";
-            public const string TrackCertificateExpiration = "Track_certificate_expiration_(in_App_Insights)";
-            public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
-            public const string TrackIsUnavailable = "Track_is_unavailable_(in_App_Insights)";
-        }
-
         [TestMethod]
         public async Task RunWorkflow_CertificateIsValid_AvailabilitySuccessTrackedAndWorkflowSucceeds()
         {
@@ -131,6 +122,15 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 
             testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
             testRun.VerifyActionWasSkipped(ActionNames.TrackCertificateExpiration);
+        }
+
+        private static class ActionNames
+        {
+            public const string GetApimSslServerCertificateExpirationInDays = "Get_APIM_SSL_server_certificate_expiration_in_days";
+            public const string StartTime = "Start_time";
+            public const string TrackCertificateExpiration = "Track_certificate_expiration_(in_App_Insights)";
+            public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
+            public const string TrackIsUnavailable = "Track_is_unavailable_(in_App_Insights)";
         }
     }
 }
