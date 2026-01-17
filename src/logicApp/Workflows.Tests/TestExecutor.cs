@@ -31,7 +31,10 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
                 )
             );
 
-            return await Create().RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
+            var testRun = await Create().RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
+            Assert.IsNotNull(testRun, "No test workflow run returned");
+
+            return testRun;
         }
 
         public UnitTestExecutor Create()

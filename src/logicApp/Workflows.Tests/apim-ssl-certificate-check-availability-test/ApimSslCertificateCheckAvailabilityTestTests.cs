@@ -37,7 +37,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsAvailableMock]);
 
             // Assert
-            Assert.IsNotNull(testRun);
             Assert.AreEqual(TestWorkflowStatus.Succeeded, testRun.Status);
 
             var expectedParameters = new JObject
@@ -67,7 +66,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
 
             // Assert
-            Assert.IsNotNull(testRun);
             Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
 
             var expectedParameters = new JObject
@@ -98,7 +96,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
 
             // Assert
-            Assert.IsNotNull(testRun);
             Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
 
             var expectedParameters = new JObject
@@ -127,7 +124,6 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsUnavailableMock]);
 
             // Assert
-            Assert.IsNotNull(testRun);
             Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
 
             var expectedParameters = new JObject
