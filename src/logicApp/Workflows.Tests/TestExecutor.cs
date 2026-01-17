@@ -6,20 +6,9 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 {
     public class TestExecutor
     {
-        /// <summary>
-        /// The root directory.
-        /// </summary>
-        public string rootDirectory;
-        
-        /// <summary>
-        /// The logic app name.
-        /// </summary>
-        public string logicAppName;
-
-        /// <summary>
-        /// The workflow name.
-        /// </summary>
-        public string workflow;
+        private readonly string _rootDirectory;
+        private readonly string _logicAppName;
+        private readonly string _workflow;
 
         public TestExecutor(string configPath)
         {
@@ -28,9 +17,9 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
                 .AddXmlFile(configPath, optional: false, reloadOnChange: true)
                 .Build();
 
-            this.rootDirectory = configuration["TestSettings:WorkspacePath"];
-            this.logicAppName = configuration["TestSettings:LogicAppName"];
-            this.workflow = configuration["TestSettings:WorkflowName"];
+            _rootDirectory = configuration["TestSettings:WorkspacePath"];
+            _logicAppName = configuration["TestSettings:LogicAppName"];
+            _workflow = configuration["TestSettings:WorkflowName"];
         }
 
         public async Task<TestWorkflowRun> RunWorkflowAsync(TriggerMock triggerMock, ActionMock[] actionMocks)
@@ -48,10 +37,10 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public UnitTestExecutor Create()
         {
             // Set the path for workflow-related input files in the workspace and build the full paths to the required JSON files.
-            var workflowDefinitionPath = Path.Combine(this.rootDirectory, this.logicAppName, this.workflow, "workflow.json");
-            var connectionsPath = Path.Combine(this.rootDirectory, this.logicAppName, "connections.json");
-            var parametersPath = Path.Combine(this.rootDirectory, this.logicAppName, "parameters.json");
-            var localSettingsPath = Path.Combine(this.rootDirectory, this.logicAppName, "cloud.settings.json");
+            var workflowDefinitionPath = Path.Combine(this._rootDirectory, this._logicAppName, this._workflow, "workflow.json");
+            var connectionsPath = Path.Combine(this._rootDirectory, this._logicAppName, "connections.json");
+            var parametersPath = Path.Combine(this._rootDirectory, this._logicAppName, "parameters.json");
+            var localSettingsPath = Path.Combine(this._rootDirectory, this._logicAppName, "cloud.settings.json");
             
             return new UnitTestExecutor(
                 workflowFilePath: workflowDefinitionPath,
