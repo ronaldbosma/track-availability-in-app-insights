@@ -6,20 +6,13 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 {
     public class TestExecutor
     {
-        private readonly string _rootDirectory;
-        private readonly string _logicAppName;
+        private readonly string _rootDirectory = "../../../../";
+        private readonly string _logicAppName = "Workflows";
         private readonly string _workflow;
 
-        public TestExecutor(string configPath)
+        public TestExecutor(string workflow)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddXmlFile(configPath, optional: false, reloadOnChange: true)
-                .Build();
-
-            _rootDirectory = configuration["TestSettings:WorkspacePath"] ?? throw new Exception("Configuration setting TestSettings:WorkspacePath not found");
-            _logicAppName = configuration["TestSettings:LogicAppName"] ?? throw new Exception("Configuration setting TestSettings:LogicAppName not found");
-            _workflow = configuration["TestSettings:WorkflowName"] ?? throw new Exception("Configuration setting TestSettings:WorkflowName not found");
+            _workflow = workflow;
         }
 
         public async Task<TestWorkflowRun> RunWorkflowAsync(TriggerMock triggerMock, ActionMock[] actionMocks)

@@ -11,15 +11,6 @@
     <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Tests.Extension" Version="1.0.1" />
   </ItemGroup>
 
-  <ItemGroup Label="UnitTestSettingsConfig">
-    <Content Include="apim-ssl-certificate-check-availability-test\*.config" Link="apim-ssl-certificate-check-availability-test\%(RecursiveDir)%(Filename)%(Extension)">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="backend-availability-test\*.config" Link="backend-availability-test\%(RecursiveDir)%(Filename)%(Extension)">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
   <ItemGroup>
     <None Update="workflows.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
