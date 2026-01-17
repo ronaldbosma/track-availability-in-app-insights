@@ -3,6 +3,9 @@ using Newtonsoft.Json.Linq;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 {
+    /// <summary>
+    /// Extension methods for <seealso cref="TestWorkflowRun"/> to help with test verification.
+    /// </summary>
     internal static class TestWorkflowRunExtensions
     {
         public static void VerifyFunctionWasInvoked(this TestWorkflowRun testRun, string actionName, string expectedFunctionName, JObject expectedParameters, TestWorkflowStatus expectedStatus = TestWorkflowStatus.Succeeded)
