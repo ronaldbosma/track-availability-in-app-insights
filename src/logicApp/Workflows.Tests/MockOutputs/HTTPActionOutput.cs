@@ -48,8 +48,17 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// Initializes a new instance of the <see cref="HTTPActionOutput"/> class.
         /// </summary>
         public HTTPActionOutput()
+            : this(HttpStatusCode.OK)
         {
-            StatusCode = HttpStatusCode.OK;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HTTPActionOutput"/> class.
+        /// </summary>
+        /// <param name="statusCode">The HTTP response status code</param>
+        public HTTPActionOutput(HttpStatusCode statusCode)
+        {
+            StatusCode = statusCode;
         }
     }
 }

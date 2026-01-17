@@ -22,7 +22,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public async Task RunWorkflow_BackendIsAvailable_AvailabilitySuccessTrackedAndWorkflowSucceeds()
         {
             // Arrange
-            var httpSuccessResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.OK };
+            var httpSuccessResponse = new HTTPActionOutput(HttpStatusCode.OK);
             var httpActionMock = new HTTPActionMock(name: ActionNames.Http, outputs: httpSuccessResponse);
 
             var trackIsAvailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsAvailable);
@@ -47,7 +47,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public async Task RunWorkflow_BackendIsUnavailable_AvailabilityFailureTrackedAndWorkflowFails()
         {
             // Arrange
-            var httpServiceUnavailableResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.ServiceUnavailable };
+            var httpServiceUnavailableResponse = new HTTPActionOutput(HttpStatusCode.ServiceUnavailable);
             var httpActionMock = new HTTPActionMock(TestWorkflowStatus.Failed, name: ActionNames.Http, outputs: httpServiceUnavailableResponse);
 
             var trackIsUnavailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsUnavailable);
