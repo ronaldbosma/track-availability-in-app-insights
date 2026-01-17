@@ -6,7 +6,7 @@ using TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs;
 namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 {
     [TestClass]
-    public class BackendAvailabilityTestTests
+    public class BackendAvailabilityTestWorkflowTests
     {
         private readonly TestExecutor _testExecutor = new("backend-availability-test");
 

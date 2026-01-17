@@ -7,7 +7,7 @@ using TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs;
 namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 {
     [TestClass]
-    public class ApimSslCertificateCheckAvailabilityTestTests
+    public class ApimSslCertificateCheckAvailabilityTestWorkflowTests
     {
         private readonly TestExecutor _testExecutor = new("apim-ssl-certificate-check-availability-test");
 
