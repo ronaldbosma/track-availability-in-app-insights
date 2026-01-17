@@ -3,7 +3,7 @@
 In this demo scenario, we will demonstrate the availability tests that are deployed as part of the template. 
 The template deploys serveral different availability tests: standard tests (webtest), Azure Functions, and a Logic App workflow. 
 The tests check the availability of an API in API Management and the validity of the SSL certificate of the API Management service. 
-Alerts on failing tests and requests are also included. See the following diagram for an overview:
+An alert for failing availability tests is also included. See the following diagram for an overview:
 
 ![Infra](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/diagrams-overview.png)
 
@@ -232,9 +232,7 @@ Show the SSL certificate expiry check.
 The backend API has been implemented to return a `503 Service Unavailable` status code for an approximate percentage of the time. 
 See the [Approximate failure percentage](https://github.com/ronaldbosma/track-availability-in-app-insights/tree/main#approximate-failure-percentage) section in the README for more information.
 
-There are two alerts included in the templates:
-- Failed availability test, which triggers when any of the availability tests fail.
-- Failed requests, which triggers when a failed request is logged in App Insights.
+This template includes a 'Failed availability test' alert, which triggers when any of the availability tests fail.
 
 Follow these steps to view the alerts:
 
@@ -242,11 +240,11 @@ Follow these steps to view the alerts:
 
 1. Click on `Alerts` in the left menu.
 
-1. If an availability test or request failed, you should see alerts fired:  
+1. If an availability test failed, you should see alerts fired:  
 
    ![Alerts](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/alerts.png)
    
-1. For a 'failed availability test' alert, to see which test failed:
+1. To see which test failed:
 
    1. Click on the alert to view the details. 
 
@@ -254,24 +252,14 @@ Follow these steps to view the alerts:
 
       ![Alert Details](https://raw.githubusercontent.com/ronaldbosma/track-availability-in-app-insights/refs/heads/main/images/alert-details.png)
 
-1. For a 'failed requests' alert, to see which requests failed:
-
-   1. Click on the alert to view the details. 
-
-   1. Click on the 'View results in Logs' link to view the failed requests in App Insights.
-
 1. Open the [alerts.bicep](https://github.com/ronaldbosma/track-availability-in-app-insights/blob/main/infra/modules/application/alerts.bicep) file to review the Bicep definition.  
 
-   1. An alert is created that is triggered when any of the availability tests fail. 
-      This way we can also monitor availability tests that are exectuted from an Azure Function or Logic App workflow.  
-      
-      - The alert is evaluated every 5 minutes.
-      - The alert triggers when an availability test doesn't succeed 100% of the time in the last 5 minutes.
-      - By using a dimension, the alert is triggered for each test separately.
-
-   1. An alert is created that is triggered when failed requests are logged in App Insights.
-      - The alert is evaluated every 5 minutes.
-      - The alert triggers when there is at least 1 failed request in the last 5 minutes.
+   An alert is created that is triggered when any of the availability tests fail. 
+   This way we can also monitor availability tests that are exectuted from an Azure Function or Logic App workflow.  
+   
+   - The alert is evaluated every 5 minutes.
+   - The alert triggers when an availability test doesn't succeed 100% of the time in the last 5 minutes.
+   - By using the `availabilityResult/name` dimension with value `*`, the alert is triggered for each test separately.
 
 #### Email Notification
 
@@ -282,8 +270,8 @@ By default, no notification and actions are configured, but you can easily confi
 
 1. Redeploy the infrastructure using `azd provision`.
 
-1. When an availability test or request fails, an email notification is sent to the configured email address.
+1. When an availability test fails, an email notification is sent to the configured email address.
 
 1. The subject of the email will contain the name of the alert that was fired/resolved. 
-   - For a 'failed availability test' alert, open the email and locate the `Dimensions.Dimension value1` property to see to which test the alert corresponds.
-   - For a 'failed requests' alert, open the email and click on the 'View query results' link to view the failed requests in App Insights.
+
+1. Open the email and locate the `Dimensions.Dimension value1` property to see to which test the alert corresponds.
