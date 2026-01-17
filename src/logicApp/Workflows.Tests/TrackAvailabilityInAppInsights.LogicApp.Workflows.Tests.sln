@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests", "TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.csproj", "{AF856B5A-71C3-BCA4-F472-DA29A0388F27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF856B5A-71C3-BCA4-F472-DA29A0388F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF856B5A-71C3-BCA4-F472-DA29A0388F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF856B5A-71C3-BCA4-F472-DA29A0388F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF856B5A-71C3-BCA4-F472-DA29A0388F27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F62B773-FD18-4BC3-AAAB-AA3B9AB37631}
+	EndGlobalSection
+EndGlobal
