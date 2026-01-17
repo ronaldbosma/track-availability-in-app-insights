@@ -8,7 +8,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
     [TestClass]
     public class BackendAvailabilityTestWorkflowTests
     {
-        private readonly TestExecutor _testExecutor = new("backend-availability-test");
+        private readonly TestExecutor _testExecutor = new(workflow: "backend-availability-test");
 
         private static class ActionNames
         {

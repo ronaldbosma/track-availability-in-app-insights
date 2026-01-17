@@ -9,7 +9,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
     [TestClass]
     public class ApimSslCertificateCheckAvailabilityTestWorkflowTests
     {
-        private readonly TestExecutor _testExecutor = new("apim-ssl-certificate-check-availability-test");
+        private readonly TestExecutor _testExecutor = new(workflow: "apim-ssl-certificate-check-availability-test");
 
         private static class ActionNames
         {
