@@ -42,15 +42,14 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
     {
         public HttpStatusCode StatusCode {get; set;}
 
-        public JObject Body { get; set; }
+        public JObject? Body { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HTTPActionOutput"/> class.
         /// </summary>
         public HTTPActionOutput()
         {
-            this.StatusCode = HttpStatusCode.OK;
-            this.Body = new JObject();
+            StatusCode = HttpStatusCode.OK;
         }
     }
 }

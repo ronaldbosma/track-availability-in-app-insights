@@ -62,7 +62,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             {
                 { "testName", "Logic App Workflow - Backend API Status" },
                 { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
-                { "message", "HTTP call failed with status code 503 and response body: \"{}\"" }
+                { "message", "HTTP call failed with status code 503 and response body: \"\"" }
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);
 
