@@ -13,7 +13,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// Creates a mocked instance for  <see cref="InvokeFunctionActionMock"/> with static outputs.
         /// </summary>
         public InvokeFunctionActionMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string? name = null, InvokeFunctionActionOutput<JObject>? outputs = null)
-            : base(status: status, name: name, outputs: outputs ?? new InvokeFunctionActionOutput<JObject> {  Body = [] })
+            : base(status: status, name: name, outputs: outputs ?? new InvokeFunctionActionOutput<JObject>([]))
         {
         }
     }
@@ -62,8 +62,17 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// Initializes a new instance of the <see cref="InvokeFunctionActionOutput"/> class.
         /// </summary>
         public InvokeFunctionActionOutput()
+            : this(default)
         {
-            Body = default;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvokeFunctionActionOutput"/> class.
+        /// </summary>
+        /// <param name="body">The function's output</param>
+        public InvokeFunctionActionOutput(TBody? body)
+        {
+            Body = body;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             // Arrange
             var expirationInDays = 31;
 
-            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int> { Body = expirationInDays };
+            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
             var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
 
             var trackIsAvailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsAvailable);
@@ -54,7 +54,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             // Arrange
             var expirationInDays = 30;
 
-            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int> { Body = expirationInDays };
+            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
             var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
 
             var trackCertificateExpirationMock = new InvokeFunctionActionMock(name: ActionNames.TrackCertificateExpiration);
@@ -83,7 +83,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             // Arrange
             var expirationInDays = -5;
 
-            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int> { Body = expirationInDays };
+            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
             var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
 
             var trackCertificateExpirationMock = new InvokeFunctionActionMock(name: ActionNames.TrackCertificateExpiration);
