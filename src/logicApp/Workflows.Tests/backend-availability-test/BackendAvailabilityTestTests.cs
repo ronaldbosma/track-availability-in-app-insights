@@ -20,7 +20,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var httpSuccessResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.OK };
             var httpActionMock = new HTTPActionMock(name: "HTTP", outputs: httpSuccessResponse);
 
-            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: "Track_is_available_(in_App_Insights)", outputBody: []);
+            var trackIsAvailableOutput = new InvokeFunctionActionOutput<JObject> { Body = new JObject() };
+            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: "Track_is_available_(in_App_Insights)", outputs: trackIsAvailableOutput);
 
             // Act
             var testMock = new TestMockDefinition(

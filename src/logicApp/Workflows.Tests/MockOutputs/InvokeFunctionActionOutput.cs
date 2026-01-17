@@ -11,14 +11,6 @@ namespace Workflows.Tests.Mocks.backend_availability_test
         /// <summary>
         /// Creates a mocked instance for  <see cref="InvokeFunctionActionMock"/> with static outputs.
         /// </summary>
-        public InvokeFunctionActionMock(TBody outputBody, TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string name = null)
-            : base(status: status, name: name, outputs: new InvokeFunctionActionOutput<TBody>() { Body = outputBody })
-        {
-        }
-
-        /// <summary>
-        /// Creates a mocked instance for  <see cref="InvokeFunctionActionMock"/> with static outputs.
-        /// </summary>
         public InvokeFunctionActionMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string name = null, InvokeFunctionActionOutput<TBody> outputs = null)
             : base(status: status, name: name, outputs: outputs ?? new InvokeFunctionActionOutput<TBody>())
         {
