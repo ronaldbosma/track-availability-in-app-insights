@@ -37,7 +37,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var expectedParameters = new JObject
             {
                 { "testName", "Logic App Workflow - Backend API Status" },
-                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() }
+                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() }
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsAvailable, FunctionNames.TrackIsAvailable, expectedParameters);
 
@@ -63,7 +63,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var expectedParameters = new JObject
             {
                 { "testName", "Logic App Workflow - Backend API Status" },
-                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() },
+                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
                 { "message", "HTTP call failed with status code 503 and response body: \"{}\"" }
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);

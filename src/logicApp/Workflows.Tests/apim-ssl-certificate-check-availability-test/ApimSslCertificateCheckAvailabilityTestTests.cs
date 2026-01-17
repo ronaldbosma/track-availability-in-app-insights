@@ -41,7 +41,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var expectedParameters = new JObject
             {
                 { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() }
+                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() }
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsAvailable, FunctionNames.TrackIsAvailable, expectedParameters);
 
@@ -70,7 +70,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var expectedParameters = new JObject
             {
                 { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() },
+                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
                 { "message", $"SSL server certificate for sample.azure-api.net is expiring in {expirationInDays} days" }
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
@@ -100,7 +100,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var expectedParameters = new JObject
             {
                 { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() },
+                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
                 { "message", $"SSL server certificate for sample.azure-api.net is expiring in {expirationInDays} days" }
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
@@ -128,7 +128,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var expectedParameters = new JObject
             {
                 { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() },
+                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
                 { "message", "Unable to determine APIM SSL server certificate expiration" }
             };
             testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);

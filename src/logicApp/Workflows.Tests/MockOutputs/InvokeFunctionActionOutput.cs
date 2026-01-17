@@ -11,7 +11,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for  <see cref="InvokeFunctionActionMock"/> with static outputs.
         /// </summary>
-        public InvokeFunctionActionMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string name = null, InvokeFunctionActionOutput<TBody> outputs = null)
+        public InvokeFunctionActionMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string? name = null, InvokeFunctionActionOutput<TBody>? outputs = null)
             : base(status: status, name: name, outputs: outputs ?? new InvokeFunctionActionOutput<TBody>())
         {
         }
@@ -19,7 +19,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for  <see cref="InvokeFunctionActionMock"/> with static error info.
         /// </summary>
-        public InvokeFunctionActionMock(TestWorkflowStatus status, string name = null, TestErrorInfo error = null)
+        public InvokeFunctionActionMock(TestWorkflowStatus status, string? name = null, TestErrorInfo? error = null)
             : base(status: status, name: name, error: error)
         {
         }
@@ -27,7 +27,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for <see cref="InvokeFunctionActionMock"/> with a callback function for dynamic outputs.
         /// </summary>
-        public InvokeFunctionActionMock(Func<TestExecutionContext, InvokeFunctionActionMock<TBody>> onGetActionMock, string name = null)
+        public InvokeFunctionActionMock(Func<TestExecutionContext, InvokeFunctionActionMock<TBody>> onGetActionMock, string? name = null)
             : base(onGetActionMock: onGetActionMock, name: name)
         {
         }
@@ -41,14 +41,14 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// The function's output.
         /// </summary>
-        public TBody Body { get; set; }
+        public TBody? Body { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InvokeFunctionActionOutput"/> class.
         /// </summary>
         public InvokeFunctionActionOutput()
         {
-            this.Body = default;
+            Body = default;
         }
     }
 }

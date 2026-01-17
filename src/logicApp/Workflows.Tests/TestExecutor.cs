@@ -17,9 +17,9 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
                 .AddXmlFile(configPath, optional: false, reloadOnChange: true)
                 .Build();
 
-            _rootDirectory = configuration["TestSettings:WorkspacePath"];
-            _logicAppName = configuration["TestSettings:LogicAppName"];
-            _workflow = configuration["TestSettings:WorkflowName"];
+            _rootDirectory = configuration["TestSettings:WorkspacePath"] ?? throw new Exception("Configuration setting TestSettings:WorkspacePath not found");
+            _logicAppName = configuration["TestSettings:LogicAppName"] ?? throw new Exception("Configuration setting TestSettings:LogicAppName not found");
+            _workflow = configuration["TestSettings:WorkflowName"] ?? throw new Exception("Configuration setting TestSettings:WorkflowName not found");
         }
 
         public async Task<TestWorkflowRun> RunWorkflowAsync(TriggerMock triggerMock, ActionMock[] actionMocks)
@@ -34,7 +34,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var testRun = await Create().RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
             Assert.IsNotNull(testRun, "No test workflow run returned");
 
-            return testRun;
+            return testRun!;
         }
 
         public UnitTestExecutor Create()

@@ -10,7 +10,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var action = testRun.GetAction(actionName);
             Assert.AreEqual(expectedFunctionName, action.Inputs["functionName"]);
 
-            var actualParameters = (JObject)action.Inputs["parameters"];
+            var actualParameters = action.Inputs["parameters"] as JObject;
+            Assert.IsNotNull(actualParameters, "Input with name 'parameters' not found or not of type JObect");
             Assert.AreEqual(expectedParameters.Count, actualParameters.Count);
             foreach (var expectedParameter in expectedParameters)
             {
@@ -39,14 +40,14 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             return action!;
         }
 
-        private static TestWorkflowRunActionResult FindActionRecursively(this IDictionary<string, TestWorkflowRunActionResult> actions, string actionName)
+        private static TestWorkflowRunActionResult? FindActionRecursively(this IDictionary<string, TestWorkflowRunActionResult>? actions, string actionName)
         {
             if (actions == null)
             {
                 return null;
             }
 
-            if (actions.TryGetValue(actionName, out TestWorkflowRunActionResult value))
+            if (actions.TryGetValue(actionName, out TestWorkflowRunActionResult? value))
             {
                 return value;
             }

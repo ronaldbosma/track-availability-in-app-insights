@@ -11,7 +11,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for  <see cref="RecurrenceTriggerMock"/> with static outputs.
         /// </summary>
-        public RecurrenceTriggerMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string name = null, RecurrenceTriggerOutput outputs = null)
+        public RecurrenceTriggerMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string? name = null, RecurrenceTriggerOutput? outputs = null)
             : base(status: status, name: name, outputs: outputs ?? new RecurrenceTriggerOutput())
         {
         }
@@ -19,7 +19,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for  <see cref="RecurrenceTriggerMock"/> with static error info.
         /// </summary>
-        public RecurrenceTriggerMock(TestWorkflowStatus status, string name = null, TestErrorInfo error = null)
+        public RecurrenceTriggerMock(TestWorkflowStatus status, string? name = null, TestErrorInfo? error = null)
             : base(status: status, name: name, error: error)
         {
         }
@@ -27,7 +27,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for <see cref="RecurrenceTriggerMock"/> with a callback function for dynamic outputs.
         /// </summary>
-        public RecurrenceTriggerMock(Func<TestExecutionContext, RecurrenceTriggerMock> onGetTriggerMock, string name = null)
+        public RecurrenceTriggerMock(Func<TestExecutionContext, RecurrenceTriggerMock> onGetTriggerMock, string? name = null)
             : base(onGetTriggerMock: onGetTriggerMock, name: name)
         {
         }

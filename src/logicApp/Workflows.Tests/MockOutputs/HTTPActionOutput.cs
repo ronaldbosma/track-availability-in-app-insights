@@ -13,7 +13,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for  <see cref="HTTPActionMock"/> with static outputs.
         /// </summary>
-        public HTTPActionMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string name = null, HTTPActionOutput outputs = null)
+        public HTTPActionMock(TestWorkflowStatus status = TestWorkflowStatus.Succeeded, string? name = null, HTTPActionOutput? outputs = null)
             : base(status: status, name: name, outputs: outputs ?? new HTTPActionOutput())
         {
         }
@@ -21,7 +21,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for  <see cref="HTTPActionMock"/> with static error info.
         /// </summary>
-        public HTTPActionMock(TestWorkflowStatus status, string name = null, TestErrorInfo error = null)
+        public HTTPActionMock(TestWorkflowStatus status, string? name = null, TestErrorInfo? error = null)
             : base(status: status, name: name, error: error)
         {
         }
@@ -29,7 +29,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
         /// <summary>
         /// Creates a mocked instance for <see cref="HTTPActionMock"/> with a callback function for dynamic outputs.
         /// </summary>
-        public HTTPActionMock(Func<TestExecutionContext, HTTPActionMock> onGetActionMock, string name = null)
+        public HTTPActionMock(Func<TestExecutionContext, HTTPActionMock> onGetActionMock, string? name = null)
             : base(onGetActionMock: onGetActionMock, name: name)
         {
         }
