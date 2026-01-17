@@ -25,8 +25,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var httpSuccessResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.OK };
             var httpActionMock = new HTTPActionMock(name: ActionNames.Http, outputs: httpSuccessResponse);
 
-            var trackIsAvailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
-            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsAvailable, outputs: trackIsAvailableOutput);
+            var trackIsAvailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsAvailable);
 
             // Act
             var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [httpActionMock, trackIsAvailableMock]);
@@ -51,8 +50,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var httpServiceUnavailableResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.ServiceUnavailable };
             var httpActionMock = new HTTPActionMock(TestWorkflowStatus.Failed, name: ActionNames.Http, outputs: httpServiceUnavailableResponse);
 
-            var trackIsUnavailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
-            var trackIsUnavailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsUnavailable, outputs: trackIsUnavailableOutput);
+            var trackIsUnavailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsUnavailable);
 
             // Act
             var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [httpActionMock, trackIsUnavailableMock]);
