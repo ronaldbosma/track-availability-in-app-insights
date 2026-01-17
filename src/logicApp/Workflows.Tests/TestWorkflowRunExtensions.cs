@@ -29,8 +29,36 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 
         public static TestWorkflowRunActionResult GetAction(this TestWorkflowRun testRun, string actionName)
         {
-            Assert.IsTrue(testRun.Actions.ContainsKey(actionName), $"Action with name {actionName} not found");
-            return testRun.Actions[actionName];
+            var action = testRun.Actions.FindActionRecursively(actionName);
+            Assert.IsNotNull(action, $"Action with name {actionName} not found");
+            return action!;
+        }
+
+        private static TestWorkflowRunActionResult FindActionRecursively(this IDictionary<string, TestWorkflowRunActionResult> actions, string actionName)
+        {
+            if (actions == null)
+            {
+                return null;
+            }
+
+            if (actions.TryGetValue(actionName, out TestWorkflowRunActionResult value))
+            {
+                return value;
+            }
+
+            foreach (var action in actions.Values)
+            {
+                if (action.ChildActions != null)
+                {
+                    var foundAction = action.ChildActions.FindActionRecursively(actionName);
+                    if (foundAction != null)
+                    {
+                        return foundAction;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

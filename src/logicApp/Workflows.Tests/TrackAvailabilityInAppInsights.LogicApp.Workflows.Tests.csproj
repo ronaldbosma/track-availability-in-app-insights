@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup Label="UnitTestSettingsConfig">
+    <Content Include="apim-ssl-certificate-check-availability-test\*.config" Link="apim-ssl-certificate-check-availability-test\%(RecursiveDir)%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="backend-availability-test\*.config" Link="backend-availability-test\%(RecursiveDir)%(Filename)%(Extension)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
