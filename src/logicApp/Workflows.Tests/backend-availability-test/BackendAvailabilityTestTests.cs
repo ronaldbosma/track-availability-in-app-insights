@@ -11,6 +11,12 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
     {
         private readonly TestExecutor _testExecutor = new("backend-availability-test/testSettings.config");
 
+        private static class ActionNames
+        {
+            public const string Http = "HTTP";
+            public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
+        }
+
         [TestMethod]
         public async Task RunWorkflow_BackendIsAvailable_AvailabilitySuccessTrackedAndWorkflowSucceeds()
         {
@@ -18,10 +24,10 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var trigger = new RecurrenceTriggerMock();
 
             var httpSuccessResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.OK };
-            var httpActionMock = new HTTPActionMock(name: "HTTP", outputs: httpSuccessResponse);
+            var httpActionMock = new HTTPActionMock(name: ActionNames.Http, outputs: httpSuccessResponse);
 
-            var trackIsAvailableOutput = new InvokeFunctionActionOutput<JObject> { Body = new JObject() };
-            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: "Track_is_available_(in_App_Insights)", outputs: trackIsAvailableOutput);
+            var trackIsAvailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
+            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsAvailable, outputs: trackIsAvailableOutput);
 
             // Act
             var testRun = await _testExecutor.RunWorkflowAsync(trigger, [httpActionMock, trackIsAvailableMock]);
