@@ -2,7 +2,6 @@ using Microsoft.Azure.Workflows.UnitTesting.Definitions;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs;
-using Workflows.Tests.Mocks.backend_availability_test;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 {

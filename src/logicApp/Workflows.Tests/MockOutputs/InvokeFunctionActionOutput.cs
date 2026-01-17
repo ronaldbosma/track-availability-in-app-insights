@@ -1,7 +1,7 @@
 using Microsoft.Azure.Workflows.UnitTesting.Definitions;
 using Microsoft.Azure.Workflows.UnitTesting.ErrorResponses;
 
-namespace Workflows.Tests.Mocks.backend_availability_test
+namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
 {
     /// <summary>
     /// The <see cref="InvokeFunctionActionMock"/> class.
