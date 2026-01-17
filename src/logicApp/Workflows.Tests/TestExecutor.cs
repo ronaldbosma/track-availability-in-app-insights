@@ -1,4 +1,5 @@
 using Microsoft.Azure.Workflows.UnitTesting;
+using Microsoft.Azure.Workflows.UnitTesting.Definitions;
 using Microsoft.Extensions.Configuration;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
@@ -32,7 +33,17 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             this.workflow = configuration["TestSettings:WorkflowName"];
         }
 
-        #region Unit test executor
+        public async Task<TestWorkflowRun> RunWorkflowAsync(TriggerMock triggerMock, ActionMock[] actionMocks)
+        {
+            var testMock = new TestMockDefinition(
+                triggerMock: triggerMock,
+                actionMocks: new Dictionary<string, ActionMock>(
+                    actionMocks.Select(a => new KeyValuePair<string, ActionMock>(a.Name, a))
+                )
+            );
+
+            return await Create().RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
+        }
 
         public UnitTestExecutor Create()
         {
@@ -49,8 +60,5 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
                 localSettingsFilePath: localSettingsPath
             );
         }
-
-        #endregion
-
     }
 }

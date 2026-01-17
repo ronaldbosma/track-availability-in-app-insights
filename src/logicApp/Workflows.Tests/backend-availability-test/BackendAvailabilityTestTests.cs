@@ -24,17 +24,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: "Track_is_available_(in_App_Insights)", outputs: trackIsAvailableOutput);
 
             // Act
-            var testMock = new TestMockDefinition(
-                triggerMock: trigger,
-                actionMocks: new Dictionary<string, ActionMock>()
-                {
-                    {httpActionMock.Name, httpActionMock},
-                    {trackIsAvailableMock.Name, trackIsAvailableMock }
-                }
-            );
-            var testRun = await _testExecutor
-                .Create()
-                .RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
+            var testRun = await _testExecutor.RunWorkflowAsync(trigger, [httpActionMock, trackIsAvailableMock]);
 
             // Assert
             Assert.IsNotNull(value: testRun);
