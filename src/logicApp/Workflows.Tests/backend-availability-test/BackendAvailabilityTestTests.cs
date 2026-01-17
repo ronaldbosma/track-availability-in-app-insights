@@ -47,5 +47,35 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 
             testRun.VerifyActionStatus(ActionNames.TrackIsUnavailable, TestWorkflowStatus.Skipped);
         }
+
+        [TestMethod]
+        public async Task RunWorkflow_BackendIsUnavailable_AvailabilityFailureTrackedAndWorkflowFails()
+        {
+            // Arrange
+            var trigger = new RecurrenceTriggerMock();
+
+            var httpServiceUnavailableResponse = new HTTPActionOutput() { StatusCode = HttpStatusCode.ServiceUnavailable };
+            var httpActionMock = new HTTPActionMock(TestWorkflowStatus.Failed, name: ActionNames.Http, outputs: httpServiceUnavailableResponse);
+
+            var trackIsUnavailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
+            var trackIsUnavailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsUnavailable, outputs: trackIsUnavailableOutput);
+
+            // Act
+            var testRun = await _testExecutor.RunWorkflowAsync(trigger, [httpActionMock, trackIsUnavailableMock]);
+
+            // Assert
+            Assert.IsNotNull(testRun);
+            Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
+
+            var expectedParameters = new JObject
+            {
+                { "testName", "Logic App Workflow - Backend API Status" },
+                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() },
+                { "message", "HTTP call failed with status code 503 and response body: \"{}\"" }
+            };
+            testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters, TestWorkflowStatus.Succeeded);
+
+            testRun.VerifyActionStatus(ActionNames.TrackIsAvailable, TestWorkflowStatus.Skipped);
+        }
     }
 }
