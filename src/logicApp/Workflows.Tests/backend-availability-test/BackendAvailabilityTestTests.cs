@@ -14,7 +14,9 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         private static class ActionNames
         {
             public const string Http = "HTTP";
+            public const string StartTime = "Start_time";
             public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
+            public const string TrackIsUnavailable = "Track_is_unavailable_(in_App_Insights)";
         }
 
         [TestMethod]
@@ -33,8 +35,17 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var testRun = await _testExecutor.RunWorkflowAsync(trigger, [httpActionMock, trackIsAvailableMock]);
 
             // Assert
-            Assert.IsNotNull(value: testRun);
-            Assert.AreEqual(expected: TestWorkflowStatus.Succeeded, actual: testRun.Status);
+            Assert.IsNotNull(testRun);
+            Assert.AreEqual(TestWorkflowStatus.Succeeded, testRun.Status);
+
+            var expectedParameters = new JObject
+            {
+                { "testName", "Logic App Workflow - Backend API Status" },
+                { "startTime", testRun.Actions[ActionNames.StartTime].Outputs["body"].ToString() }
+            };
+            testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsAvailable, FunctionNames.TrackIsAvailable, expectedParameters, TestWorkflowStatus.Succeeded);
+
+            testRun.VerifyActionStatus(ActionNames.TrackIsUnavailable, TestWorkflowStatus.Skipped);
         }
     }
 }
