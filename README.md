@@ -165,7 +165,7 @@ The repository consists of the following files and directories:
 │   └── main.parameters.json   [ Parameters file ]
 ├── src                        [ Application code ]
 │   ├── functionApp            [ Azure Functions ]
-│   └── logicApp               [ Logic App workflow]
+│   └── logicApp               [ Logic App workflows ]
 ├── azure.yaml                 [ Describes the apps and types of Azure resources ]
 └── bicepconfig.json           [ Bicep configuration file ]
 ```
