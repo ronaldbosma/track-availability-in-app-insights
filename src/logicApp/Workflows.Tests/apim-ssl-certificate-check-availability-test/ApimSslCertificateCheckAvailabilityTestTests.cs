@@ -60,11 +60,11 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int> { Body = expirationInDays };
             var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
 
-            var trackIsAvailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
-            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackCertificateExpiration, outputs: trackIsAvailableOutput);
+            var trackCertificateExpirationOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
+            var trackCertificateExpirationMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackCertificateExpiration, outputs: trackCertificateExpirationOutput);
 
             // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsAvailableMock]);
+            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
 
             // Assert
             Assert.IsNotNull(testRun);
@@ -91,11 +91,11 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int> { Body = expirationInDays };
             var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
 
-            var trackIsAvailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
-            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackCertificateExpiration, outputs: trackIsAvailableOutput);
+            var trackCertificateExpirationOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
+            var trackCertificateExpirationMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackCertificateExpiration, outputs: trackCertificateExpirationOutput);
 
             // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsAvailableMock]);
+            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
 
             // Assert
             Assert.IsNotNull(testRun);
@@ -120,11 +120,11 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var error = new TestErrorInfo(ErrorResponseCode.InvokeFunctionFailed, "The function 'GetSslServerCertificateExpirationInDays' failed to execute. Please verify function code is valid.");
             var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(TestWorkflowStatus.Failed, name: ActionNames.GetApimSslServerCertificateExpirationInDays, error);
 
-            var trackIsAvailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
-            var trackIsAvailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsUnavailable, outputs: trackIsAvailableOutput);
+            var trackIsUnavailableOutput = new InvokeFunctionActionOutput<JObject> { Body = [] };
+            var trackIsUnavailableMock = new InvokeFunctionActionMock<JObject>(name: ActionNames.TrackIsUnavailable, outputs: trackIsUnavailableOutput);
 
             // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsAvailableMock]);
+            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsUnavailableMock]);
 
             // Assert
             Assert.IsNotNull(testRun);
