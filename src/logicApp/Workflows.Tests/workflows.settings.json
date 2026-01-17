@@ -1,0 +1,18 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_INPROC_NET8_ENABLED": "1",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "APP_KIND": "workflowapp",
+    "AzureWebJobsFeatureFlags": "EnableMultiLanguageWorker",
+    "ProjectDirectoryPath": "<your-repository-root>\\src\\logicApp\\Workflows",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "<your-app-insights-connection-string>",
+    "REGION_NAME": "local",
+    "ApiManagement_hostname": "<your-apim-service>.azure-api.net",
+    "ApiManagement_gatewayUrl": "https://<your-apim-service>.azure-api.net",
+    "ApiManagement_subscriptionKey": "<your-apim-subscription-key>",
+    "SSL_CERT_REMAINING_LIFETIME_DAYS": 30,
+    "WORKFLOWS_SUBSCRIPTION_ID": ""
+  }
+}

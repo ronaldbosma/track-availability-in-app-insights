@@ -25,7 +25,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public async Task<TestWorkflowRun> RunWorkflowAsync(TriggerMock triggerMock, ActionMock[] actionMocks)
         {
             var testMock = new TestMockDefinition(
-                triggerMock: triggerMock,
+                triggerMock: triggerMock,   
                 actionMocks: new Dictionary<string, ActionMock>(
                     actionMocks.Select(a => new KeyValuePair<string, ActionMock>(a.Name, a))
                 )
@@ -40,13 +40,12 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var workflowDefinitionPath = Path.Combine(this._rootDirectory, this._logicAppName, this._workflow, "workflow.json");
             var connectionsPath = Path.Combine(this._rootDirectory, this._logicAppName, "connections.json");
             var parametersPath = Path.Combine(this._rootDirectory, this._logicAppName, "parameters.json");
-            var localSettingsPath = Path.Combine(this._rootDirectory, this._logicAppName, "cloud.settings.json");
             
             return new UnitTestExecutor(
                 workflowFilePath: workflowDefinitionPath,
                 connectionsFilePath: connectionsPath,
                 parametersFilePath: parametersPath,
-                localSettingsFilePath: localSettingsPath
+                localSettingsFilePath: "workflows.settings.json"
             );
         }
     }
