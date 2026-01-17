@@ -37,9 +37,9 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public UnitTestExecutor Create()
         {
             // Set the path for workflow-related input files in the workspace and build the full paths to the required JSON files.
-            var workflowDefinitionPath = Path.Combine(this._rootDirectory, this._logicAppName, this._workflow, "workflow.json");
-            var connectionsPath = Path.Combine(this._rootDirectory, this._logicAppName, "connections.json");
-            var parametersPath = Path.Combine(this._rootDirectory, this._logicAppName, "parameters.json");
+            var workflowDefinitionPath = Path.Combine(_rootDirectory, _logicAppName, _workflow, "workflow.json");
+            var connectionsPath = Path.Combine(_rootDirectory, _logicAppName, "connections.json");
+            var parametersPath = Path.Combine(_rootDirectory, _logicAppName, "parameters.json");
             
             return new UnitTestExecutor(
                 workflowFilePath: workflowDefinitionPath,
