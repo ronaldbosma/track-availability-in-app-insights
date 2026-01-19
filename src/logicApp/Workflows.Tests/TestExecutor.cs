@@ -23,13 +23,13 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public async Task<TestWorkflowRun> RunWorkflowAsync(TriggerMock triggerMock, ActionMock[] actionMocks)
         {
             var testMock = new TestMockDefinition(
-                triggerMock: triggerMock,   
+                triggerMock,   
                 actionMocks: new Dictionary<string, ActionMock>(
                     actionMocks.Select(a => new KeyValuePair<string, ActionMock>(a.Name, a))
                 )
             );
 
-            var testRun = await Create().RunWorkflowAsync(testMock: testMock).ConfigureAwait(continueOnCapturedContext: false);
+            var testRun = await Create().RunWorkflowAsync(testMock).ConfigureAwait(continueOnCapturedContext: false);
             Assert.IsNotNull(testRun, "No test workflow run returned");
 
             return testRun!;
@@ -41,12 +41,13 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var workflowDefinitionPath = Path.Combine(_rootDirectory, _logicAppName, _workflow, "workflow.json");
             var connectionsPath = Path.Combine(_rootDirectory, _logicAppName, "connections.json");
             var parametersPath = Path.Combine(_rootDirectory, _logicAppName, "parameters.json");
+            var localSettingsFilePath = "workflows.settings.json";
             
             return new UnitTestExecutor(
-                workflowFilePath: workflowDefinitionPath,
-                connectionsFilePath: connectionsPath,
-                parametersFilePath: parametersPath,
-                localSettingsFilePath: "workflows.settings.json"
+                workflowDefinitionPath,
+                connectionsPath,
+                parametersPath,
+                localSettingsFilePath
             );
         }
     }
