@@ -78,6 +78,10 @@ var storageAccountName string = getResourceName('storageAccount', environmentNam
 var tags { *: string } = {
   'azd-env-name': environmentName
   'azd-template': 'ronaldbosma/track-availability-in-app-insights'
+  
+  // The SecurityControl tag is added to Trainer Demo Deploy projects so resources can run in MTT managed subscriptions without being blocked by default security policies.
+  // DO NOT USE this tag in production or customer subscriptions.
+  SecurityControl: 'Ignore'
 }
 
 //=============================================================================
