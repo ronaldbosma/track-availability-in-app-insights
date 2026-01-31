@@ -59,7 +59,6 @@ Before you can deploy this template, make sure you have the following tools inst
   _(This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.)_
 - This template includes several hooks that run at different stages of the deployment process and require the following tools. For more details, see [Hooks](#hooks).
   - [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
-  - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 
 **Required Permissions:**
 - You need **Owner** permissions, or a combination of **Contributor** and **Role Based Access Control Administrator** permissions on an Azure Subscription to deploy this template.
@@ -82,12 +81,6 @@ Once the prerequisites are installed on your machine, you can deploy this templa
     azd auth login
     ```
 
-1. Run the `az login` command to authenticate to your Azure subscription using the **Azure CLI** _(if you haven't already)_. This is required for the [hooks](#hooks) to function properly. Make sure to log into the same tenant as the Azure Developer CLI.
-
-    ```cmd
-    az login
-    ```
-
 1. Run the `azd up` command to provision the resources in your Azure subscription. This will deploy both the infrastructure and the sample application, and typically takes around 10 minutes to complete. _(Use `azd provision` to only deploy the infrastructure.)_
 
     ```cmd
@@ -104,7 +97,7 @@ See the [Demo Guide](demos/demo-availability-tests.md) for a step-by-step walkth
 
 ### Clean up
 
-Once you're done and want to clean up, run the `azd down` command. By including the `--purge` parameter, you ensure that the API Management service doesn't remain in a soft-deleted state, which could block future deployments of the same environment.
+Once you're done and want to clean up, run the `azd down` command. By including the `--purge` parameter, you ensure that the API Management service and Log Analytics workspace don't remain in a soft-deleted state, which could cause issues with future deployments of the same environment.
 
 ```cmd
 azd down --purge
@@ -178,11 +171,6 @@ This template has several hooks that are executed at different stages of the dep
 - [prepackage-logicapp-build-functions-project.ps1](hooks/prepackage-logicapp-build-functions-project.ps1): 
   This PowerShell script is executed before the Logic App is packaged. 
   It builds the custom .NET code project for the Logic App using the `dotnet build` command.
-
-- [predown-remove-law.ps1](hooks/predown-remove-law.ps1): 
-  This PowerShell script is executed before the resources are removed. 
-  It permanently deletes all Log Analytics workspaces in the resource group to prevent issues with future deployments.
-  Sometimes the requests and traces don't show up in Application Insights & Log Analytics when removing and deploying the template multiple times.
 
 
 ## Pipeline
