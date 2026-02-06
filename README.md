@@ -5,6 +5,11 @@ An `azd` template (Bicep) that implements three different ways to track availabi
 - an Azure Function
 - a Logic App workflow
 
+For more detailed explanations of each approach, see these blog posts:
+- [Track Availability in Application Insights using Standard Test](https://ronaldbosma.github.io/blog/2026/01/12/track-availability-in-application-insights-using-standard-test/)
+- [Track Availability in Application Insights using .NET (Azure Function)](https://ronaldbosma.github.io/blog/2026/01/19/track-availability-in-application-insights-using-.net/)
+- [Track Availability in Application Insights using Logic App Workflow](https://ronaldbosma.github.io/blog/2026/01/26/track-availability-in-application-insights-using-logic-app-workflow/)
+
 ## Overview
 
 This template deploys the following resources:
