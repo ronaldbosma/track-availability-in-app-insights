@@ -186,6 +186,7 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
     storageAccountName: storageAccountName
   }
   dependsOn: [
+    appInsights
     keyVault
     storageAccount
   ]
