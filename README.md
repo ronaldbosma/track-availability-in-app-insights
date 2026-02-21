@@ -188,7 +188,7 @@ The pipeline consists of the following jobs:
 
 - **Build, Verify and Package**: This job sets up the build environment, validates the Bicep template, executes unit tests and packages the Function App and Logic App.
 - **Deploy to Azure**: This job provisions the Azure infrastructure and deploys the packaged applications to the created resources.
-- **Verify Monitoring**: This job verifies that the availability tests are running and reporting results to Application Insights.
+- **Verify Deployment**: This job verifies that the availability tests are running and reporting results to Application Insights.
 - **Clean Up Resources**: This job removes all deployed Azure resources.  
 
   By default, cleanup runs automatically after deployment. This can be disabled via an input parameter when the workflow is triggered manually.
