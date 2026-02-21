@@ -181,10 +181,12 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
   params: {
     principalId: deployer().objectId
     isAdmin: true
+    appInsightsName: appInsightsSettings.appInsightsName
     keyVaultName: keyVaultName
     storageAccountName: storageAccountName
   }
   dependsOn: [
+    appInsights
     keyVault
     storageAccount
   ]
