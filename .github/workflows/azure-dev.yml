@@ -220,11 +220,11 @@ jobs:
 
 
   # ------------------------------------------------------------
-  # Verify Monitoring
+  # Verify Deployment
   # ------------------------------------------------------------
 
-  verify-monitoring:
-    name: Verify Monitoring
+  verify-deployment:
+    name: Verify Deployment
     needs: deploy
     runs-on: ubuntu-latest
     permissions:
@@ -255,7 +255,7 @@ jobs:
 
   cleanup:
     name: Clean Up Resources
-    needs: [deploy, verify-monitoring]
+    needs: [ deploy, verify-deployment ]
     if: ${{ success() && (github.event_name != 'workflow_dispatch' || github.event.inputs.cleanup-resources == 'true') }}
     runs-on: ubuntu-latest
     permissions:
