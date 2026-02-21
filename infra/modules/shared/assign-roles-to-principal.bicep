@@ -16,6 +16,9 @@ param principalType string?
 @description('The flag to determine if the principal is an admin or not')
 param isAdmin bool = false
 
+@description('The name of the App Insights instance on which to assign roles')
+param appInsightsName string
+
 @description('The name of the Key Vault on which to assign roles')
 param keyVaultName string
 
@@ -39,10 +42,15 @@ var storageAccountRoles string[] = [
   '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'      // Storage Table Data Contributor
 ]
 
+var monitoringMetricsPublisher string = '3913510d-42f4-4e42-8a64-420c390055eb' // Monitoring Metrics Publisher
 
 //=============================================================================
 // Existing Resources
 //=============================================================================
+
+resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
+  name: appInsightsName
+}
 
 resource keyVault 'Microsoft.KeyVault/vaults@2025-05-01' existing = {
   name: keyVaultName
@@ -55,6 +63,18 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2025-06-01' existing 
 //=============================================================================
 // Resources
 //=============================================================================
+
+// Assign role Application Insights to the principal
+
+resource assignAppInsightRolesToPrincipal 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(principalId, appInsights.id, subscriptionResourceId('Microsoft.Authorization/roleDefinitions', monitoringMetricsPublisher))
+  scope: appInsights
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', monitoringMetricsPublisher)
+    principalId: principalId
+    principalType: principalType
+  }
+}
 
 // Assign role on Key Vault to the principal
 

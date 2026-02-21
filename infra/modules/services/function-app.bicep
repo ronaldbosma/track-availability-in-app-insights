@@ -53,6 +53,7 @@ var serviceTags { *: string } = union(tags, {
 var storageAccountConnectionString string = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
 
 var appSettings object = {
+  APPLICATIONINSIGHTS_AUTHENTICATION_STRING: 'Authorization=AAD'
   APPLICATIONINSIGHTS_CONNECTION_STRING: appInsights.properties.ConnectionString
   AzureWebJobsStorage: storageAccountConnectionString
   FUNCTIONS_EXTENSION_VERSION: '~4'
@@ -131,6 +132,7 @@ module assignRolesToFunctionAppSystemAssignedIdentity '../shared/assign-roles-to
   params: {
     principalId: functionApp.identity.principalId
     principalType: 'ServicePrincipal'
+    appInsightsName: appInsightsName
     keyVaultName: keyVaultName
     storageAccountName: storageAccountName
   }
