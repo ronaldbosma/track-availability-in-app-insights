@@ -12,7 +12,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
         private const string TestName = "Azure Function - API Management SSL Certificate Check";
 
         [Function(nameof(ApimSslCertificateCheckAvailabilityTest))]
-        public async Task Run([TimerTrigger("0 * * * * *")] TimerInfo timerInfo)
+        public async Task Run([TimerTrigger("%AVAILABILITY_TESTS_SCHEDULE%")] TimerInfo timerInfo)
         {
             var availabilityTest = availabilityTestFactory.CreateAvailabilityTest(TestName, CheckSslCertificateAsync);
             await availabilityTest.ExecuteAsync();
