@@ -69,7 +69,9 @@ var appSettings object = {
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'logic-app-subscription-key')
   
-  // SSL Certificate Check Settings
+  // Availability test settings
+  AVAILABILITY_TESTS_INTERVAL: '1'
+  AVAILABILITY_TESTS_FREQUENCY: 'Minute'
   SSL_CERT_REMAINING_LIFETIME_DAYS: string(sslCertRemainingLifetimeDays)
 }
 

@@ -119,8 +119,8 @@
             "Recurrence": {
                 "type": "Recurrence",
                 "recurrence": {
-                    "interval": 1,
-                    "frequency": "Minute"
+                    "interval": "@int(appsetting('AVAILABILITY_TESTS_INTERVAL'))",
+                    "frequency": "@appsetting('AVAILABILITY_TESTS_FREQUENCY')"
                 }
             }
         },
