@@ -12,6 +12,8 @@
     "ApiManagement_hostname": "sample.azure-api.net",
     "ApiManagement_gatewayUrl": "https://sample.azure-api.net",
     "ApiManagement_subscriptionKey": "abcdefghijklmnopqrstuvwxyz123456",
+    "AVAILABILITY_TESTS_INTERVAL": "1",
+    "AVAILABILITY_TESTS_FREQUENCY": "Minute",
     "SSL_CERT_REMAINING_LIFETIME_DAYS": 30,
     "WORKFLOWS_SUBSCRIPTION_ID": ""
   }

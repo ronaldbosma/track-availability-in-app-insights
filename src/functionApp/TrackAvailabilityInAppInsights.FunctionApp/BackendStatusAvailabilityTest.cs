@@ -13,7 +13,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
         private const string HttpClientName = "apim";
 
         [Function(nameof(BackendStatusAvailabilityTest))]
-        public async Task Run([TimerTrigger("0 * * * * *")] TimerInfo timerInfo)
+        public async Task Run([TimerTrigger("%AVAILABILITY_TESTS_SCHEDULE%")] TimerInfo timerInfo)
         {
             var availabilityTest = availabilityTestFactory.CreateAvailabilityTest(TestName, RequestUri, HttpClientName);
             await availabilityTest.ExecuteAsync();

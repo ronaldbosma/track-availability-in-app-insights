@@ -12,6 +12,8 @@
     "ApiManagement_hostname": "<your-apim-service>.azure-api.net",
     "ApiManagement_gatewayUrl": "https://<your-apim-service>.azure-api.net",
     "ApiManagement_subscriptionKey": "<your-apim-subscription-key>",
+    "AVAILABILITY_TESTS_INTERVAL": "1",
+    "AVAILABILITY_TESTS_FREQUENCY": "Minute",
     "SSL_CERT_REMAINING_LIFETIME_DAYS": 30,
     "WORKFLOWS_SUBSCRIPTION_ID": ""
   }
