@@ -67,7 +67,7 @@ var appSettings object = {
   ApiManagement__StatusEndpoint: helpers.getApiManagementStatusEndpoint(apiManagementSettings.sku)
 
   // Availability test settings
-  AVAILABILITY_TESTS_SCHEDULE: '00:01:00' 
+  AVAILABILITY_TESTS_SCHEDULE: '0 * * * * *' // Every minute
   SSL_CERT_REMAINING_LIFETIME_DAYS: string(sslCertRemainingLifetimeDays)
 }
 
