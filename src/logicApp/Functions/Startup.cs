@@ -21,6 +21,9 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
                 ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"),
                 TelemetryChannel = new InMemoryChannel()
             };
+
+            // Use Managed Identity to authenticate with Application Insights
+            // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details
             telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential());
 
             TelemetryClient telemetryClient = new(telemetryConfiguration); 
