@@ -20,7 +20,8 @@
       "matchPackageNames": [
         "Microsoft.Azure.Functions.Worker.Sdk",
         "Microsoft.Extensions.Logging.Abstractions",
-        "Microsoft.Extensions.Logging"
+        "Microsoft.Extensions.Logging",
+        "Azure.Identity"
       ],
       "matchFileNames": [
         "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
