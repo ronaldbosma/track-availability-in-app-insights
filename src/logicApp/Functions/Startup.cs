@@ -1,6 +1,7 @@
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions
 {
     using System;
+    using Azure.Identity;
     using Microsoft.Azure.Functions.Extensions.Workflows;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.ApplicationInsights;
@@ -20,6 +21,8 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
                 ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"),
                 TelemetryChannel = new InMemoryChannel()
             };
+            telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential());
+
             TelemetryClient telemetryClient = new(telemetryConfiguration); 
 
             services.AddSingleton(telemetryClient);
