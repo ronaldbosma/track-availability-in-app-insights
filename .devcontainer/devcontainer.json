@@ -16,6 +16,11 @@
     },
     "customizations": {
         "vscode": {
+			"settings": {
+                // Set PowerShell as the default terminal profile for VS Code in the container
+				"terminal.integrated.defaultProfile.linux": "pwsh"
+			},
+
             "extensions": [
                 "GitHub.copilot",
                 "GitHub.vscode-github-actions",
