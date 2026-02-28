@@ -1,4 +1,4 @@
-﻿using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests

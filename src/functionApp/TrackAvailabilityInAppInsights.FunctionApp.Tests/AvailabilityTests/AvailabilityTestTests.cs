@@ -1,4 +1,4 @@
-﻿using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
+using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 using TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests

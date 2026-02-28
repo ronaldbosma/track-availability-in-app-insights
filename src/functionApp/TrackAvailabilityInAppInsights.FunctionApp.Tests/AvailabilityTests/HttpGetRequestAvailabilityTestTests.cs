@@ -1,6 +1,8 @@
-﻿using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging.Abstractions;
 using System.Net;
+
+using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.Logging.Abstractions;
+
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 using TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes;
 

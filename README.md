@@ -1,11 +1,13 @@
 # Track Availability in Application Insights
 
-An `azd` template (Bicep) that implements three different ways to track availability in Application Insights using: 
+An `azd` template (Bicep) that implements three different ways to track availability in Application Insights using:
+
 - a standard test (webtest)
 - an Azure Function
 - a Logic App workflow
 
 For more detailed explanations of each approach, see these blog posts:
+
 - [Track Availability in Application Insights using Standard Test](https://ronaldbosma.github.io/blog/2026/01/12/track-availability-in-application-insights-using-standard-test/)
 - [Track Availability in Application Insights using .NET (Azure Function)](https://ronaldbosma.github.io/blog/2026/01/19/track-availability-in-application-insights-using-.net/)
 - [Track Availability in Application Insights using Logic App Workflow](https://ronaldbosma.github.io/blog/2026/01/26/track-availability-in-application-insights-using-logic-app-workflow/)
@@ -17,6 +19,7 @@ This template deploys the following resources:
 ![Track Availability App](/images/diagrams-overview.png)
 
 The following availability tests are deployed:
+
 - Two standard tests (webtest):
   1. Checks the availability of an API every 5 minutes from 5 locations
   1. Checks the validity of the SSL certificate of API Management
@@ -27,72 +30,74 @@ The following availability tests are deployed:
   1. Checks the availability of an API every minute
   1. Checks the validity of the SSL certificate of API Management
 
-For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a configurable [approximate failure percentage](#approximate-failure-percentage). 
+For the backend, an API in API Management is used that randomly returns a `200 OK` or `503 Service Unavailable` response based on a configurable [approximate failure percentage](#approximate-failure-percentage).
 
-After deployment, availability test results should appear in Application Insights. See the following image for an example:  
+After deployment, availability test results should appear in Application Insights. See the following image for an example:
 
 ![Availability Test Results](/images/availability-test-results.png)
 
-When tests fail, alerts will fire in Azure Monitor.  See the following image for examples:  
+When tests fail, alerts will fire in Azure Monitor. See the following image for examples:
 
 ![Alerts](/images/alerts.png)
 
 See the [Demo Guide](demos/demo-availability-tests.md) for a more detailed overview of what's included in this template and how it works.
 
 Some things to take note of:
+
 - This sample uses Azure Functions to perform availability tests from code because they provide an easy way to trigger the tests on a schedule. You can use other services that host .NET code as well.
-- The Logic App sample is not entirely low code. A [Logic App with custom .NET code](https://learn.microsoft.com/en-us/azure/logic-apps/create-run-custom-code-functions) is used in order to track the availability in Application Insights. 
+- The Logic App sample is not entirely low code. A [Logic App with custom .NET code](https://learn.microsoft.com/en-us/azure/logic-apps/create-run-custom-code-functions) is used in order to track the availability in Application Insights.
 - You can use any backend to check for availability, not just an API in API Management.
 
 > [!IMPORTANT]  
 > This template is not production-ready; it uses minimal cost SKUs and omits network isolation, advanced security, governance and resiliency. Harden security, implement enterprise controls and/or replace modules with [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/) before any production use.
 
-
 ## Getting Started
 
-### Prerequisites  
+### Prerequisites
 
 Before you can deploy this template, make sure you have the following tools installed and the necessary permissions.
 
 **Required Tools:**
-- [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)  
-  - Installing `azd` also installs the following tools:  
-    - [GitHub CLI](https://cli.github.com)  
-    - [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)  
-- [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)  
-- [npm CLI](https://nodejs.org/) 
+
+- [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
+  - Installing `azd` also installs the following tools:
+    - [GitHub CLI](https://cli.github.com)
+    - [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)
+- [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+- [npm CLI](https://nodejs.org/)
   _(This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.)_
 - This template includes several hooks that run at different stages of the deployment process and require the following tools. For more details, see [Hooks](#hooks).
   - [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
 
 **Required Permissions:**
+
 - You need **Owner** permissions, or a combination of **Contributor** and **Role Based Access Control Administrator** permissions on an Azure Subscription to deploy this template.
 
 ### Deployment
 
 Once the prerequisites are installed on your machine, you can deploy this template using the following steps:
 
-1. Run the `azd init` command in an empty directory with the `--template` parameter to clone this template into the current directory.  
+1. Run the `azd init` command in an empty directory with the `--template` parameter to clone this template into the current directory.
 
-    ```cmd
-    azd init --template ronaldbosma/track-availability-in-app-insights
-    ```
+   ```cmd
+   azd init --template ronaldbosma/track-availability-in-app-insights
+   ```
 
-    When prompted, specify the name of the environment, for example, `track-availability`. The maximum length is 32 characters.
+   When prompted, specify the name of the environment, for example, `track-availability`. The maximum length is 32 characters.
 
 1. Run the `azd auth login` command to authenticate to your Azure subscription using the **Azure Developer CLI** _(if you haven't already)_.
 
-    ```cmd
-    azd auth login
-    ```
+   ```cmd
+   azd auth login
+   ```
 
 1. Run the `azd up` command to provision the resources in your Azure subscription. This will deploy both the infrastructure and the sample application, and typically takes around 10 minutes to complete. _(Use `azd provision` to only deploy the infrastructure.)_
 
-    ```cmd
-    azd up
-    ```
+   ```cmd
+   azd up
+   ```
 
-    See [Troubleshooting](#troubleshooting) if you encounter any issues during deployment.
+   See [Troubleshooting](#troubleshooting) if you encounter any issues during deployment.
 
 1. Once the deployment is complete, you can locally modify the application or infrastructure and run `azd up` again to update the resources in Azure.
 
@@ -120,8 +125,8 @@ To change it to a different value, like 50%, run the following command before de
 azd env set APPROXIMATE_FAILURE_PERCENTAGE 50
 ```
 
-The value is used to create a named value in API Management called `approximate-failure-percentage`. 
-The backend API has a policy that uses the named value to implement the logic to return either a `200 OK` or `503 Service Unavailable` response. 
+The value is used to create a named value in API Management called `approximate-failure-percentage`.
+The backend API has a policy that uses the named value to implement the logic to return either a `200 OK` or `503 Service Unavailable` response.
 See [backend-api.get-status.xml](/infra/modules/application/backend-api.get-status.xml) for the details.
 
 ### SSL certificate remaining lifetime days
@@ -147,14 +152,14 @@ azd env set ALERT_RECIPIENT_EMAIL_ADDRESS "your-email@example.com"
 The repository consists of the following files and directories:
 
 ```
-├── .github                    
+├── .github
 │   └── workflows              [ GitHub Actions workflow(s) ]
 ├── demos                      [ Demo guide(s) ]
 ├── hooks                      [ AZD hooks ]
 ├── images                     [ Images used in the README ]
 ├── infra                      [ Infrastructure As Code files ]
 │   |── functions              [ Bicep user-defined functions ]
-│   ├── modules                
+│   ├── modules
 │   │   ├── application        [ Modules for application infrastructure resources ]
 │   │   ├── services           [ Modules for all Azure services ]
 │   │   └── shared             [ Reusable modules ]
@@ -168,15 +173,13 @@ The repository consists of the following files and directories:
 └── bicepconfig.json           [ Bicep configuration file ]
 ```
 
-
 ## Hooks
 
 This template has several hooks that are executed at different stages of the deployment process. The following hooks are included:
 
-- [prepackage-logicapp-build-functions-project.ps1](hooks/prepackage-logicapp-build-functions-project.ps1): 
-  This PowerShell script is executed before the Logic App is packaged. 
+- [prepackage-logicapp-build-functions-project.ps1](hooks/prepackage-logicapp-build-functions-project.ps1):
+  This PowerShell script is executed before the Logic App is packaged.
   It builds the custom .NET code project for the Logic App using the `dotnet build` command.
-
 
 ## Pipeline
 
@@ -189,7 +192,7 @@ The pipeline consists of the following jobs:
 - **Build, Verify and Package**: This job sets up the build environment, validates the Bicep template, executes unit tests and packages the Function App and Logic App.
 - **Deploy to Azure**: This job provisions the Azure infrastructure and deploys the packaged applications to the created resources.
 - **Verify Deployment**: This job verifies that the availability tests are running and reporting results to Application Insights.
-- **Clean Up Resources**: This job removes all deployed Azure resources.  
+- **Clean Up Resources**: This job removes all deployed Azure resources.
 
   By default, cleanup runs automatically after deployment. This can be disabled via an input parameter when the workflow is triggered manually.
 
@@ -206,6 +209,7 @@ azd pipeline config
 Follow the instructions and choose either **Federated User Managed Identity (MSI + OIDC)** or **Federated Service Principal (SP + OIDC)**, as OpenID Connect (OIDC) is the authentication method used by the pipeline.
 
 For detailed guidance, refer to:
+
 - [Explore Azure Developer CLI support for CI/CD pipelines](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/configure-devops-pipeline)
 - [Create a GitHub Actions CI/CD pipeline using the Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/pipeline-github-actions)
 
@@ -215,7 +219,6 @@ For detailed guidance, refer to:
 > [!NOTE]
 > The environment name in the `AZURE_ENV_NAME` variable is suffixed with `-pr{id}` for pull requests. This prevents conflicts when multiple PRs are open and avoids accidental removal of environments, because the environment name tag is used when removing resources.
 
-
 ## Troubleshooting
 
 ### API Management deployment failed because the service already exists in soft-deleted state
@@ -224,15 +227,15 @@ If you've previously deployed this template and deleted the resources, you may e
 
 ```json
 {
-    "code": "DeploymentFailed",
-    "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-track-availability-sdc-cliqc/providers/Microsoft.Resources/deployments/apiManagement",
-    "message": "At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/arm-deployment-operations for usage details.",
-    "details": [
-        {
-            "code": "ServiceAlreadyExistsInSoftDeletedState",
-            "message": "Api service apim-track-availability-sdc-cliqc was soft-deleted. In order to create the new service with the same name, you have to either undelete the service or purge it. See https://aka.ms/apimsoftdelete."
-        }
-    ]
+  "code": "DeploymentFailed",
+  "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-track-availability-sdc-cliqc/providers/Microsoft.Resources/deployments/apiManagement",
+  "message": "At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/arm-deployment-operations for usage details.",
+  "details": [
+    {
+      "code": "ServiceAlreadyExistsInSoftDeletedState",
+      "message": "Api service apim-track-availability-sdc-cliqc was soft-deleted. In order to create the new service with the same name, you have to either undelete the service or purge it. See https://aka.ms/apimsoftdelete."
+    }
+  ]
 }
 ```
 

@@ -1,7 +1,8 @@
-﻿using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp

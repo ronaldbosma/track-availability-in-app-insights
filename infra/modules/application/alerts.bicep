@@ -63,7 +63,7 @@ resource failedAvailabilityTestAlert 'Microsoft.Insights/metricAlerts@2018-03-01
     ]
 
     evaluationFrequency: 'PT5M' // Execute every 5 minutes
-    windowSize: 'PT5M'          // Look at the availability test results from the last 5 minutes
+    windowSize: 'PT5M' // Look at the availability test results from the last 5 minutes
 
     criteria: {
       allOf: [
@@ -77,7 +77,7 @@ resource failedAvailabilityTestAlert 'Microsoft.Insights/metricAlerts@2018-03-01
           timeAggregation: 'Average'
           operator: 'LessThan'
           threshold: 100
-          
+
           // This dimension is used to split the alerts on the name of the availability test so you get notified of each failing test separately.
           // Available dimensions can be found here: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-insights-components-metrics#category-availability
           dimensions: [
@@ -89,7 +89,7 @@ resource failedAvailabilityTestAlert 'Microsoft.Insights/metricAlerts@2018-03-01
               ]
             }
           ]
-          
+
           skipMetricValidation: false
           criterionType: 'StaticThresholdCriterion'
         }

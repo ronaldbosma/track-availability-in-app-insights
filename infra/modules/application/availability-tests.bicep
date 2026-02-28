@@ -37,8 +37,18 @@ param sslCertRemainingLifetimeDays int
 // Variables
 //=============================================================================
 
-var backendApiStatusAvailabilityTestName string = getResourceName('webtest', environmentName, location, 'backend-api-status')
-var apimSslCertificateCheckAvailabilityTestName string = getResourceName('webtest', environmentName, location, 'apim-ssl-certificate-check')
+var backendApiStatusAvailabilityTestName string = getResourceName(
+  'webtest',
+  environmentName,
+  location,
+  'backend-api-status'
+)
+var apimSslCertificateCheckAvailabilityTestName string = getResourceName(
+  'webtest',
+  environmentName,
+  location,
+  'apim-ssl-certificate-check'
+)
 
 //=============================================================================
 // Existing resources
@@ -106,7 +116,6 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
     }
   }
 }
-
 
 // Add availability test that checks if the SSL certificate of the API Management service is valid for at least the configured number of days
 

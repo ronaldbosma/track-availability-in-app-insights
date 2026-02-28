@@ -4,21 +4,21 @@ on:
   workflow_dispatch:
     inputs:
       cleanup-resources:
-        description: 'Clean up resources after deployment'
+        description: "Clean up resources after deployment"
         required: false
         default: true
         type: boolean
   pull_request:
-    branches: 
+    branches:
       - main
     paths:
-      - '.github/workflows/azure-dev.yml'
-      - '.github/workflows/scripts/**'
-      - 'hooks/**'
-      - 'infra/**'
-      - 'src/**'
-      - 'azure.yaml'
-      - 'bicepconfig.json'
+      - ".github/workflows/azure-dev.yml"
+      - ".github/workflows/scripts/**"
+      - "hooks/**"
+      - "infra/**"
+      - "src/**"
+      - "azure.yaml"
+      - "bicepconfig.json"
 
 defaults:
   run:
@@ -35,7 +35,6 @@ env:
   ALERT_RECIPIENT_EMAIL_ADDRESS: ${{ vars.ALERT_RECIPIENT_EMAIL_ADDRESS }}
 
 jobs:
-
   # ------------------------------------------------------------
   # Build, Verify and Package
   # ------------------------------------------------------------
@@ -45,112 +44,111 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Required to fetch an OIDC token for Azure authentication
-      contents: read  # Required to checkout code if needed
+      contents: read # Required to checkout code if needed
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Setup azd
-      uses: Azure/setup-azd@v2
+      - name: Setup azd
+        uses: Azure/setup-azd@v2
 
-    - name: Setup .NET 10
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: '10.0.x'
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
 
-    # This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.
-    - name: Setup Node.js
-      uses: actions/setup-node@v6
-      with:
-        node-version: 'latest'
+      # This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "latest"
 
-    - name: Print Tool Versions
-      run: |
-        az version
-        az bicep version
-        azd version
-        Write-Host ".NET SDK Version: $(dotnet --version)"
-        Write-Host "Node.js Version: $(node --version)"
-        Write-Host "npm Version: $(npm --version)"
+      - name: Print Tool Versions
+        run: |
+          az version
+          az bicep version
+          azd version
+          Write-Host ".NET SDK Version: $(dotnet --version)"
+          Write-Host "Node.js Version: $(node --version)"
+          Write-Host "npm Version: $(npm --version)"
 
-    # Use Azure CLI authentication with azd commands so credentials are shared between azd commands and az (Azure CLI) commands used in hooks.
-    - name: Configure azd to use Azure CLI Authentication
-      run: |
-        azd config set auth.useAzCliAuth "true"
+      # Use Azure CLI authentication with azd commands so credentials are shared between azd commands and az (Azure CLI) commands used in hooks.
+      - name: Configure azd to use Azure CLI Authentication
+        run: |
+          azd config set auth.useAzCliAuth "true"
 
-    # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
-    - name: Azure CLI Login
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
+      # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Bicep Lint
-      run: |
-        az bicep lint --file ./infra/main.bicep
+      - name: Bicep Lint
+        run: |
+          az bicep lint --file ./infra/main.bicep
 
-    - name: Validate Template
-      run: |
-        az deployment sub validate `
-          --template-file './infra/main.bicep' `
-          --location $env:AZURE_LOCATION `
-          --parameters location=$env:AZURE_LOCATION `
-                       environmentName=$env:AZURE_ENV_NAME `
-                       approximateFailurePercentage=$env:APPROXIMATE_FAILURE_PERCENTAGE `
-                       sslCertRemainingLifetimeDays=$env:SSL_CERT_REMAINING_LIFETIME_DAYS `
-                       alertRecipientEmailAddress=$env:ALERT_RECIPIENT_EMAIL_ADDRESS
+      - name: Validate Template
+        run: |
+          az deployment sub validate `
+            --template-file './infra/main.bicep' `
+            --location $env:AZURE_LOCATION `
+            --parameters location=$env:AZURE_LOCATION `
+                         environmentName=$env:AZURE_ENV_NAME `
+                         approximateFailurePercentage=$env:APPROXIMATE_FAILURE_PERCENTAGE `
+                         sslCertRemainingLifetimeDays=$env:SSL_CERT_REMAINING_LIFETIME_DAYS `
+                         alertRecipientEmailAddress=$env:ALERT_RECIPIENT_EMAIL_ADDRESS
 
-    - name: Run Unit Tests for Function App
-      run: |
-        dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/functionApp"
-      working-directory: ./src/functionApp/TrackAvailabilityInAppInsights.FunctionApp.Tests
+      - name: Run Unit Tests for Function App
+        run: |
+          dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/functionApp"
+        working-directory: ./src/functionApp/TrackAvailabilityInAppInsights.FunctionApp.Tests
 
-    - name: Run Unit Tests for Logic App Functions
-      run: |
-        dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/logicApp"
-      working-directory: ./src/logicApp/Functions.Tests
+      - name: Run Unit Tests for Logic App Functions
+        run: |
+          dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/logicApp"
+        working-directory: ./src/logicApp/Functions.Tests
 
-    - name: Run Unit Tests for Logic App Workflows
-      run: |
-        dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/logicApp"
-      working-directory: ./src/logicApp/Workflows.Tests
+      - name: Run Unit Tests for Logic App Workflows
+        run: |
+          dotnet run --report-trx --results-directory "${{ github.workspace }}/artifacts/TestResults/logicApp"
+        working-directory: ./src/logicApp/Workflows.Tests
 
-    - name: Upload Unit Test Results
-      if: always()
-      uses: actions/upload-artifact@v6
-      with:
-        name: unit-test-results
-        path: ./artifacts/TestResults/
-        retention-days: 1
+      - name: Upload Unit Test Results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: unit-test-results
+          path: ./artifacts/TestResults/
+          retention-days: 1
 
-    - name: Create artifacts folder
-      run: |
-        mkdir -p ./artifacts
+      - name: Create artifacts folder
+        run: |
+          mkdir -p ./artifacts
 
-    - name: Package Function App
-      run: |
-        azd package functionApp --output-path ./artifacts/functionapp-package.zip --no-prompt
+      - name: Package Function App
+        run: |
+          azd package functionApp --output-path ./artifacts/functionapp-package.zip --no-prompt
 
-    - name: Package Logic App
-      run: |
-        azd package logicApp --output-path ./artifacts/logicapp-package.zip --no-prompt
+      - name: Package Logic App
+        run: |
+          azd package logicApp --output-path ./artifacts/logicapp-package.zip --no-prompt
 
-    - name: Upload Function App Package
-      uses: actions/upload-artifact@v6
-      with:
-        name: functionapp-package
-        path: ./artifacts/functionapp-package.zip
-        retention-days: 1
+      - name: Upload Function App Package
+        uses: actions/upload-artifact@v6
+        with:
+          name: functionapp-package
+          path: ./artifacts/functionapp-package.zip
+          retention-days: 1
 
-    - name: Upload Logic App Package
-      uses: actions/upload-artifact@v6
-      with:
-        name: logicapp-package
-        path: ./artifacts/logicapp-package.zip
-        retention-days: 1
-
+      - name: Upload Logic App Package
+        uses: actions/upload-artifact@v6
+        with:
+          name: logicapp-package
+          path: ./artifacts/logicapp-package.zip
+          retention-days: 1
 
   # ------------------------------------------------------------
   # Deploy to Azure
@@ -162,62 +160,61 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Required to fetch an OIDC token for Azure authentication
-      contents: read  # Required to checkout code if needed
-    
+      contents: read # Required to checkout code if needed
+
     outputs:
       AZURE_RESOURCE_GROUP: ${{ steps.get-outputs.outputs.AZURE_RESOURCE_GROUP }}
       AZURE_APPLICATION_INSIGHTS_NAME: ${{ steps.get-outputs.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Setup azd
-      uses: Azure/setup-azd@v2
+      - name: Setup azd
+        uses: Azure/setup-azd@v2
 
-    # Use Azure CLI authentication with azd commands so credentials are shared between azd commands and az (Azure CLI) commands used in hooks.
-    - name: Configure azd to use Azure CLI Authentication
-      run: |
-        azd config set auth.useAzCliAuth "true"
+      # Use Azure CLI authentication with azd commands so credentials are shared between azd commands and az (Azure CLI) commands used in hooks.
+      - name: Configure azd to use Azure CLI Authentication
+        run: |
+          azd config set auth.useAzCliAuth "true"
 
-    # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
-    - name: Azure CLI Login
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
+      # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Provision Infrastructure
-      run: |
-        azd provision --no-prompt
+      - name: Provision Infrastructure
+        run: |
+          azd provision --no-prompt
 
-    - name: Download Function App Package
-      uses: actions/download-artifact@v7
-      with:
-        name: functionapp-package
-        path: ./artifacts
+      - name: Download Function App Package
+        uses: actions/download-artifact@v7
+        with:
+          name: functionapp-package
+          path: ./artifacts
 
-    - name: Deploy Function App
-      run: |
-        azd deploy functionApp --from-package ./artifacts/functionapp-package.zip --no-prompt
+      - name: Deploy Function App
+        run: |
+          azd deploy functionApp --from-package ./artifacts/functionapp-package.zip --no-prompt
 
-    - name: Download Logic App Package
-      uses: actions/download-artifact@v7
-      with:
-        name: logicapp-package
-        path: ./artifacts
+      - name: Download Logic App Package
+        uses: actions/download-artifact@v7
+        with:
+          name: logicapp-package
+          path: ./artifacts
 
-    - name: Deploy Logic App
-      run: |
-        azd deploy logicApp --from-package ./artifacts/logicapp-package.zip --no-prompt
+      - name: Deploy Logic App
+        run: |
+          azd deploy logicApp --from-package ./artifacts/logicapp-package.zip --no-prompt
 
-    # Extract relevant azd environment variables and make them available as job outputs for subsequent jobs.
-    - name: Get Output Variables
-      id: get-outputs
-      run: |
-        .\.github\workflows\scripts\export-azd-env-variables.ps1 -VariableNames @("AZURE_RESOURCE_GROUP", "AZURE_APPLICATION_INSIGHTS_NAME")
-
+      # Extract relevant azd environment variables and make them available as job outputs for subsequent jobs.
+      - name: Get Output Variables
+        id: get-outputs
+        run: |
+          .\.github\workflows\scripts\export-azd-env-variables.ps1 -VariableNames @("AZURE_RESOURCE_GROUP", "AZURE_APPLICATION_INSIGHTS_NAME")
 
   # ------------------------------------------------------------
   # Verify Deployment
@@ -229,25 +226,24 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Required to fetch an OIDC token for Azure authentication
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
-    - name: Azure CLI Login
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
-        
-    - name: Verify Availability Tests
-      run: |
-        .\.github\workflows\scripts\verify-availability-tests.ps1 `
-          -ResourceGroupName "${{ needs.deploy.outputs.AZURE_RESOURCE_GROUP }}" `
-          -AppInsightsName "${{ needs.deploy.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}"
+      # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Verify Availability Tests
+        run: |
+          .\.github\workflows\scripts\verify-availability-tests.ps1 `
+            -ResourceGroupName "${{ needs.deploy.outputs.AZURE_RESOURCE_GROUP }}" `
+            -AppInsightsName "${{ needs.deploy.outputs.AZURE_APPLICATION_INSIGHTS_NAME }}"
 
   # ------------------------------------------------------------
   # Clean Up Resources
@@ -255,34 +251,34 @@ jobs:
 
   cleanup:
     name: Clean Up Resources
-    needs: [ deploy, verify-deployment ]
+    needs: [deploy, verify-deployment]
     if: ${{ success() && (github.event_name != 'workflow_dispatch' || github.event.inputs.cleanup-resources == 'true') }}
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Required to fetch an OIDC token for Azure authentication
-      contents: read  # Required to checkout code if needed
-    
+      contents: read # Required to checkout code if needed
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Setup azd
-      uses: Azure/setup-azd@v2
+      - name: Setup azd
+        uses: Azure/setup-azd@v2
 
-    # Use Azure CLI authentication with azd commands so credentials are shared between azd commands and az (Azure CLI) commands used in hooks.
-    - name: Configure azd to use Azure CLI Authentication
-      run: |
-        azd config set auth.useAzCliAuth "true"
+      # Use Azure CLI authentication with azd commands so credentials are shared between azd commands and az (Azure CLI) commands used in hooks.
+      - name: Configure azd to use Azure CLI Authentication
+        run: |
+          azd config set auth.useAzCliAuth "true"
 
-    # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
-    - name: Azure CLI Login
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
+      # Login to the Azure CLI with OpenID Connect (OIDC) using federated identity credentials.
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
 
-    # Clean up using the --purge flag to ensure all resources are permanently deleted, like API Management.
-    - name: Cleanup Resources
-      run: |
-        azd down --purge --force --no-prompt
+      # Clean up using the --purge flag to ensure all resources are permanently deleted, like API Management.
+      - name: Cleanup Resources
+        run: |
+          azd down --purge --force --no-prompt

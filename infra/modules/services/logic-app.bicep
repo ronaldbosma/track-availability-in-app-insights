@@ -69,7 +69,7 @@ var appSettings object = {
   ApiManagement_hostname: helpers.getApiManagementHostname(apiManagementSettings.serviceName)
   ApiManagement_gatewayUrl: helpers.getApiManagementGatewayUrl(apiManagementSettings.serviceName)
   ApiManagement_subscriptionKey: helpers.getKeyVaultSecretReference(keyVaultName, 'logic-app-subscription-key')
-  
+
   // Availability test settings
   AVAILABILITY_TESTS_INTERVAL: '1'
   AVAILABILITY_TESTS_FREQUENCY: 'Minute'
@@ -108,7 +108,6 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2025-03-01' = {
   }
 }
 
-
 // Create the Logic App
 
 resource logicApp 'Microsoft.Web/sites@2025-03-01' = {
@@ -131,7 +130,6 @@ resource logicApp 'Microsoft.Web/sites@2025-03-01' = {
   }
 }
 
-
 // Assign roles to system-assigned identity of Logic App
 
 module assignRolesToLogicAppSystemAssignedIdentity '../shared/assign-roles-to-principal.bicep' = {
@@ -143,7 +141,6 @@ module assignRolesToLogicAppSystemAssignedIdentity '../shared/assign-roles-to-pr
     storageAccountName: storageAccountName
   }
 }
-
 
 // Set standard App Settings
 //  NOTE: this is done in a separate module that merges the app settings with the existing ones 

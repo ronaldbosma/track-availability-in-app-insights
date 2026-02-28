@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+
+using Microsoft.Extensions.Logging.Abstractions;
+
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests

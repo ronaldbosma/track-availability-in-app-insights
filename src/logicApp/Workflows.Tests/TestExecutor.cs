@@ -23,7 +23,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
         public async Task<TestWorkflowRun> RunWorkflowAsync(TriggerMock triggerMock, ActionMock[] actionMocks)
         {
             var testMock = new TestMockDefinition(
-                triggerMock,   
+                triggerMock,
                 actionMocks: new Dictionary<string, ActionMock>(
                     actionMocks.Select(a => new KeyValuePair<string, ActionMock>(a.Name, a))
                 )
@@ -42,7 +42,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
             var connectionsPath = Path.Combine(_rootDirectory, _logicAppName, "connections.json");
             var parametersPath = Path.Combine(_rootDirectory, _logicAppName, "parameters.json");
             var localSettingsFilePath = "workflows.settings.json";
-            
+
             return new UnitTestExecutor(
                 workflowDefinitionPath,
                 connectionsPath,

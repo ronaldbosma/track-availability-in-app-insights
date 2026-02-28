@@ -1,12 +1,14 @@
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions
 {
     using System;
+
     using Azure.Identity;
-    using Microsoft.Azure.Functions.Extensions.Workflows;
-    using Microsoft.Extensions.DependencyInjection;
+
     using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.Azure.Functions.Extensions.Workflows;
+    using Microsoft.Extensions.DependencyInjection;
 
     public class Startup : IConfigureStartup
     {
@@ -26,7 +28,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
             // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details
             telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential());
 
-            TelemetryClient telemetryClient = new(telemetryConfiguration); 
+            TelemetryClient telemetryClient = new(telemetryConfiguration);
 
             services.AddSingleton(telemetryClient);
         }

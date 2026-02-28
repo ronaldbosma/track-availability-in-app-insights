@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests

@@ -1,4 +1,4 @@
-﻿namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
+namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
 {
     /// <summary>
     /// Factory to create availability tests.

@@ -13,7 +13,6 @@ type apiManagementSettingsType = {
   sku: apimSkuType
 }
 
-
 // Application Insights
 
 @description('Retention options for Application Insights')
@@ -32,7 +31,6 @@ type appInsightsSettingsType = {
   retentionInDays: int
 }
 
-
 // Function App
 
 @description('The settings for the Function App')
@@ -47,7 +45,6 @@ type functionAppSettingsType = {
   @description('The .NET Framework version for the Function App')
   netFrameworkVersion: string
 }
-
 
 // Logic App
 

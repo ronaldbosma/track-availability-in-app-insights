@@ -1,4 +1,4 @@
-﻿namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
+namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
 {
     internal static class FunctionNames
     {

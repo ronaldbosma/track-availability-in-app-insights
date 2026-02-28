@@ -1,4 +1,5 @@
 using Microsoft.Azure.Functions.Worker;
+
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp

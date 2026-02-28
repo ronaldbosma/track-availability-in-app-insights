@@ -5,6 +5,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
     using System.Net.Sockets;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
+
     using Microsoft.Azure.Functions.Extensions.Workflows;
     using Microsoft.Azure.Functions.Worker;
     using Microsoft.Extensions.Logging;
@@ -25,7 +26,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
         public async Task<int> GetSslServerCertificateExpirationInDays([WorkflowActionTrigger] string hostname, int port)
         {
             _logger.LogInformation("GetSslServerCertificateExpirationInDays function invoked with hostname: {Hostname}, port: {Port}", hostname, port);
-            
+
             try
             {
                 // Connect client to remote TCP host using provided hostname and port

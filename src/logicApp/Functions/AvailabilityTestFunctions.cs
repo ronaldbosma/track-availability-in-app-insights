@@ -3,6 +3,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+
     using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.DataContracts;
     using Microsoft.Azure.Functions.Extensions.Workflows;
@@ -57,16 +58,16 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions
             using (Activity activity = new("AvailabilityContext"))
             {
                 activity.Start();
-                
+
                 // Connect the availability telemetry to the logging activity
                 availability.Id = activity.SpanId.ToString();
                 availability.Context.Operation.ParentId = activity.ParentSpanId.ToString();
                 availability.Context.Operation.Id = activity.RootId;
-                
+
                 _telemetryClient.TrackAvailability(availability);
                 _telemetryClient.Flush();
             }
-            
+
             return Task.CompletedTask;
         }
     }

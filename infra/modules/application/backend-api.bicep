@@ -51,8 +51,8 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = 
   properties: {
     displayName: 'Backend API'
     path: 'backend'
-    protocols: [ 
-      'https' 
+    protocols: [
+      'https'
     ]
     subscriptionRequired: false // Disable required subscription key for the standard test (webtest)
   }
@@ -80,7 +80,6 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = 
   ]
 }
 
-
 // Function App Subscription
 
 resource functionAppSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-10-01-preview' = {
@@ -101,7 +100,6 @@ resource functionAppSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@202
   }
 }
 
-
 // Logic App Subscription
 
 resource logicAppSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-10-01-preview' = {
@@ -121,4 +119,3 @@ resource logicAppSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2025-0
     value: logicAppSubscription.listSecrets(apiManagementService.apiVersion).primaryKey
   }
 }
-

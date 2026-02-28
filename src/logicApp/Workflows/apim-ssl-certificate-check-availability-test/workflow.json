@@ -20,9 +20,7 @@
                 "kind": "CurrentTime",
                 "inputs": {},
                 "runAfter": {
-                    "Initialize_TestName": [
-                        "SUCCEEDED"
-                    ]
+                    "Initialize_TestName": ["SUCCEEDED"]
                 }
             },
             "Get_APIM_SSL_server_certificate_expiration_in_days": {
@@ -35,9 +33,7 @@
                     }
                 },
                 "runAfter": {
-                    "Start_time": [
-                        "SUCCEEDED"
-                    ]
+                    "Start_time": ["SUCCEEDED"]
                 }
             },
             "Certificate_expires_soon_or_has_expired": {

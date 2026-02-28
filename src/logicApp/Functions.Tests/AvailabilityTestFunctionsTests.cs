@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging.Abstractions;
+
 using TrackAvailabilityInAppInsights.LogicApp.Functions.Tests.Fakes;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
@@ -14,7 +15,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
             _telemetryClientFake = new();
             _sut = new AvailabilityTestFunctions(_telemetryClientFake.Value, new NullLoggerFactory());
         }
-        
+
         [TestMethod]
         public async Task TrackIsAvailable_TestNameIsNull_ArgumentNullExceptionThrown()
         {
@@ -42,7 +43,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
             // Assert
             _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(testName);
         }
-        
+
         [TestMethod]
         public async Task TrackIsUnavailable_TestNameIsNull_ArgumentNullExceptionThrown()
         {
