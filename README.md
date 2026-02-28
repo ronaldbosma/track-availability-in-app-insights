@@ -152,6 +152,7 @@ azd env set ALERT_RECIPIENT_EMAIL_ADDRESS "your-email@example.com"
 The repository consists of the following files and directories:
 
 ```
+├── .devcontainer              [ Development container configuration files ]
 ├── .github
 │   └── workflows              [ GitHub Actions workflow(s) ]
 ├── .vscode                    [ Visual Studio Code configuration files ]
