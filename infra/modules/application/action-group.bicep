@@ -22,13 +22,15 @@ resource actionGroup 'Microsoft.Insights/actionGroups@2023-01-01' = {
   properties: {
     enabled: true
     groupShortName: 'alerts'
-    emailReceivers: alertRecipientEmailAddress == '' ? [] : [
-      {      
-        name: alertRecipientEmailAddress
-        emailAddress: alertRecipientEmailAddress
-        useCommonAlertSchema: true      
-      }
-    ]
+    emailReceivers: alertRecipientEmailAddress == ''
+      ? []
+      : [
+          {
+            name: alertRecipientEmailAddress
+            emailAddress: alertRecipientEmailAddress
+            useCommonAlertSchema: true
+          }
+        ]
   }
 }
 

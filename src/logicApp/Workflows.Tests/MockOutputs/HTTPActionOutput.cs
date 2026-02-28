@@ -1,7 +1,9 @@
+using System.Net;
+
 using Microsoft.Azure.Workflows.UnitTesting.Definitions;
 using Microsoft.Azure.Workflows.UnitTesting.ErrorResponses;
+
 using Newtonsoft.Json.Linq;
-using System.Net;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
 {
@@ -40,7 +42,7 @@ namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs
     /// </summary>
     public class HTTPActionOutput : MockOutput
     {
-        public HttpStatusCode StatusCode {get; set;}
+        public HttpStatusCode StatusCode { get; set; }
 
         public JObject? Body { get; set; }
 

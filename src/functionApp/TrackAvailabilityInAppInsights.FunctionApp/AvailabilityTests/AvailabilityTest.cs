@@ -1,6 +1,7 @@
-﻿using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DataContracts;
 using System.Diagnostics;
+
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
 {

@@ -5,10 +5,7 @@
       "label": "build",
       "command": "${config:azureLogicAppsStandard.dotnetBinaryPath}",
       "type": "process",
-      "args": [
-        "build",
-        "${workspaceFolder}"
-      ],
+      "args": ["build", "${workspaceFolder}"],
       "group": {
         "kind": "build",
         "isDefault": true

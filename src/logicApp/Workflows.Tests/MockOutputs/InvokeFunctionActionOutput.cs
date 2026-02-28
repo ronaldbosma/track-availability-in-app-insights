@@ -1,5 +1,6 @@
 using Microsoft.Azure.Workflows.UnitTesting.Definitions;
 using Microsoft.Azure.Workflows.UnitTesting.ErrorResponses;
+
 using Newtonsoft.Json.Linq;
 
 namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs

@@ -1,4 +1,4 @@
-﻿namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
+namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes
 {
     /// <summary>
     /// A fake of <see cref="IHttpClientFactory"/>.

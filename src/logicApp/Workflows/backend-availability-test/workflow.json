@@ -12,9 +12,7 @@
                     }
                 },
                 "runAfter": {
-                    "HTTP": [
-                        "SUCCEEDED"
-                    ]
+                    "HTTP": ["SUCCEEDED"]
                 }
             },
             "HTTP": {
@@ -30,9 +28,7 @@
                     }
                 },
                 "runAfter": {
-                    "Start_time": [
-                        "SUCCEEDED"
-                    ]
+                    "Start_time": ["SUCCEEDED"]
                 },
                 "runtimeConfiguration": {
                     "contentTransfer": {
@@ -51,11 +47,7 @@
                     }
                 },
                 "runAfter": {
-                    "HTTP": [
-                        "TIMEDOUT",
-                        "SKIPPED",
-                        "FAILED"
-                    ]
+                    "HTTP": ["TIMEDOUT", "SKIPPED", "FAILED"]
                 }
             },
             "Initialize_TestName": {
@@ -76,9 +68,7 @@
                 "kind": "CurrentTime",
                 "inputs": {},
                 "runAfter": {
-                    "Initialize_TestName": [
-                        "SUCCEEDED"
-                    ]
+                    "Initialize_TestName": ["SUCCEEDED"]
                 }
             }
         },

@@ -1,4 +1,4 @@
-﻿namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
+namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
 {
     public interface IAvailabilityTest
     {

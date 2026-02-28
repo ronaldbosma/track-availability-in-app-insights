@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,8 +48,8 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests
         public static IEnumerable<object[]> GetAzureFunctionClasses()
         {
             var functionClasses = typeof(Program).Assembly.GetTypes()
-                .Where(t => 
-                    t.IsClass && 
+                .Where(t =>
+                    t.IsClass &&
                     t.GetMethods().Any(m => m.GetCustomAttributes(typeof(FunctionAttribute), false).Length > 0)
                 );
 

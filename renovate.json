@@ -1,15 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "replacements:all",
-    "workarounds:all",
-    "group:all"
-  ],
+  "extends": ["replacements:all", "workarounds:all", "group:all"],
   "packageRules": [
     {
-      "matchPackageNames": [
-        "dotnet-sdk"
-      ],
+      "matchPackageNames": ["dotnet-sdk"],
       "matchFileNames": [
         "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
       ],

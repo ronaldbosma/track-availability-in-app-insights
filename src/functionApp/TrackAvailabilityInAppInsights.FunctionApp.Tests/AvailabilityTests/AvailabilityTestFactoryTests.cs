@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging.Abstractions;
+
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 using TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes;
 
