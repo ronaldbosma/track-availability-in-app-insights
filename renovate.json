@@ -28,6 +28,14 @@
       ],
       "enabled": false,
       "description": "Disable updates for specific packages in Logic App custom code projects, because these require specific versions to match the Logic App runtime."
+    },
+    {
+      "matchPackageNames": [
+        "Microsoft.ApplicationInsights.WorkerService",
+        "Microsoft.ApplicationInsights"
+      ],
+      "allowedVersions": "<3",
+      "description": "Microsoft.ApplicationInsights.WorkerService 3.0.0 is incompatible with the Azure Functions Worker. See https://github.com/Azure/azure-functions-dotnet-worker/issues/3322"
     }
   ]
 }
