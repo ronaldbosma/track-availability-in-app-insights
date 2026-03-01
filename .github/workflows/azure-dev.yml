@@ -118,7 +118,7 @@ jobs:
 
       - name: Upload Unit Test Results
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: unit-test-results
           path: ./artifacts/TestResults/
@@ -137,14 +137,14 @@ jobs:
           azd package logicApp --output-path ./artifacts/logicapp-package.zip --no-prompt
 
       - name: Upload Function App Package
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: functionapp-package
           path: ./artifacts/functionapp-package.zip
           retention-days: 1
 
       - name: Upload Logic App Package
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: logicapp-package
           path: ./artifacts/logicapp-package.zip
@@ -191,7 +191,7 @@ jobs:
           azd provision --no-prompt
 
       - name: Download Function App Package
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: functionapp-package
           path: ./artifacts
@@ -201,7 +201,7 @@ jobs:
           azd deploy functionApp --from-package ./artifacts/functionapp-package.zip --no-prompt
 
       - name: Download Logic App Package
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: logicapp-package
           path: ./artifacts
