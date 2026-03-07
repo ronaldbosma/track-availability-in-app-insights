@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TrackAvailabilityInAppInsights.FunctionApp.Tests/TrackAvailabilityInAppInsights.FunctionApp.Tests.csproj" />
+  <Project Path="TrackAvailabilityInAppInsights.FunctionApp/TrackAvailabilityInAppInsights.FunctionApp.csproj" />
+</Solution>
