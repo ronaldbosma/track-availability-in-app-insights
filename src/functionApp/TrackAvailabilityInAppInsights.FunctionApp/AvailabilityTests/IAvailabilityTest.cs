@@ -1,10 +1,9 @@
-namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
+namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
+
+public interface IAvailabilityTest
 {
-    public interface IAvailabilityTest
-    {
-        /// <summary>
-        /// Executes the availability test.
-        /// </summary>
-        public Task ExecuteAsync();
-    }
+    /// <summary>
+    /// Executes the availability test.
+    /// </summary>
+    public Task ExecuteAsync();
 }

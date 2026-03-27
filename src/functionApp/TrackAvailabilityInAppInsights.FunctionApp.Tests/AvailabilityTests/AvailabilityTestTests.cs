@@ -1,47 +1,46 @@
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 using TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes;
 
-namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
+namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests;
+
+[TestClass]
+public class AvailabilityTestTests
 {
-    [TestClass]
-    public class AvailabilityTestTests
+    private const string TestName = "A.Test";
+
+    private readonly TelemetryClientFake _telemetryClientFake = new();
+
+    [TestMethod]
+    public async Task ExecuteAsync_AvailabilityCheckSucceeds_AvailabilitySuccessTracked()
     {
-        private const string TestName = "A.Test";
+        // Arrange
+        static Task CheckAvailabilityAsync() => Task.CompletedTask;
 
-        private readonly TelemetryClientFake _telemetryClientFake = new();
+        AvailabilityTest sut = new(TestName, CheckAvailabilityAsync, _telemetryClientFake.Value);
 
-        [TestMethod]
-        public async Task ExecuteAsync_AvailabilityCheckSucceeds_AvailabilitySuccessTracked()
-        {
-            // Arrange
-            static Task checkAvailabilityAsync() => Task.CompletedTask;
+        // Act
+        await sut.ExecuteAsync();
 
-            AvailabilityTest sut = new(TestName, checkAvailabilityAsync, _telemetryClientFake.Value);
+        // Assert
+        _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(TestName);
+    }
 
-            // Act
-            await sut.ExecuteAsync();
+    [TestMethod]
+    public async Task ExecuteAsync_AvailabilityCheckFails_AvailabilityFailureTracked()
+    {
+        // Arrange
+        Exception exception = new("Test exception");
+        Task CheckAvailabilityAsync() => throw exception;
 
-            // Assert
-            _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(TestName);
-        }
+        AvailabilityTest sut = new(TestName, CheckAvailabilityAsync, _telemetryClientFake.Value);
 
-        [TestMethod]
-        public async Task ExecuteAsync_AvailabilityCheckFails_AvailabilityFailureTracked()
-        {
-            // Arrange
-            Exception exception = new("Test exception");
-            Task checkAvailabilityAsync() => throw exception;
+        // Act
+        async Task Act() => await sut.ExecuteAsync();
 
-            AvailabilityTest sut = new(TestName, checkAvailabilityAsync, _telemetryClientFake.Value);
+        // Assert
+        Exception actualException = await Assert.ThrowsAsync<Exception>(Act);
+        Assert.AreEqual(exception.Message, actualException.Message);
 
-            // Act
-            async Task act() => await sut.ExecuteAsync();
-
-            // Assert
-            Exception actualException = await Assert.ThrowsAsync<Exception>(act);
-            Assert.AreEqual(exception.Message, actualException.Message);
-
-            _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(TestName, exception.Message);
-        }
+        _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(TestName, exception.Message);
     }
 }

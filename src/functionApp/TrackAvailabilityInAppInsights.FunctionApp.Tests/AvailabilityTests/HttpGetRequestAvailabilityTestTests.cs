@@ -6,62 +6,61 @@ using Microsoft.Extensions.Logging.Abstractions;
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 using TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes;
 
-namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests
+namespace TrackAvailabilityInAppInsights.FunctionApp.Tests.AvailabilityTests;
+
+[TestClass]
+public class HttpGetRequestAvailabilityTestTests
 {
-    [TestClass]
-    public class HttpGetRequestAvailabilityTestTests
+    private const string Name = "TestName";
+    private const string HttpClientName = "apim";
+
+    private readonly TelemetryClientFake _telemetryClientFake = new();
+    private readonly HttpClientFactoryFake _httpClientFactory = new();
+    private readonly HttpClientFake _httpClientFake = new();
+
+    public HttpGetRequestAvailabilityTestTests()
     {
-        private const string name = "TestName";
-        private const string HttpClientName = "apim";
+        _httpClientFactory.StubHttpClient(HttpClientName, _httpClientFake);
+    }
 
-        private readonly TelemetryClientFake _telemetryClientFake = new();
-        private readonly HttpClientFactoryFake _httpClientFactory = new();
-        private readonly HttpClientFake _httpClientFake = new();
+    [TestMethod]
+    public async Task ExecuteAsync_HttpClientReturnsSuccess_AvailabilitySuccessTracked()
+    {
+        // Arrange
+        const string requestUri = "/healthy";
 
-        public HttpGetRequestAvailabilityTestTests()
-        {
-            _httpClientFactory.StubHttpClient(HttpClientName, _httpClientFake);
-        }
+        // Stub that the HttpClient returns a success status code when checking the availability
+        _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.OK);
 
-        [TestMethod]
-        public async Task ExecuteAsync_HttpClientReturnsSuccess_AvailabilitySuccessTracked()
-        {
-            // Arrange
-            const string requestUri = "/healthy";
+        HttpGetRequestAvailabilityTest sut = new(Name, requestUri, _telemetryClientFake.Value,
+            _httpClientFactory, HttpClientName, new NullLoggerFactory());
 
-            // Stub that the HttpClient returns a success status code when checking the availability
-            _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.OK);
+        // Act
+        await sut.ExecuteAsync();
 
-            HttpGetRequestAvailabilityTest sut = new(name, requestUri, _telemetryClientFake.Value,
-                _httpClientFactory, HttpClientName, new NullLoggerFactory());
+        // Assert
+        _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(Name);
+    }
 
-            // Act
-            await sut.ExecuteAsync();
+    [TestMethod]
+    public async Task ExecuteAsync_HttpClientReturnsError_AvailabilityFailureTracked()
+    {
+        // Arrange
+        const string requestUri = "/unhealthy";
 
-            // Assert
-            _telemetryClientFake.VerifyThatSuccessfulAvailabilityIsTrackedForTest(name);
-        }
+        // Stub that the HttpClient returns a 503 Service Unavailable when checking the availability
+        _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.ServiceUnavailable);
 
-        [TestMethod]
-        public async Task ExecuteAsync_HttpClientReturnsError_AvailabilityFailureTracked()
-        {
-            // Arrange
-            const string requestUri = "/unhealthy";
+        HttpGetRequestAvailabilityTest sut = new(Name, requestUri, _telemetryClientFake.Value,
+            _httpClientFactory, HttpClientName, new NullLoggerFactory());
 
-            // Stub that the HttpClient returns a 503 Service Unavailable when checking the availability
-            _httpClientFake.StubResponseForGetRequest(requestUri, HttpStatusCode.ServiceUnavailable);
+        // Act
+        async Task Act() => await sut.ExecuteAsync();
 
-            HttpGetRequestAvailabilityTest sut = new(name, requestUri, _telemetryClientFake.Value,
-                _httpClientFactory, HttpClientName, new NullLoggerFactory());
+        // Assert
+        Exception actualException = await Assert.ThrowsAsync<HttpRequestException>(Act);
+        Assert.AreEqual("Response status code does not indicate success: 503 (Service Unavailable).", actualException.Message);
 
-            // Act
-            async Task act() => await sut.ExecuteAsync();
-
-            // Assert
-            Exception actualException = await Assert.ThrowsAsync<HttpRequestException>(act);
-            Assert.AreEqual("Response status code does not indicate success: 503 (Service Unavailable).", actualException.Message);
-
-            _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(name, "Response status code does not indicate success: 503 (Service Unavailable).");
-        }
+        _telemetryClientFake.VerifyThatFailedAvailabilityIsTrackedForTest(Name, "Response status code does not indicate success: 503 (Service Unavailable).");
     }
 }

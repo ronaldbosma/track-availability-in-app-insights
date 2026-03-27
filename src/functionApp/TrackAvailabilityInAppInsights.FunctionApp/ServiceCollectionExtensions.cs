@@ -14,73 +14,70 @@ using OpenTelemetry.Trace;
 
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
 
-namespace TrackAvailabilityInAppInsights.FunctionApp
+namespace TrackAvailabilityInAppInsights.FunctionApp;
+
+internal static class ServiceCollectionExtensions
 {
-    internal static class ServiceCollectionExtensions
+    public static IServiceCollection ConfigureOpenTelemetry(this IServiceCollection services)
     {
-        public static IServiceCollection ConfigureOpenTelemetry(this IServiceCollection services)
+        services.AddOpenTelemetry()
+            .WithTracing(tracing => tracing
+                // Enables HttpClient instrumentation.
+                .AddHttpClientInstrumentation());
+
+        // Use the system-assigned managed identity to authenticate to Azure Monitor.
+        // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
+        services.AddOpenTelemetry().UseAzureMonitorExporter(options =>
+            options.Credential = new ManagedIdentityCredential(new ManagedIdentityCredentialOptions()));
+
+        services.AddOpenTelemetry().UseFunctionsWorkerDefaults();
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterDependencies(this IServiceCollection services)
+    {
+        services.AddOptionsWithValidateOnStart<ApiManagementOptions>()
+                .BindConfiguration(ApiManagementOptions.SectionKey)
+                .ValidateDataAnnotations();
+
+        services.AddSingleton<IAvailabilityTestFactory, AvailabilityTestFactory>();
+        services.AddSingleton<SslCertificateValidator>();
+
+        services.AddHttpClient("apim", (sp, client) =>
         {
-            services.AddOpenTelemetry()
-                .WithTracing(tracing => tracing
-                    // Enables HttpClient instrumentation.
-                    .AddHttpClientInstrumentation());
+            var options = sp.GetRequiredService<IOptions<ApiManagementOptions>>().Value;
 
-            services.AddOpenTelemetry().UseAzureMonitorExporter(options =>
-            {
-                // Use the system-assigned managed identity to authenticate to Azure Monitor.
-                // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
-                options.Credential = new ManagedIdentityCredential(new ManagedIdentityCredentialOptions());
-            });
+            client.BaseAddress = new Uri(options.GatewayUrl);
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", options.SubscriptionKey);
+        });
 
-            services.AddOpenTelemetry().UseFunctionsWorkerDefaults();
+        return services;
+    }
 
-            return services;
-        }
+    public static IServiceCollection RegisterTelemetryClient(this IServiceCollection services)
+    {
+        var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
+        telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
 
-        public static IServiceCollection RegisterDependencies(this IServiceCollection services)
-        {
-            services.AddOptionsWithValidateOnStart<ApiManagementOptions>()
-                    .BindConfiguration(ApiManagementOptions.SectionKey)
-                    .ValidateDataAnnotations();
+        // Configure the Cloud.RoleName, Cloud.RoleInstance and Component.Version so their set on the Availability Test telemetry
+        telemetryConfiguration.ConfigureOpenTelemetryBuilder(builder => builder
+            .ConfigureResource(r => r
+                .AddService(
+                    serviceName: Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME") ?? Environment.MachineName,
+                    serviceInstanceId: Environment.MachineName,
+                    serviceVersion: "1.0.0.0"
+                )
+            ));
 
-            services.AddSingleton<IAvailabilityTestFactory, AvailabilityTestFactory>();
-            services.AddSingleton<SslCertificateValidator>();
+        // Use the system-assigned managed identity to authenticate to Azure Monitor.
+        // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
+        telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential(new ManagedIdentityCredentialOptions()));
 
-            services.AddHttpClient("apim", (sp, client) =>
-            {
-                var options = sp.GetRequiredService<IOptions<ApiManagementOptions>>().Value;
+        TelemetryClient telemetryClient = new(telemetryConfiguration);
 
-                client.BaseAddress = new Uri(options.GatewayUrl);
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", options.SubscriptionKey);
-            });
+        services.AddSingleton(telemetryClient);
 
-            return services;
-        }
-
-        public static IServiceCollection RegisterTelemetryClient(this IServiceCollection services)
-        {
-            var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
-            telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
-
-            // Configure the Cloud.RoleName, Cloud.RoleInstance and Component.Version so their set on the Availability Test telemetry
-            telemetryConfiguration.ConfigureOpenTelemetryBuilder(builder => builder
-                .ConfigureResource(r => r
-                    .AddService(
-                        serviceName: Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME") ?? Environment.MachineName,
-                        serviceInstanceId: Environment.MachineName,
-                        serviceVersion: "1.0.0.0"
-                    )
-                ));
-
-            // Use the system-assigned managed identity to authenticate to Azure Monitor.
-            // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
-            telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential(new ManagedIdentityCredentialOptions()));
-
-            TelemetryClient telemetryClient = new(telemetryConfiguration);
-
-            services.AddSingleton(telemetryClient);
-
-            return services;
-        }
+        return services;
     }
 }
