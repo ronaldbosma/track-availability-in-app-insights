@@ -2,13 +2,14 @@ using Azure.Identity;
 using Azure.Monitor.OpenTelemetry.Exporter;
 
 using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Worker.OpenTelemetry;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
+using OpenTelemetry;
+using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
 using TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests;
@@ -40,6 +41,16 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
         {
             var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
             telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
+
+            // Configure the Cloud.RoleName, Cloud.RoleInstance and Component.Version so their set on the Availability Test telemetry
+            telemetryConfiguration.ConfigureOpenTelemetryBuilder(builder => builder
+                .ConfigureResource(r => r
+                    .AddService(
+                        serviceName: Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME") ?? Environment.MachineName,
+                        serviceInstanceId: Environment.MachineName,
+                        serviceVersion: "1.0.0.0"
+                    )
+                ));
 
             // Use the system-assigned managed identity to authenticate to Azure Monitor.
             // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
