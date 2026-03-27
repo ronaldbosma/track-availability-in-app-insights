@@ -37,6 +37,26 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
             return services;
         }
 
+        public static IServiceCollection RegisterDependencies(this IServiceCollection services)
+        {
+            services.AddOptionsWithValidateOnStart<ApiManagementOptions>()
+                    .BindConfiguration(ApiManagementOptions.SectionKey)
+                    .ValidateDataAnnotations();
+
+            services.AddSingleton<IAvailabilityTestFactory, AvailabilityTestFactory>();
+            services.AddSingleton<SslCertificateValidator>();
+
+            services.AddHttpClient("apim", (sp, client) =>
+            {
+                var options = sp.GetRequiredService<IOptions<ApiManagementOptions>>().Value;
+
+                client.BaseAddress = new Uri(options.GatewayUrl);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", options.SubscriptionKey);
+            });
+
+            return services;
+        }
+
         public static IServiceCollection RegisterTelemetryClient(this IServiceCollection services)
         {
             var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
@@ -59,26 +79,6 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
             TelemetryClient telemetryClient = new(telemetryConfiguration);
 
             services.AddSingleton(telemetryClient);
-
-            return services;
-        }
-
-        public static IServiceCollection RegisterDependencies(this IServiceCollection services)
-        {
-            services.AddOptionsWithValidateOnStart<ApiManagementOptions>()
-                    .BindConfiguration(ApiManagementOptions.SectionKey)
-                    .ValidateDataAnnotations();
-
-            services.AddSingleton<IAvailabilityTestFactory, AvailabilityTestFactory>();
-            services.AddSingleton<SslCertificateValidator>();
-
-            services.AddHttpClient("apim", (sp, client) =>
-            {
-                var options = sp.GetRequiredService<IOptions<ApiManagementOptions>>().Value;
-
-                client.BaseAddress = new Uri(options.GatewayUrl);
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", options.SubscriptionKey);
-            });
 
             return services;
         }
