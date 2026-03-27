@@ -2,39 +2,38 @@ using System.Net.Sockets;
 
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests
+namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests;
+
+[TestClass]
+public sealed class SslServerCertificateFunctionsTests
 {
-    [TestClass]
-    public sealed class SslServerCertificateFunctionsTests
+    private readonly SslServerCertificateFunctions _sut = new(new NullLoggerFactory());
+
+    [TestMethod]
+    public async Task GetSslServerCertificateExpirationInDays_ValidHttpsEndpoint_ReturnsPositiveDays()
     {
-        private readonly SslServerCertificateFunctions _sut = new SslServerCertificateFunctions(new NullLoggerFactory());
+        // Arrange
+        string hostname = "www.microsoft.com";
+        int port = 443;
 
-        [TestMethod]
-        public async Task GetSslServerCertificateExpirationInDays_ValidHttpsEndpoint_ReturnsPositiveDays()
-        {
-            // Arrange
-            string hostname = "www.microsoft.com";
-            int port = 443;
+        // Act
+        int daysUntilExpiration = await _sut.GetSslServerCertificateExpirationInDays(hostname, port);
 
-            // Act
-            int daysUntilExpiration = await _sut.GetSslServerCertificateExpirationInDays(hostname, port);
+        // Assert
+        Assert.IsGreaterThan(0, daysUntilExpiration, "Certificate should not be expired");
+    }
 
-            // Assert
-            Assert.IsGreaterThan(0, daysUntilExpiration, "Certificate should not be expired");
-        }
+    [TestMethod]
+    public async Task GetSslServerCertificateExpirationInDays_InvalidHostname_ThrowsSocketException()
+    {
+        // Arrange
+        string hostname = "invalid.hostname.that.does.not.exist.example";
+        int port = 443;
 
-        [TestMethod]
-        public async Task GetSslServerCertificateExpirationInDays_InvalidHostname_ThrowsSocketException()
-        {
-            // Arrange
-            string hostname = "invalid.hostname.that.does.not.exist.example";
-            int port = 443;
+        // Act
+        async Task Act() => await _sut.GetSslServerCertificateExpirationInDays(hostname, port);
 
-            // Act
-            async Task act() => await _sut.GetSslServerCertificateExpirationInDays(hostname, port);
-
-            // Assert
-            await Assert.ThrowsExactlyAsync<SocketException>(act);
-        }
+        // Assert
+        await Assert.ThrowsExactlyAsync<SocketException>(Act);
     }
 }

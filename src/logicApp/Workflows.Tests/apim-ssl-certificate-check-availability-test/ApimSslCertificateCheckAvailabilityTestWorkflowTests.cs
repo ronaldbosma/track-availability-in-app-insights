@@ -6,133 +6,132 @@ using Newtonsoft.Json.Linq;
 
 using TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests.MockOutputs;
 
-namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests
+namespace TrackAvailabilityInAppInsights.LogicApp.Workflows.Tests;
+
+[TestClass]
+public class ApimSslCertificateCheckAvailabilityTestWorkflowTests
 {
-    [TestClass]
-    public class ApimSslCertificateCheckAvailabilityTestWorkflowTests
+    private readonly TestExecutor _testExecutor = new(workflow: "apim-ssl-certificate-check-availability-test");
+
+    [TestMethod]
+    public async Task RunWorkflow_CertificateIsValid_AvailabilitySuccessTrackedAndWorkflowSucceeds()
     {
-        private readonly TestExecutor _testExecutor = new(workflow: "apim-ssl-certificate-check-availability-test");
+        // Arrange
+        var expirationInDays = 31;
 
-        [TestMethod]
-        public async Task RunWorkflow_CertificateIsValid_AvailabilitySuccessTrackedAndWorkflowSucceeds()
+        var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
+        var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
+
+        var trackIsAvailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsAvailable);
+
+        // Act
+        var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsAvailableMock]);
+
+        // Assert
+        Assert.AreEqual(TestWorkflowStatus.Succeeded, testRun.Status);
+
+        var expectedParameters = new JObject
         {
-            // Arrange
-            var expirationInDays = 31;
+            { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
+            { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() }
+        };
+        testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsAvailable, FunctionNames.TrackIsAvailable, expectedParameters);
 
-            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
-            var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackCertificateExpiration);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
+    }
 
-            var trackIsAvailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsAvailable);
+    [TestMethod]
+    public async Task RunWorkflow_CertificateExpiresIn30Days_AvailabilityFailureTrackedAndWorkflowFails()
+    {
+        // Arrange
+        var expirationInDays = 30;
 
-            // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsAvailableMock]);
+        var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
+        var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
 
-            // Assert
-            Assert.AreEqual(TestWorkflowStatus.Succeeded, testRun.Status);
+        var trackCertificateExpirationMock = new InvokeFunctionActionMock(name: ActionNames.TrackCertificateExpiration);
 
-            var expectedParameters = new JObject
-            {
-                { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() }
-            };
-            testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsAvailable, FunctionNames.TrackIsAvailable, expectedParameters);
+        // Act
+        var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
 
-            testRun.VerifyActionWasSkipped(ActionNames.TrackCertificateExpiration);
-            testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
-        }
+        // Assert
+        Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
 
-        [TestMethod]
-        public async Task RunWorkflow_CertificateExpiresIn30Days_AvailabilityFailureTrackedAndWorkflowFails()
+        var expectedParameters = new JObject
         {
-            // Arrange
-            var expirationInDays = 30;
+            { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
+            { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
+            { "message", $"SSL server certificate for sample.azure-api.net is expiring in {expirationInDays} days" }
+        };
+        testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
 
-            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
-            var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
+    }
 
-            var trackCertificateExpirationMock = new InvokeFunctionActionMock(name: ActionNames.TrackCertificateExpiration);
+    [TestMethod]
+    public async Task RunWorkflow_CertificateHasExpired_AvailabilityFailureTrackedAndWorkflowFails()
+    {
+        // Arrange
+        var expirationInDays = -5;
 
-            // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
+        var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
+        var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
 
-            // Assert
-            Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
+        var trackCertificateExpirationMock = new InvokeFunctionActionMock(name: ActionNames.TrackCertificateExpiration);
 
-            var expectedParameters = new JObject
-            {
-                { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
-                { "message", $"SSL server certificate for sample.azure-api.net is expiring in {expirationInDays} days" }
-            };
-            testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
+        // Act
+        var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
 
-            testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
-            testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
-        }
+        // Assert
+        Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
 
-        [TestMethod]
-        public async Task RunWorkflow_CertificateHasExpired_AvailabilityFailureTrackedAndWorkflowFails()
+        var expectedParameters = new JObject
         {
-            // Arrange
-            var expirationInDays = -5;
+            { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
+            { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
+            { "message", $"SSL server certificate for sample.azure-api.net is expiring in {expirationInDays} days" }
+        };
+        testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
 
-            var getCertificateExpirationInDaysOutput = new InvokeFunctionActionOutput<int>(expirationInDays);
-            var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(name: ActionNames.GetApimSslServerCertificateExpirationInDays, outputs: getCertificateExpirationInDaysOutput);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
+    }
 
-            var trackCertificateExpirationMock = new InvokeFunctionActionMock(name: ActionNames.TrackCertificateExpiration);
+    [TestMethod]
+    public async Task RunWorkflow_DeterminationOfCertificateExpirationFailed_AvailabilityFailureTrackedAndWorkflowFails()
+    {
+        // Arrange
+        var error = new TestErrorInfo(ErrorResponseCode.InvokeFunctionFailed, "The function 'GetSslServerCertificateExpirationInDays' failed to execute. Please verify function code is valid.");
+        var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(TestWorkflowStatus.Failed, name: ActionNames.GetApimSslServerCertificateExpirationInDays, error);
 
-            // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackCertificateExpirationMock]);
+        var trackIsUnavailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsUnavailable);
 
-            // Assert
-            Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
+        // Act
+        var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsUnavailableMock]);
 
-            var expectedParameters = new JObject
-            {
-                { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
-                { "message", $"SSL server certificate for sample.azure-api.net is expiring in {expirationInDays} days" }
-            };
-            testRun.VerifyFunctionWasInvoked(ActionNames.TrackCertificateExpiration, FunctionNames.TrackIsUnavailable, expectedParameters);
+        // Assert
+        Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
 
-            testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
-            testRun.VerifyActionWasSkipped(ActionNames.TrackIsUnavailable);
-        }
-
-        [TestMethod]
-        public async Task RunWorkflow_DeterminationOfCertificateExpirationFailed_AvailabilityFailureTrackedAndWorkflowFails()
+        var expectedParameters = new JObject
         {
-            // Arrange
-            var error = new TestErrorInfo(ErrorResponseCode.InvokeFunctionFailed, "The function 'GetSslServerCertificateExpirationInDays' failed to execute. Please verify function code is valid.");
-            var getCertificateExpirationInDaysMock = new InvokeFunctionActionMock<int>(TestWorkflowStatus.Failed, name: ActionNames.GetApimSslServerCertificateExpirationInDays, error);
+            { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
+            { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
+            { "message", "Unable to determine APIM SSL server certificate expiration" }
+        };
+        testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);
 
-            var trackIsUnavailableMock = new InvokeFunctionActionMock(name: ActionNames.TrackIsUnavailable);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
+        testRun.VerifyActionWasSkipped(ActionNames.TrackCertificateExpiration);
+    }
 
-            // Act
-            var testRun = await _testExecutor.RunWorkflowAsync(new RecurrenceTriggerMock(), [getCertificateExpirationInDaysMock, trackIsUnavailableMock]);
-
-            // Assert
-            Assert.AreEqual(TestWorkflowStatus.Failed, testRun.Status);
-
-            var expectedParameters = new JObject
-            {
-                { "testName", "Logic App Workflow - API Management SSL Certificate Check" },
-                { "startTime", testRun.GetAction(ActionNames.StartTime).Outputs["body"]?.ToString() },
-                { "message", "Unable to determine APIM SSL server certificate expiration" }
-            };
-            testRun.VerifyFunctionWasInvoked(ActionNames.TrackIsUnavailable, FunctionNames.TrackIsUnavailable, expectedParameters);
-
-            testRun.VerifyActionWasSkipped(ActionNames.TrackIsAvailable);
-            testRun.VerifyActionWasSkipped(ActionNames.TrackCertificateExpiration);
-        }
-
-        private static class ActionNames
-        {
-            public const string GetApimSslServerCertificateExpirationInDays = "Get_APIM_SSL_server_certificate_expiration_in_days";
-            public const string StartTime = "Start_time";
-            public const string TrackCertificateExpiration = "Track_certificate_expiration_(in_App_Insights)";
-            public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
-            public const string TrackIsUnavailable = "Track_is_unavailable_(in_App_Insights)";
-        }
+    private static class ActionNames
+    {
+        public const string GetApimSslServerCertificateExpirationInDays = "Get_APIM_SSL_server_certificate_expiration_in_days";
+        public const string StartTime = "Start_time";
+        public const string TrackCertificateExpiration = "Track_certificate_expiration_(in_App_Insights)";
+        public const string TrackIsAvailable = "Track_is_available_(in_App_Insights)";
+        public const string TrackIsUnavailable = "Track_is_unavailable_(in_App_Insights)";
     }
 }
