@@ -1,9 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["replacements:all", "workarounds:all", "group:all"],
+  "extends": [
+    "replacements:all",
+    "workarounds:all",
+    "group:all"
+  ],
   "packageRules": [
     {
-      "matchPackageNames": ["dotnet-sdk"],
+      "matchPackageNames": [
+        "dotnet-sdk"
+      ],
       "matchFileNames": [
         "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
       ],
@@ -25,11 +31,13 @@
     },
     {
       "matchPackageNames": [
-        "Microsoft.ApplicationInsights.WorkerService",
         "Microsoft.ApplicationInsights"
       ],
+      "matchFileNames": [
+        "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
+      ],
       "allowedVersions": "<3",
-      "description": "Microsoft.ApplicationInsights.WorkerService 3.0.0 is incompatible with the Azure Functions Worker. See https://github.com/Azure/azure-functions-dotnet-worker/issues/3322"
+      "description": "Microsoft.ApplicationInsights 3.0.0 depends on Microsoft.Extensions.Logging(.Abstractions) version 8.0.0, which is not supported in a Logic App custom code project."
     }
   ]
 }
