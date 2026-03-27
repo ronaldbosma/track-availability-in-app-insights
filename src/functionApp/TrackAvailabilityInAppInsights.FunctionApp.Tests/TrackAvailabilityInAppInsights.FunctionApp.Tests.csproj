@@ -16,4 +16,8 @@
     <ProjectReference Include="..\TrackAvailabilityInAppInsights.FunctionApp\TrackAvailabilityInAppInsights.FunctionApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Exporter.InMemory" Version="1.15.1" />
+  </ItemGroup>
+
 </Project>
