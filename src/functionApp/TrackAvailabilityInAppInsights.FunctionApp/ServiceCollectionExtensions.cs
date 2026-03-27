@@ -36,10 +36,24 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
             return services;
         }
 
+        public static IServiceCollection RegisterTelemetryClient(this IServiceCollection services)
+        {
+            var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
+            telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
+
+            // Use the system-assigned managed identity to authenticate to Azure Monitor.
+            // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
+            telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential(new ManagedIdentityCredentialOptions()));
+
+            TelemetryClient telemetryClient = new(telemetryConfiguration);
+
+            services.AddSingleton(telemetryClient);
+
+            return services;
+        }
+
         public static IServiceCollection RegisterDependencies(this IServiceCollection services)
         {
-            services.RegisterTelemetryClient();
-
             services.AddOptionsWithValidateOnStart<ApiManagementOptions>()
                     .BindConfiguration(ApiManagementOptions.SectionKey)
                     .ValidateDataAnnotations();
@@ -54,22 +68,6 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
                 client.BaseAddress = new Uri(options.GatewayUrl);
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", options.SubscriptionKey);
             });
-
-            return services;
-        }
-
-        private static IServiceCollection RegisterTelemetryClient(this IServiceCollection services)
-        {
-            var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
-            telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
-
-            // Use the system-assigned managed identity to authenticate to Azure Monitor.
-            // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
-            telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential(new ManagedIdentityCredentialOptions()));
-
-            TelemetryClient telemetryClient = new(telemetryConfiguration);
-
-            services.AddSingleton(telemetryClient);
 
             return services;
         }

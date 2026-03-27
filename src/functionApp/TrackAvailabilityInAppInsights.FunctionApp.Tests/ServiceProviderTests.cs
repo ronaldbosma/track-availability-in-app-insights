@@ -1,6 +1,9 @@
+using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using TrackAvailabilityInAppInsights.FunctionApp.Tests.Fakes;
 
 namespace TrackAvailabilityInAppInsights.FunctionApp.Tests
 {
@@ -25,8 +28,10 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests
             configuration["ApiManagement__StatusEndpoint"] = "status-0123456789abcdef";
             services.AddSingleton<IConfiguration>(configuration);
 
-            // Configure the app insights connection string as an environment variable
-            Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", "InstrumentationKey=00000000-0000-0000-0000-000000000000");
+            // The following error is thrown when using the recommended `TelemetryConfiguration.CreateDefault();` to initialize TelemetryConfiguration.
+            //   ERROR: Configuration cannot be modified after it has been built. Create a new TelemetryConfiguration instance if you need different settings.
+            // So, we use the fake TelemetryClient client instead.
+            services.AddSingleton(new TelemetryClientFake().Value);
 
             // Register the Azure Function App depencencies
             services.RegisterDependencies();

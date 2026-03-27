@@ -16,6 +16,7 @@ builder.Logging.AddOpenTelemetry(logging =>
 });
 
 builder.Services.ConfigureOpenTelemetry();
+builder.Services.RegisterTelemetryClient();
 builder.Services.RegisterDependencies();
 
 builder.Build().Run();
