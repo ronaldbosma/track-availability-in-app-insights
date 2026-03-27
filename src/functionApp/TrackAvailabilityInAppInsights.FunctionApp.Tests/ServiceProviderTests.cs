@@ -28,7 +28,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests
             configuration["ApiManagement__StatusEndpoint"] = "status-0123456789abcdef";
             services.AddSingleton<IConfiguration>(configuration);
 
-            // The following error is thrown when using the recommended `TelemetryConfiguration.CreateDefault();` to initialize TelemetryConfiguration.
+            // The following error is thrown when using the recommended `TelemetryConfiguration.CreateDefault()` to initialize TelemetryConfiguration.
             //   ERROR: Configuration cannot be modified after it has been built. Create a new TelemetryConfiguration instance if you need different settings.
             // So, we use the fake TelemetryClient client instead.
             services.AddSingleton(new TelemetryClientFake().Value);
