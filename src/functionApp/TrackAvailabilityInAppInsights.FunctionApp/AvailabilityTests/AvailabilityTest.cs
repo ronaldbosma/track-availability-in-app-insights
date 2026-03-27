@@ -25,8 +25,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
                 Timestamp = DateTimeOffset.UtcNow
             };
 
-            Stopwatch stopwatch = new();
-            stopwatch.Start();
+            var stopwatch = Stopwatch.StartNew();
 
             try
             {
@@ -37,7 +36,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.AvailabilityTests
 
                     // Connect the availability telemetry to the logging activity
                     availability.Id = activity.SpanId.ToString();
-                        
+
                     await checkAvailabilityAsync();
                 }
 
