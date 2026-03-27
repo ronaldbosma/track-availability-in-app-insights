@@ -35,7 +35,7 @@ public class AvailabilityTestTests
         AvailabilityTest sut = new(TestName, CheckAvailabilityAsync, _telemetryClientFake.Value);
 
         // Act
-        async Task act() => await sut.ExecuteAsync();
+        async Task Act() => await sut.ExecuteAsync();
 
         // Assert
         Exception actualException = await Assert.ThrowsAsync<Exception>(Act);
