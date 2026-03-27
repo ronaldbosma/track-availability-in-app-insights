@@ -10,10 +10,10 @@
     <SelfContained>false</SelfContained>
     <AssemblyName>TrackAvailabilityInAppInsights.LogicApp.Functions</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
- </PropertyGroup>
- 
+  </PropertyGroup>
+
   <ItemGroup>
-    <!-- 
+    <!--
       We're depending on Azure.Identity 1.13.1 because the latest version (1.17.1) causes build failures
       due to a dependency on Microsoft.Extensions.Logging.Abstractions 8.0.3 which is not compatible with Logic App custom code.
     -->
@@ -26,8 +26,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
   </ItemGroup>
- 
+
   <Target Name="TriggerPublishOnBuild" AfterTargets="Build">
-      <CallTarget Targets="Publish" />
+    <CallTarget Targets="Publish" />
   </Target>
 </Project>
