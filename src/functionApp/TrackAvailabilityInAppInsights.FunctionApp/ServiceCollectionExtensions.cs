@@ -26,10 +26,8 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
 
             services.AddOpenTelemetry().UseAzureMonitorExporter(options =>
             {
-                // Set the Azure Monitor credential to the DefaultAzureCredential.
-                // This credential will use the Azure identity of the current user or
-                // the service principal that the application is running as to authenticate
-                // to Azure Monitor.
+                // Use the system-assigned managed identity to authenticate to Azure Monitor.
+                // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
                 options.Credential = new ManagedIdentityCredential(new ManagedIdentityCredentialOptions());
             });
 
@@ -68,8 +66,8 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
                 TelemetryChannel = new InMemoryChannel()
             };
 
-            // Use Managed Identity to authenticate with Application Insights
-            // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details
+            // Use the system-assigned managed identity to authenticate to Azure Monitor.
+            // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
             telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential(new ManagedIdentityCredentialOptions()));
 
             TelemetryClient telemetryClient = new(telemetryConfiguration);
