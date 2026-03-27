@@ -25,6 +25,9 @@ namespace TrackAvailabilityInAppInsights.FunctionApp.Tests
             configuration["ApiManagement__StatusEndpoint"] = "status-0123456789abcdef";
             services.AddSingleton<IConfiguration>(configuration);
 
+            // Configure the app insights connection string as an environment variable
+            Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://dc.applicationinsights.azure.com/;LiveEndpoint=https://live.applicationinsights.azure.com/;ApplicationId=00000000-0000-0000-0000-000000000000");
+
             // Register the Azure Function App depencencies
             services.RegisterDependencies();
 
