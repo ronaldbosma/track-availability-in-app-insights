@@ -60,10 +60,8 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
 
         private static IServiceCollection RegisterTelemetryClient(this IServiceCollection services)
         {
-            TelemetryConfiguration telemetryConfiguration = new()
-            {
-                ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")
-            };
+            var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
+            telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
 
             // Use the system-assigned managed identity to authenticate to Azure Monitor.
             // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details.
