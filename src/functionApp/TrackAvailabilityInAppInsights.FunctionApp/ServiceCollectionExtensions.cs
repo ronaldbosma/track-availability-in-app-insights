@@ -62,8 +62,7 @@ namespace TrackAvailabilityInAppInsights.FunctionApp
         {
             TelemetryConfiguration telemetryConfiguration = new()
             {
-                ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"),
-                TelemetryChannel = new InMemoryChannel()
+                ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")
             };
 
             // Use the system-assigned managed identity to authenticate to Azure Monitor.
