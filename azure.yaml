@@ -19,4 +19,4 @@ services:
         run: ../../hooks/prepackage-logicapp-build-functions-project.ps1
         interactive: true
 requiredVersions:
-  azd: ">= 1.17.0" # azd version 1.17.0 or later is required because of the new bicep linter rule 'no-unused-imports'.
+  azd: ">= 1.23.15" # azd version 1.23.15 or higher is required because we're using features from Bicep 0.42.1.
