@@ -29,9 +29,9 @@ param storageAccountName string = ''
 // Variables
 //=============================================================================
 
-var keyVaultRole string = isAdmin ? 'Key Vault Administrator' : 'Key Vault Secrets User'
+var keyVaultRoleName string = isAdmin ? 'Key Vault Administrator' : 'Key Vault Secrets User'
 
-var storageAccountRoles string[] = [
+var storageAccountRoleNames string[] = [
   'Storage Blob Data Contributor'
   isAdmin
     ? 'Storage File Data Privileged Contributor' // is able to browse file shares in Azure Portal
@@ -40,7 +40,7 @@ var storageAccountRoles string[] = [
   'Storage Table Data Contributor'
 ]
 
-var monitoringMetricsPublisher string = 'Monitoring Metrics Publisher'
+var monitoringMetricsPublisherRoleName string = 'Monitoring Metrics Publisher'
 
 //=============================================================================
 // Existing Resources
@@ -65,11 +65,11 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2025-08-01' existing 
 // Assign role Application Insights to the principal
 
 resource assignAppInsightRolesToPrincipal 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(principalId, appInsights.id, roleDefinitions(monitoringMetricsPublisher).id)
+  name: guid(principalId, appInsights.id, roleDefinitions(monitoringMetricsPublisherRoleName).id)
   scope: appInsights
   properties: {
     #disable-next-line use-resource-id-functions
-    roleDefinitionId: roleDefinitions(monitoringMetricsPublisher).id
+    roleDefinitionId: roleDefinitions(monitoringMetricsPublisherRoleName).id
     principalId: principalId
     principalType: principalType
   }
@@ -78,11 +78,11 @@ resource assignAppInsightRolesToPrincipal 'Microsoft.Authorization/roleAssignmen
 // Assign role on Key Vault to the principal
 
 resource assignRolesOnKeyVaultToManagedIdentity 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(principalId, keyVault.id, roleDefinitions(keyVaultRole).id)
+  name: guid(principalId, keyVault.id, roleDefinitions(keyVaultRoleName).id)
   scope: keyVault
   properties: {
     #disable-next-line use-resource-id-functions
-    roleDefinitionId: roleDefinitions(keyVaultRole).id
+    roleDefinitionId: roleDefinitions(keyVaultRoleName).id
     principalId: principalId
     principalType: principalType
   }
@@ -91,7 +91,7 @@ resource assignRolesOnKeyVaultToManagedIdentity 'Microsoft.Authorization/roleAss
 // Assign roles on Storage Account to the principal
 
 resource assignRolesOnStorageAccountToManagedIdentity 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-  for role in storageAccountRoles: if (storageAccountName != '') {
+  for role in storageAccountRoleNames: if (storageAccountName != '') {
     name: guid(principalId, storageAccount.id, roleDefinitions(role).id)
     scope: storageAccount
     properties: {
