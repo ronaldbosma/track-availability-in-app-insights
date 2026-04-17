@@ -2,7 +2,7 @@
 
 name: track-availability-in-app-insights
 metadata:
-  template: tdd-track-availability-in-app-insights@1.4.1
+  template: tdd-track-availability-in-app-insights@1.4.2
 services:
   functionApp:
     project: ./src/functionApp/TrackAvailabilityInAppInsights.FunctionApp
