@@ -38,13 +38,6 @@
       ],
       "allowedVersions": "<3",
       "description": "Microsoft.ApplicationInsights 3.0.0 depends on Microsoft.Extensions.Logging(.Abstractions) version 8.0.0, which is not supported in a Logic App custom code project."
-    },
-    {
-      "matchPackageNames": [
-        "Microsoft.Azure.Workflows.WebJobs.Tests.Extension"
-      ],
-      "allowedVersions": "1.0.1",
-      "description": "Microsoft.Azure.Workflows.WebJobs.Tests.Extension version 1.0.2 and 1.0.3 have a bug that causes the unit tests for the Logic App Workflows to fail. See https://github.com/Azure/logicapps/issues/1529"
     }
   ]
 }
