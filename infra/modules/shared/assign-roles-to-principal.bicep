@@ -68,7 +68,6 @@ resource assignAppInsightRolesToPrincipal 'Microsoft.Authorization/roleAssignmen
   name: guid(principalId, appInsights.id, roleDefinitions(monitoringMetricsPublisherRoleName).id)
   scope: appInsights
   properties: {
-    #disable-next-line use-resource-id-functions
     roleDefinitionId: roleDefinitions(monitoringMetricsPublisherRoleName).id
     principalId: principalId
     principalType: principalType
@@ -81,7 +80,6 @@ resource assignRolesOnKeyVaultToManagedIdentity 'Microsoft.Authorization/roleAss
   name: guid(principalId, keyVault.id, roleDefinitions(keyVaultRoleName).id)
   scope: keyVault
   properties: {
-    #disable-next-line use-resource-id-functions
     roleDefinitionId: roleDefinitions(keyVaultRoleName).id
     principalId: principalId
     principalType: principalType
@@ -95,7 +93,6 @@ resource assignRolesOnStorageAccountToManagedIdentity 'Microsoft.Authorization/r
     name: guid(principalId, storageAccount.id, roleDefinitions(role).id)
     scope: storageAccount
     properties: {
-      #disable-next-line use-resource-id-functions
       roleDefinitionId: roleDefinitions(role).id
       principalId: principalId
       principalType: principalType
