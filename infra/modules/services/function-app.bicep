@@ -8,6 +8,7 @@
 
 import * as helpers from '../../functions/helpers.bicep'
 import { apiManagementSettingsType, functionAppSettingsType } from '../../types/settings.bicep'
+import { tagsType } from '../../types/shared-types.bicep'
 
 //=============================================================================
 // Parameters
@@ -17,7 +18,7 @@ import { apiManagementSettingsType, functionAppSettingsType } from '../../types/
 param location string
 
 @description('The tags to associate with the resource')
-param tags object
+param tags tagsType
 
 @description('The settings for the Function App that will be created')
 param functionAppSettings functionAppSettingsType

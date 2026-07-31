@@ -9,6 +9,7 @@
 import { getResourceName } from '../../functions/naming-conventions.bicep'
 import * as helpers from '../../functions/helpers.bicep'
 import { apiManagementSettingsType } from '../../types/settings.bicep'
+import { tagsType } from '../../types/shared-types.bicep'
 
 //=============================================================================
 // Parameters
@@ -21,7 +22,7 @@ param environmentName string
 param location string
 
 @description('The tags to associate with the resource')
-param tags object
+param tags tagsType
 
 @description('The settings for the API Management Service that will be used')
 param apiManagementSettings apiManagementSettingsType

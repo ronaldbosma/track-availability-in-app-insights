@@ -11,6 +11,7 @@ targetScope = 'subscription'
 
 import { getResourceName, generateInstanceId } from './functions/naming-conventions.bicep'
 import { apiManagementSettingsType, appInsightsSettingsType, functionAppSettingsType, logicAppSettingsType } from './types/settings.bicep'
+import { tagsType } from './types/shared-types.bicep'
 
 //=============================================================================
 // Parameters
@@ -75,7 +76,7 @@ var keyVaultName string = getResourceName('keyVault', environmentName, location,
 
 var storageAccountName string = getResourceName('storageAccount', environmentName, location, instanceId)
 
-var tags { *: string } = {
+var tags tagsType = {
   'azd-env-name': environmentName
   'azd-template': 'ronaldbosma/track-availability-in-app-insights'
 
