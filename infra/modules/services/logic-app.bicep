@@ -55,7 +55,7 @@ var serviceTags { *: string } = union(tags, {
 // NOTE: tried using a key vault secret but regularly got errors because the role assignment for the function app on the key vault was not yet effective
 var storageAccountConnectionString string = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
 
-var appSettings object = {
+var appSettings resourceInput<'Microsoft.Web/sites/config@2025-03-01'>.properties = {
   APP_KIND: 'workflowApp'
   APPLICATIONINSIGHTS_AUTHENTICATION_STRING: 'Authorization=AAD'
   APPLICATIONINSIGHTS_CONNECTION_STRING: appInsights.properties.ConnectionString
