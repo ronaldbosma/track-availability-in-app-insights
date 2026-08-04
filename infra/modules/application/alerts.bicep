@@ -7,6 +7,7 @@
 //=============================================================================
 
 import { getResourceName } from '../../functions/naming-conventions.bicep'
+import { tagsType } from '../../types/shared-types.bicep'
 
 //=============================================================================
 // Parameters
@@ -19,7 +20,7 @@ param environmentName string
 param location string
 
 @description('The tags to associate with the resource')
-param tags object
+param tags tagsType
 
 @description('The name of the App Insights instance that will be used by the Logic App')
 param appInsightsName string
