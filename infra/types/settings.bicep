@@ -28,7 +28,7 @@ type appInsightsSettingsType = {
   logAnalyticsWorkspaceName: string
 
   @description('Retention in days of the logging')
-  retentionInDays: int
+  retentionInDays: appInsightsRetentionInDaysType
 }
 
 // Function App
