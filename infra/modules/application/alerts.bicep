@@ -42,7 +42,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
 
 // Create alert rule that triggers on failing availability tests
 
-resource failedAvailabilityTestAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
+resource failedAvailabilityTestAlert 'Microsoft.Insights/metricAlerts@2026-01-01' = {
   name: getResourceName('alert', environmentName, location, 'failed-availability-test')
   location: 'global'
   tags: tags
