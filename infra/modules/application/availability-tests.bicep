@@ -27,7 +27,7 @@ param tags tagsType
 @description('The settings for the API Management Service that will be used')
 param apiManagementSettings apiManagementSettingsType
 
-@description('The name of the App Insights instance that will be used by the Logic App')
+@description('The name of the App Insights instance')
 param appInsightsName string
 
 @description('Lifespan of SSL certificate validity in days. SSL certificate check availability test will fail if the certificate expires within this number of days.')
