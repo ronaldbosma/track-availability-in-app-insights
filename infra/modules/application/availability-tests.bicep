@@ -81,7 +81,7 @@ resource backendApiStatusAvailabilityTest 'Microsoft.Insights/webtests@2022-06-1
     Enabled: true
     RetryEnabled: false // Set to false for this demo to reduce the number of failed calls
 
-    // A frequence of 300 means that every 5 minutes the test will execute from all configured locations.
+    // A frequency of 300 means that every 5 minutes the test will execute from all configured locations.
     // So if you have 5 locations, the test will run 5 times every 5 minutes.
     // Note that the test will not run exactly every minute.
     Frequency: 300
