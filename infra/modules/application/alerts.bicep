@@ -22,7 +22,7 @@ param location string
 @description('The tags to associate with the resource')
 param tags tagsType
 
-@description('The name of the App Insights instance that will be used by the Logic App')
+@description('The name of the App Insights instance')
 param appInsightsName string
 
 @description('The ID of the action group to notify when an alert is triggered')

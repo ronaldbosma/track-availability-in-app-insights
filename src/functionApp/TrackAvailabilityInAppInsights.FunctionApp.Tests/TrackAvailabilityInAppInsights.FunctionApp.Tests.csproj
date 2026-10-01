@@ -1,4 +1,4 @@
-<Project Sdk="MSTest.Sdk/4.3.3">
+<Project Sdk="MSTest.Sdk/4.4.1">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTelemetry.Exporter.InMemory" Version="1.18.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.InMemory" Version="1.19.1" />
   </ItemGroup>
 
 </Project>
