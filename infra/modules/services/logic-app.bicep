@@ -64,7 +64,9 @@ var appSettings resourceInput<'Microsoft.Web/sites/config@2025-03-01'>.propertie
   AzureFunctionsJobHost__extensionBundle__version: '[1.*, 2.0.0)'
   AzureWebJobsStorage: storageAccountConnectionString
   FUNCTIONS_EXTENSION_VERSION: '~4'
+  FUNCTIONS_INPROC_NET8_ENABLED: '1'
   FUNCTIONS_WORKER_RUNTIME: 'dotnet'
+  LOGIC_APPS_CUSTOMCODE_DOTNETVERSION: 'net10.0'
   WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: storageAccountConnectionString
   WEBSITE_CONTENTSHARE: toLower(logicAppSettings.logicAppName)
   WEBSITE_NODE_DEFAULT_VERSION: '~22'
