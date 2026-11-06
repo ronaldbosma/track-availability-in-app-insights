@@ -11,7 +11,8 @@
         "dotnet-sdk"
       ],
       "matchFileNames": [
-        "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
+        "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj",
+        "src/logicApp/Functions.Tests/TrackAvailabilityInAppInsights.LogicApp.Functions.Tests.csproj"
       ],
       "allowedVersions": "10.*",
       "description": "Logic App custom code projects should use .NET 10."
