@@ -5,6 +5,5 @@
   "debug.internalConsoleOptions": "neverOpen",
   "azureFunctions.preDeployTask": "publish (functions)",
   "azureFunctions.templateFilter": "Core",
-  "azureFunctions.showTargetFrameworkWarning": false,
-  "azureFunctions.projectSubpath": "bin\\Release\\net8\\publish"
+  "azureFunctions.showTargetFrameworkWarning": false
 }
