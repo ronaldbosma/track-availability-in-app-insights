@@ -214,6 +214,13 @@ jobs:
         run: |
           azd deploy logicApp --from-package ./artifacts/logicapp-package.zip --no-prompt
 
+      # Sometimes, workflows can't find the custom functions even though they've been deployed, so restart the Logic App.
+      - name: Restart Logic App
+        run: |
+          az webapp restart `
+            --resource-group $env:AZURE_RESOURCE_GROUP `
+            --name $env:AZURE_LOGIC_APP_NAME
+
       # Extract relevant azd environment variables and make them available as job outputs for subsequent jobs.
       - name: Get Output Variables
         id: get-outputs
