@@ -220,7 +220,7 @@ jobs:
         run: |
           .\.github\workflows\scripts\export-azd-env-variables.ps1 -VariableNames @("AZURE_RESOURCE_GROUP", "AZURE_APPLICATION_INSIGHTS_NAME", "AZURE_LOGIC_APP_NAME")
 
-      # Sometimes, workflows can't find the custom functions even though they've been deployed, so restart the Logic App.
+      # Sometimes, workflows can't find the custom functions even though they've been deployed. Restarting the Logic App can help resolve this issue.
       - name: Restart Logic App
         env:
           AZURE_RESOURCE_GROUP: ${{ steps.get-outputs.outputs.AZURE_RESOURCE_GROUP }}
