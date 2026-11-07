@@ -3,7 +3,6 @@ using System;
 using Azure.Identity;
 
 using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Extensions.Workflows;
 using Microsoft.Extensions.DependencyInjection;
