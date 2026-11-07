@@ -26,7 +26,7 @@ public class Startup : IConfigureStartup
 
         // Use Managed Identity to authenticate with Application Insights
         // See https://learn.microsoft.com/en-us/azure/azure-monitor/app/azure-ad-authentication for more details
-        telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential());
+        telemetryConfiguration.SetAzureTokenCredential(new ManagedIdentityCredential(new ManagedIdentityCredentialOptions()));
 
         TelemetryClient telemetryClient = new(telemetryConfiguration);
 
