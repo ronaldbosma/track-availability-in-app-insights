@@ -33,16 +33,6 @@
     },
     {
       "matchPackageNames": [
-        "Microsoft.ApplicationInsights"
-      ],
-      "matchFileNames": [
-        "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
-      ],
-      "allowedVersions": "<3",
-      "description": "Microsoft.ApplicationInsights 3.0.0 depends on Microsoft.Extensions.Logging(.Abstractions) version 8.0.0, which is not supported in a Logic App custom code project."
-    },
-    {
-      "matchPackageNames": [
         "Microsoft.Azure.Workflows.WebJobs.Tests.Extension"
       ],
       "allowedVersions": "<=1.0.1",
