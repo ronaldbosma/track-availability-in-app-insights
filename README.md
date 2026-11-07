@@ -300,3 +300,13 @@ If you already have a Workflow Standard WS1 tier (`SKU=WS1`) Logic App deployed 
 ```
 
 Use the `azd down --purge` command to delete the resources, then deploy the template in a different region.
+
+### Logic App Workflow availability test results not showing
+
+Sometimes, the workflows don't execute because they can't find the custom functions although they have been deployed. When you open a workflow in the designer, they will show the following error for the invoke function actions:
+
+```
+Failed to retrieve dynamic inputs. Error details: 'Encountered an error (InternalServerError) from host runtime.'
+```
+
+Restart the Logic App to fix this issue. If it persists, check the Logic App's host runtime logs and confirm the custom code deployment completed successfully.
