@@ -1,10 +1,9 @@
 {
-  "azureFunctions.deploySubpath": "bin/Release/net8/publish",
+  "azureFunctions.deploySubpath": "bin/Release/net10.0/publish",
   "azureFunctions.projectLanguage": "C#",
   "azureFunctions.projectRuntime": "~4",
   "debug.internalConsoleOptions": "neverOpen",
   "azureFunctions.preDeployTask": "publish (functions)",
   "azureFunctions.templateFilter": "Core",
-  "azureFunctions.showTargetFrameworkWarning": false,
-  "azureFunctions.projectSubpath": "bin\\Release\\net8\\publish"
+  "azureFunctions.showTargetFrameworkWarning": false
 }
