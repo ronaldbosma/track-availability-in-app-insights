@@ -61,8 +61,6 @@ public class AvailabilityTestFunctions
 
             // Connect the availability telemetry to the logging activity
             availability.Id = activity.SpanId.ToString();
-            availability.Context.Operation.ParentId = activity.ParentSpanId.ToString();
-            availability.Context.Operation.Id = activity.RootId;
 
             _telemetryClient.TrackAvailability(availability);
             _telemetryClient.Flush();

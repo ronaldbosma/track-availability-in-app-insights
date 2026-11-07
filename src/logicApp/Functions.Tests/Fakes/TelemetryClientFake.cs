@@ -1,98 +1,87 @@
+using System.Diagnostics;
+
 using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Channel;
-using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 
-namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests.Fakes
+using OpenTelemetry;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
+
+namespace TrackAvailabilityInAppInsights.LogicApp.Functions.Tests.Fakes;
+
+/// <summary>
+/// A fake of <see cref="TelemetryClient"/> that can be used to mock telemetry calls.
+/// </summary>
+/// <remarks>
+/// Based on <seealso href="https://github.com/microsoft/ApplicationInsights-dotnet/blob/main/BASE/Test/Microsoft.ApplicationInsights.Test/Microsoft.ApplicationInsights.Tests/TelemetryClientTest.cs"/>
+/// </remarks>
+internal class TelemetryClientFake
 {
-    /// <summary>
-    /// A fake of <see cref="TelemetryClient"/> that can be used to mock telemetry calls.
-    /// </summary>
-    /// <remarks>
-    /// Based on <seealso href="https://github.com/microsoft/ApplicationInsights-dotnet/blob/37cec526194b833f7cd676f25eafd985dd88d3fa/Test/CoreSDK.Test/TestFramework/Shared/StubTelemetryChannel.cs"/>
-    /// </remarks>
-    internal class TelemetryClientFake
+    private readonly List<LogRecord> _logItems = [];
+    private readonly List<OpenTelemetry.Metrics.Metric> _metricItems = [];
+    private readonly List<Activity> _activityItems = [];
+
+    public TelemetryClientFake()
     {
-        private readonly TelemetryChannelFake _telemetryChannelFake = new();
-
-        public TelemetryClientFake()
+        var configuration = new TelemetryConfiguration
         {
-            TelemetryConfiguration configuration = new()
-            {
-                TelemetryChannel = _telemetryChannelFake
-            };
-            configuration.TelemetryInitializers.Add(new OperationCorrelationTelemetryInitializer());
+            ConnectionString = "InstrumentationKey=00000000-0000-0000-0000-000000000000"
+        };
+        configuration.ConfigureOpenTelemetryBuilder(b => b
+            .WithLogging(l => l.AddInMemoryExporter(_logItems))
+            .WithMetrics(m => m.AddInMemoryExporter(_metricItems))
+            .WithTracing(t => t.AddInMemoryExporter(_activityItems)));
 
-            // TelemetryClient is sealed, so we can't inherit from it. Instead, we expose it as a property for use in calling code.
-            Value = new(configuration);
-        }
+        // TelemetryClient is sealed, so we can't inherit from it. Instead, we expose it as a property for use in calling code.
+        Value = new(configuration);
+    }
 
-        /// <summary>
-        /// Gets the faked <see cref="TelemetryClient"/>.
-        /// </summary>
-        public TelemetryClient Value { get; init; }
+    /// <summary>
+    /// Gets the faked <see cref="TelemetryClient"/>.
+    /// </summary>
+    public TelemetryClient Value { get; init; }
 
-        public void VerifyThatSuccessfulAvailabilityIsTrackedForTest(string expectedTestName)
-        {
-            Assert.HasCount(1, _telemetryChannelFake.SentItems);
+    public void VerifyThatSuccessfulAvailabilityIsTrackedForTest(string expectedTestName)
+    {
+        VerifyThatAvailabilityIsTrackedForTest(expectedTestName, expectedSuccess: true);
+    }
 
-            var item = _telemetryChannelFake.SentItems.Single() as AvailabilityTelemetry;
-            Assert.IsNotNull(item, $"Sent item should be of type {nameof(AvailabilityTelemetry)}");
+    public void VerifyThatFailedAvailabilityIsTrackedForTest(string expectedTestName, string expectedExceptionMessage)
+    {
+        var logItem = VerifyThatAvailabilityIsTrackedForTest(expectedTestName, expectedSuccess: false);
 
-            Assert.AreEqual(expectedTestName, item.Name);
-            Assert.IsTrue(item.Success);
-            Assert.AreNotEqual(item.Duration, TimeSpan.Zero);
+        AssertHasAttributeWithValue(logItem.Attributes!, "microsoft.availability.message", expectedExceptionMessage);
+        Assert.AreEqual(expectedExceptionMessage, logItem.FormattedMessage);
+    }
 
-            Assert.IsTrue(_telemetryChannelFake.FlushWasCalled);
-        }
+    private LogRecord VerifyThatAvailabilityIsTrackedForTest(string expectedTestName, bool expectedSuccess)
+    {
+        Assert.HasCount(1, _logItems);
 
-        public void VerifyThatFailedAvailabilityIsTrackedForTest(string expectedTestName, string expectedExceptionMessage)
-        {
-            Assert.HasCount(1, _telemetryChannelFake.SentItems);
+        var logItem = _logItems[0];
+        Assert.IsNotNull(logItem.Attributes);
 
-            var item = _telemetryChannelFake.SentItems.Single() as AvailabilityTelemetry;
-            Assert.IsNotNull(item, $"Sent item should be of type {nameof(AvailabilityTelemetry)}");
+        AssertHasAttributeWithValue(logItem.Attributes, "microsoft.availability.name", expectedTestName);
+        AssertHasAttributeWithValue(logItem.Attributes, "microsoft.availability.success", expectedSuccess.ToString());
 
-            Assert.AreEqual(expectedTestName, item.Name);
-            Assert.IsFalse(item.Success);
-            Assert.AreEqual(expectedExceptionMessage, item.Message);
-            Assert.AreNotEqual(item.Duration, TimeSpan.Zero);
+        var duration = GetAttribute(logItem.Attributes, "microsoft.availability.duration");
+        Assert.AreNotEqual(duration.Value, TimeSpan.Zero.ToString());
 
-            Assert.IsTrue(_telemetryChannelFake.FlushWasCalled);
-        }
+        return logItem;
+    }
 
-        /// <summary>
-        /// Fake implementation of <see cref="ITelemetryChannel"/> that will intercept the telemetry requests.
-        /// </summary>
-        internal class TelemetryChannelFake : ITelemetryChannel
-        {
-            /// <summary>
-            /// Gets a list of items that was sent to this channel.
-            /// </summary>
-            public IList<ITelemetry> SentItems { get; init; } = [];
+    private static void AssertHasAttributeWithValue(IReadOnlyList<KeyValuePair<string, object?>> attributes, string key, string expectedValue)
+    {
+        var attribute = GetAttribute(attributes, key);
+        Assert.AreEqual(expectedValue, attribute.Value, $"Unexpected value for attribute with key '{key}'");
+    }
 
-            /// <summary>
-            /// Gets an indication whether the <see cref="ITelemetryChannel.Flush"/> method was called.
-            /// </summary>
-            public bool FlushWasCalled { get; private set; } = false;
+    private static KeyValuePair<string, object?> GetAttribute(IReadOnlyList<KeyValuePair<string, object?>> attributes, string key)
+    {
+        var attribute = attributes.SingleOrDefault(a => a.Key == key);
+        Assert.IsNotNull(attribute.Key, $"Attribute with key '{key}' not found");
 
-            public bool? DeveloperMode { get; set; }
-
-            public string EndpointAddress { get; set; } = "https://dc.services.visualstudio.com/v2/track";
-
-            public void Send(ITelemetry item)
-            {
-                SentItems.Add(item);
-            }
-
-            public void Flush()
-            {
-                FlushWasCalled = true;
-            }
-
-            public void Dispose()
-            {
-            }
-        }
+        return attribute;
     }
 }
