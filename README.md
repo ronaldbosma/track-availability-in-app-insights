@@ -168,6 +168,7 @@ The repository consists of the following files and directories:
 │   ├── types                  [ Bicep user-defined types ]
 │   ├── main.bicep             [ Main infrastructure file ]
 │   └── main.parameters.json   [ Parameters file ]
+├── scripts                    [ Helper scripts ]
 ├── src                        [ Application code ]
 │   ├── functionApp            [ Azure Functions ]
 │   └── logicApp               [ Logic App workflows ]
