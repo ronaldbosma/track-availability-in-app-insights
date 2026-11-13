@@ -63,7 +63,7 @@ var appInsightsSettings appInsightsSettingsType = {
 var functionAppSettings functionAppSettingsType = {
   functionAppName: getResourceName('functionApp', environmentName, location, instanceId)
   appServicePlanName: getResourceName('appServicePlan', environmentName, location, 'functionapp-${instanceId}')
-  runtimeVersion: '10.0'
+  runtimeVersion: '11.0'
 }
 
 var logicAppSettings logicAppSettingsType = {
