@@ -42,8 +42,8 @@ type functionAppSettingsType = {
   @description('The name of the App Service for the Function App')
   appServicePlanName: string
 
-  @description('The .NET Framework version for the Function App')
-  netFrameworkVersion: string
+  @description('The runtime version for the Function App')
+  runtimeVersion: string
 }
 
 // Logic App
