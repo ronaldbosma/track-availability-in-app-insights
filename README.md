@@ -254,7 +254,7 @@ az apim deletedservice purge --location "swedencentral" --service-name "apim-tra
 
 ### Function App deployment failed because of quota limitations
 
-If you already have a Consumption tier (`SKU=Y1`) Function App deployed in the same region, you may encounter the following error when deploying the template. This error occurs because you have reached the region's quota for your subscription.
+If you already have a Function App with the same SKU deployed in the same region, you may encounter the following error when deploying the template. This error occurs because you have reached the region's quota for your subscription.
 
 ```json
 {
