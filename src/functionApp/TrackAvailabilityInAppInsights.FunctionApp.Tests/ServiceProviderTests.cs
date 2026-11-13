@@ -45,7 +45,7 @@ public class ServiceProviderTests
         var result = sut.GetService(expectedAzureFunctionClass);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.IsNotNull(result);
         Assert.IsInstanceOfType(result, expectedAzureFunctionClass);
     }
 
