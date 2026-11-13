@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSTest.Sdk/4.5.2">
+﻿<Project Sdk="MSTest.Sdk/4.5.3">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Tests.Extension" Version="1.0.3" />
+    <PackageReference Include="Microsoft.Testing.Extensions.GitHubActionsReport" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>

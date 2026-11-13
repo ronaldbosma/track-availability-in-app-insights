@@ -63,7 +63,7 @@ Before you can deploy this template, make sure you have the following tools inst
   - Installing `azd` also installs the following tools:
     - [GitHub CLI](https://cli.github.com)
     - [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)
-- [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+- [.NET 11 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
 - [npm CLI](https://nodejs.org/)
   _(This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.)_
 - This template includes several hooks that run at different stages of the deployment process and require the following tools. For more details, see [Hooks](#hooks).
@@ -168,6 +168,7 @@ The repository consists of the following files and directories:
 │   ├── types                  [ Bicep user-defined types ]
 │   ├── main.bicep             [ Main infrastructure file ]
 │   └── main.parameters.json   [ Parameters file ]
+├── scripts                    [ Helper scripts ]
 ├── src                        [ Application code ]
 │   ├── functionApp            [ Azure Functions ]
 │   └── logicApp               [ Logic App workflows ]
@@ -253,7 +254,7 @@ az apim deletedservice purge --location "swedencentral" --service-name "apim-tra
 
 ### Function App deployment failed because of quota limitations
 
-If you already have a Consumption tier (`SKU=Y1`) Function App deployed in the same region, you may encounter the following error when deploying the template. This error occurs because you have reached the region's quota for your subscription.
+If you already have a Function App with the same SKU deployed in the same region, you may encounter the following error when deploying the template. This error occurs because you have reached the region's quota for your subscription.
 
 ```json
 {
@@ -300,3 +301,13 @@ If you already have a Workflow Standard WS1 tier (`SKU=WS1`) Logic App deployed 
 ```
 
 Use the `azd down --purge` command to delete the resources, then deploy the template in a different region.
+
+### Logic App Workflow availability test results not showing
+
+Sometimes, the workflows don't execute because they can't find the custom functions although they have been deployed. When you open a workflow in the designer, they will show the following error for the invoke function actions:
+
+```
+Failed to retrieve dynamic inputs. Error details: 'Encountered an error (InternalServerError) from host runtime.'
+```
+
+Restart the Logic App to fix this issue. If it persists, check the Logic App's host runtime logs and confirm the custom code deployment completed successfully.

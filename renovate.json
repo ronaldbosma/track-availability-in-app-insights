@@ -20,16 +20,24 @@
     {
       "matchPackageNames": [
         "Microsoft.Azure.Functions.Worker",
-        "Microsoft.Azure.Functions.Worker.Sdk",
-        "Microsoft.Extensions.Logging.Abstractions",
-        "Microsoft.Extensions.Logging",
-        "Azure.Identity"
+        "Microsoft.Azure.Functions.Worker.Sdk"
       ],
       "matchFileNames": [
         "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
       ],
       "enabled": false,
       "description": "Disable updates for specific packages in Logic App custom code projects, because these require specific versions to match the Logic App runtime."
+    },
+    {
+      "matchPackageNames": [
+        "Microsoft.Extensions.Logging.Abstractions",
+        "Microsoft.Extensions.Logging"
+      ],
+      "matchFileNames": [
+        "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
+      ],
+      "allowedVersions": "10.*",
+      "description": "Pin Microsoft.Extensions.Logging packages to use version 10.* to match .NET target framework of the Logic App custom code project."
     },
     {
       "matchPackageNames": [
