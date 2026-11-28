@@ -63,11 +63,9 @@ Before you can deploy this template, make sure you have the following tools inst
   - Installing `azd` also installs the following tools:
     - [GitHub CLI](https://cli.github.com)
     - [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)
+  - Required extensions:
+    - [Azure Logic Apps Standard azd extension](https://github.com/Azure/azure-dev/tree/main/cli/azd/extensions/azure.logicappsstandard)
 - [.NET 11 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
-- [npm CLI](https://nodejs.org/)
-  _(This template uses a workaround to deploy the Logic App workflow, which requires the npm CLI.)_
-- This template includes several hooks that run at different stages of the deployment process and require the following tools. For more details, see [Hooks](#hooks).
-  - [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
 
 **Required Permissions:**
 
@@ -84,6 +82,8 @@ Once the prerequisites are installed on your machine, you can deploy this templa
    ```
 
    When prompted, specify the name of the environment, for example, `track-availability`. The maximum length is 32 characters.
+
+   The Azure Logic Apps Standard extension (`azure.logicappsstandard`) will be installed automatically.
 
 1. Run the `azd auth login` command to authenticate to your Azure subscription using the **Azure Developer CLI** _(if you haven't already)_.
 
@@ -157,7 +157,6 @@ The repository consists of the following files and directories:
 │   └── workflows              [ GitHub Actions workflow(s) ]
 ├── .vscode                    [ Visual Studio Code configuration files ]
 ├── demos                      [ Demo guide(s) ]
-├── hooks                      [ AZD hooks ]
 ├── images                     [ Images used in the README ]
 ├── infra                      [ Infrastructure As Code files ]
 │   |── functions              [ Bicep user-defined functions ]
@@ -175,14 +174,6 @@ The repository consists of the following files and directories:
 ├── azure.yaml                 [ Describes the apps and types of Azure resources ]
 └── bicepconfig.json           [ Bicep configuration file ]
 ```
-
-## Hooks
-
-This template has several hooks that are executed at different stages of the deployment process. The following hooks are included:
-
-- [prepackage-logicapp-build-functions-project.ps1](hooks/prepackage-logicapp-build-functions-project.ps1):
-  This PowerShell script is executed before the Logic App is packaged.
-  It builds the custom .NET code project for the Logic App using the `dotnet build` command.
 
 ## Pipeline
 
