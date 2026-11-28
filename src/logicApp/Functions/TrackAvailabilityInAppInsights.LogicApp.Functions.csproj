@@ -11,6 +11,7 @@
     <AssemblyName>TrackAvailabilityInAppInsights.LogicApp.Functions</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
