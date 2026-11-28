@@ -36,7 +36,7 @@
       "matchFileNames": [
         "src/logicApp/Functions/TrackAvailabilityInAppInsights.LogicApp.Functions.csproj"
       ],
-      "allowedVersions": "10.*",
+      "allowedVersions": "<11",
       "description": "Pin Microsoft.Extensions.Logging packages to use version 10.* to match .NET target framework of the Logic App custom code project."
     },
     {
