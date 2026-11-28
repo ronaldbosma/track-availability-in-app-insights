@@ -20,8 +20,8 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.51.0"/>
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.7" />
     <PackageReference Include="Microsoft.Azure.Workflows.Webjobs.Sdk" Version="1.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="11.0.0" />
   </ItemGroup>
 
   <Target Name="TriggerPublishOnBuild" AfterTargets="Build">
